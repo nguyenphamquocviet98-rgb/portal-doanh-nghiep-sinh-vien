@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cổng thông tin Thực tập và Kết nối Doanh nghiệp — kết nối sinh viên, doanh nghiệp và nhà trường." />
+    <title>@ViewData["Title"] - Cổng thực tập</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Đến nội dung chính</a>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-light page-width" aria-label="Điều hướng chính">
+            <a class="brand" asp-area="" asp-controller="Home" asp-action="Index"><span class="brand-mark" aria-hidden="true">↗</span><span>Cổng thực tập<span class="brand-period">.</span></span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Mở menu"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="main-menu"><div class="navigation ms-auto">
+                <a asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a href="@Url.Action("Index", "Home", new { area = "" })#portals">Cộng đồng</a>
+                <a href="@Url.Action("Index", "Home", new { area = "" })#journey">Hành trình <span aria-hidden="true">↗</span></a>
+            </div></div>
+        </nav>
+    </header>
+    <main class="page-width site-main" id="main-content">@RenderBody()</main>
+    <footer class="site-footer"><div class="page-width footer-content"><div><strong>Học từ thực tế.<br /><em>Lớn lên qua trải nghiệm.</em></strong></div><div class="footer-links"><span>CỔNG THÔNG TIN THỰC TẬP<br />& KẾT NỐI DOANH NGHIỆP</span><a asp-area="" asp-controller="Home" asp-action="Privacy">Quyền riêng tư ↗</a><small>© @DateTime.Now.Year Cổng thực tập</small></div></div></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
