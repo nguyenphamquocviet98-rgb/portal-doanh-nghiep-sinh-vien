@@ -3040,6 +3040,369 @@ table tbody tr:hover, .table tbody tr:hover {
     mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.85) 25%, black 100%);
 }
 
+/* ==========================================================================
+   Modern Animations & Micro-Interactions Suite (Visual Excellence)
+   ========================================================================== */
+
+/* 1. Keyframes Library */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulseBadge {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+}
+
+@keyframes pulseLiveDot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.85;
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes floatGentle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes bellSwing {
+    0%, 100% { transform: rotate(0); }
+    15% { transform: rotate(14deg); }
+    30% { transform: rotate(-12deg); }
+    45% { transform: rotate(8deg); }
+    60% { transform: rotate(-6deg); }
+    75% { transform: rotate(3deg); }
+}
+
+@keyframes dropdownPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slideDownNotice {
+    0% {
+        opacity: 0;
+        transform: translateY(-14px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmerEffect {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* 2. Global Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 3. Card Animations & Dynamic Elevation */
+.transition-card {
+    transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), 
+                box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.25s ease,
+                background-color 0.2s ease !important;
+    will-change: transform, box-shadow;
+}
+
+.transition-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px -8px rgba(5, 150, 105, 0.14), 
+                0 6px 12px -4px rgba(0, 0, 0, 0.04) !important;
+    border-color: #a7f3d0 !important;
+}
+
+.transition-card:hover img {
+    transform: scale(1.08);
+    transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.transition-card img {
+    transition: transform 0.25s ease;
+}
+
+/* Hover link titles */
+.hover-text-success {
+    transition: color 0.2s ease;
+}
+
+.hover-text-success:hover {
+    color: #059669 !important;
+}
+
+/* Sidebar category item hover */
+.bg-light-hover {
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.bg-light-hover:hover {
+    background-color: #ecfdf5 !important;
+    color: #065f46 !important;
+    transform: translateX(4px);
+    border-color: #a7f3d0 !important;
+}
+
+/* 4. Button Micro-interactions & Ripple Feeling */
+.btn, .account-submit {
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover, .account-submit:hover {
+    transform: translateY(-1.5px);
+}
+
+.btn:active, .account-submit:active {
+    transform: scale(0.97) !important;
+}
+
+.btn-success, .account-submit {
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
+}
+
+.btn-success:hover, .account-submit:hover {
+    box-shadow: 0 8px 20px -2px rgba(5, 150, 105, 0.35);
+}
+
+/* 5. Search Bar Glowing Focus */
+.portal-v24h-search {
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portal-v24h-search:focus-within {
+    border-color: #059669 !important;
+    box-shadow: 0 10px 28px -4px rgba(16, 185, 129, 0.22), 
+                0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+/* 6. Form Inputs & Textareas Focus Glow */
+input.form-control, 
+select.form-select, 
+textarea.form-control,
+.field input, 
+.field select, 
+.field textarea {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+input.form-control:focus, 
+select.form-select:focus, 
+textarea.form-control:focus,
+.field input:focus, 
+.field select:focus, 
+.field textarea:focus {
+    border-color: #059669 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.16) !important;
+    outline: none !important;
+}
+
+/* 7. Attention-Grabbing Badge Animations */
+.badge.bg-danger, 
+.badge.bg-danger-subtle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.badge.bg-danger {
+    animation: pulseBadge 2.2s infinite ease-in-out;
+}
+
+/* Live status indicators in Demo Bar & Profile */
+.demo-live-dot,
+.portal-live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    animation: pulseLiveDot 2s infinite ease-in-out;
+}
+
+/* 8. Notification Bell Ringing Animation */
+#notif-dropdown-btn:hover svg {
+    animation: bellSwing 0.7s ease-in-out;
+    transform-origin: top center;
+}
+
+.has-unread-bell svg {
+    animation: bellSwing 1.8s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+/* 9. Dropdown & Notice Animations */
+.dropdown-menu {
+    animation: dropdownPop 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: top right;
+}
+
+.notice-success, 
+.validation-summary, 
+.alert {
+    animation: slideDownNotice 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 10. Scroll Reveal Classes (Driven by site.js IntersectionObserver) */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delay helpers */
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
+
+/* 11. Subtle Float for Badges & Icons */
+.float-gentle {
+    animation: floatGentle 3s ease-in-out infinite;
+}
+
+/* 12. Quick Pill Tags Hover Bounce */
+.badge.rounded-pill {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a.badge.rounded-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* 13. Position Row Elevate & Hover Lift */
+.position-row {
+    transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), 
+                box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.25s ease !important;
+}
+
+.position-row:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px -6px rgba(5, 150, 105, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04) !important;
+    border-color: #a7f3d0 !important;
+}
+
+.position-row:hover .position-row-logo img {
+    transform: scale(1.08);
+    transition: transform 0.25s ease;
+}
+
+/* 14. Demo Quick Switcher Animations */
+.demo-pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    animation: pulseLiveDot 1.8s infinite ease-in-out;
+}
+
+.demo-status-indicator.active {
+    background-color: #10b981;
+    animation: pulseLiveDot 2s infinite ease-in-out;
+}
+
+.demo-toggle-pill {
+    transition: all 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.demo-toggle-pill:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px -2px rgba(5, 150, 105, 0.35);
+}
+
+.demo-role-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.demo-role-btn:hover {
+    transform: translateY(-2px);
+}
+
+
+
 
 
 

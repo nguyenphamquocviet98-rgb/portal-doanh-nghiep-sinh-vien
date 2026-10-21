@@ -50,14 +50,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data && data.unreadCount > 0) {
                     notifBadge.textContent = data.unreadCount > 99 ? '99+' : data.unreadCount;
                     notifBadge.classList.remove('d-none');
+                    notifBtn.classList.add('has-unread-bell');
                 } else if (notifBadge) {
                     notifBadge.classList.add('d-none');
+                    notifBtn.classList.remove('has-unread-bell');
                 }
             })
             .catch(() => {});
 
         // Khi bấm mở menu thông báo, tải 5 thông báo gần nhất
         notifBtn.parentElement.addEventListener('show.bs.dropdown', function () {
+            notifBtn.classList.remove('has-unread-bell');
             fetch('/Notifications/Recent')
                 .then(res => res.ok ? res.json() : null)
                 .then(data => {
@@ -90,4 +93,70 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
+
+    // 5. Scroll Reveal Animations (IntersectionObserver)
+    if ('IntersectionObserver' in window) {
+        // Tự động gán lớp animate-on-scroll cho các thành phần chính
+        const animTargets = document.querySelectorAll(
+            '.portal-v24h-hero, #quy-trinh .col-md-3, section.mb-5, .card.transition-card, .table-card'
+        );
+
+        animTargets.forEach((el, index) => {
+            if (!el.classList.contains('animate-on-scroll')) {
+                el.classList.add('animate-on-scroll');
+                // Gán độ trễ bậc thang nếu là các thẻ trong cùng một lưới
+                if (el.parentElement && el.parentElement.classList.contains('row')) {
+                    const delayClass = `delay-${(index % 4) + 1}`;
+                    el.classList.add(delayClass);
+                }
+            }
+        });
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            revealObserver.observe(el);
+        });
+    } else {
+        // Dự phòng cho trình duyệt cũ: hiển thị trực tiếp
+        document.querySelectorAll('.animate-on-scroll').forEach(el => el.classList.add('is-visible'));
+    }
+
+    // 6. Hiệu ứng Micro-feedback cho các nút bấm chính
+    document.querySelectorAll('.btn-success, .account-submit').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+            ripple.style.pointerEvents = 'none';
+
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+            ripple.animate([
+                { transform: 'scale(0)', opacity: 1 },
+                { transform: 'scale(2.5)', opacity: 0 }
+            ], {
+                duration: 500,
+                easing: 'ease-out'
+            }).onfinish = () => ripple.remove();
+
+            this.appendChild(ripple);
+        });
+    });
 });
