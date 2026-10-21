@@ -1,51 +1,38 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# ASP.NET Core / Visual Studio
+# Visual Studio / .NET Core
 **/bin/
 **/obj/
 .vs/
 *.user
+*.userosscache
 *.suo
+*.userprefs
+*.ide/
+*.swp
+*.*~
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rms/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# User-specific & local files
+*.DotSettings.user
+appsettings.*.local.json
+
+# Uploads & User Content (Private)
 InternshipPortal/wwwroot/uploads/
 InternshipPortal/Frontend/wwwroot/uploads/
+**/uploads/*
+!**/uploads/demo/
+
+# Temporary & Preview Files
 .preview/
+.tmp/
+*.log
+.DS_Store
