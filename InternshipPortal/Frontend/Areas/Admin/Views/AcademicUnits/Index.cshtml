@@ -1,0 +1,10 @@
+@model List<InternshipPortal.ViewModels.AcademicUnitViewModel>
+@{ var major = (bool)ViewData["IsMajor"]!; ViewData["Title"] = major ? "Quản lý ngành" : "Quản lý khoa"; }
+<section class="applications-page">
+<header class="catalog-heading"><h1>@ViewData["Title"]</h1></header>
+@if (TempData["Success"] is string message) { <div class="notice-success" role="status">@message</div> }
+<p><a asp-action="Index" asp-route-major="false">Khoa</a> · <a asp-action="Index" asp-route-major="true">Ngành</a></p>
+<a asp-action="Edit" asp-route-major="@major" class="action-link">Thêm mới ↗</a>
+@if (Model.Count == 0) { <p>Chưa có dữ liệu.</p> }
+@foreach (var item in Model) { <article class="position-row" data-unit-id="@item.Id"><div><h2>@item.Code · @item.Name</h2>@if (major) { <p>@item.FacultyName</p> }<p>@(item.IsActive ? "Đang hoạt động" : "Ngừng hoạt động")</p></div><a asp-action="Edit" asp-route-major="@major" asp-route-id="@item.Id">Chỉnh sửa ↗</a></article> }
+</section>

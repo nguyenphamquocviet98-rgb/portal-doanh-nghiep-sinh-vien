@@ -1,0 +1,60 @@
+@model InternshipPortal.ViewModels.StudentProfileViewModel
+@{
+    ViewData["Title"] = "Soạn CV";
+    var initials = string.Concat(Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).TakeLast(2).Select(x => x[0]));
+    var education = $"{Model.FacultyName}\n{Model.MajorName}\nLớp: {Model.ClassName} · MSSV: {Model.StudentCode}";
+    var skills = (Model.Skills ?? "").Replace(", ", "\n").Replace(",", "\n");
+}
+@section Styles { <link rel="stylesheet" href="~/css/cv-template.css" asp-append-version="true" /> }
+<section class="cv-builder">
+    <div class="cv-toolbar">
+        <div><span class="section-index">HỒ SƠ / SOẠN CV</span><h1>Một bản CV.<br /><em>Đúng với bạn.</em></h1><p>Chỉnh nội dung, chọn ảnh, rồi lưu PDF và tải vào hồ sơ của bạn.</p></div>
+        <div class="cv-toolbar-actions"><a asp-action="Index">← Về hồ sơ</a><button type="button" id="cv-print" class="account-submit">In / Lưu PDF <span aria-hidden="true">↗</span></button></div>
+    </div>
+    <div class="cv-workspace">
+        <aside class="cv-editor" aria-label="Chỉnh nội dung CV">
+            <h2>Nội dung của bạn</h2>
+            <p class="cv-editor-note">Những mục để trống sẽ được ẩn. Hãy lưu PDF trước khi rời trang để giữ nội dung đã soạn.</p>
+            <div class="field"><label for="cv-photo-input">Ảnh chân dung (tùy chọn)</label><input id="cv-photo-input" type="file" accept="image/png,image/jpeg" /><span class="password-hint">JPG hoặc PNG · tối đa 10 MB</span><span id="cv-photo-error" class="field-validation-error" role="alert"></span></div>
+            <button type="button" id="cv-remove-photo" class="cv-text-button">Bỏ ảnh</button>
+            <div class="field"><label for="cv-input-name">Họ và tên</label><input id="cv-input-name" data-cv-target="cv-name" value="@Model.FullName" maxlength="150" /></div>
+            <div class="field"><label for="cv-input-title">Vị trí ứng tuyển</label><input id="cv-input-title" data-cv-target="cv-title" value="Thực tập sinh @Model.MajorName" maxlength="200" /></div>
+            <div class="field"><label for="cv-input-summary">Giới thiệu / mục tiêu</label><textarea id="cv-input-summary" data-cv-target="cv-summary" rows="4" maxlength="1990">@Model.Bio</textarea></div>
+            <div class="field"><label for="cv-input-school">Tên trường</label><input id="cv-input-school" data-cv-target="cv-school" placeholder="Nhập trường bạn đang theo học" maxlength="200" /></div>
+            <div class="field"><label for="cv-input-education">Học vấn</label><textarea id="cv-input-education" data-cv-target="cv-education" rows="4" maxlength="1990">@education</textarea></div>
+            <div class="field"><label for="cv-input-experience">Dự án / kinh nghiệm</label><textarea id="cv-input-experience" data-cv-target="cv-experience" rows="6" maxlength="2990" placeholder="Tên dự án · thời gian&#10;Vai trò của bạn&#10;Công việc và kết quả đạt được"></textarea></div>
+            <div class="field"><label for="cv-input-phone">Điện thoại</label><input id="cv-input-phone" data-cv-target="cv-phone" value="@Model.PhoneNumber" type="tel" maxlength="30" /></div>
+            <div class="field"><label for="cv-input-email">Email</label><input id="cv-input-email" data-cv-target="cv-email" value="@Model.Email" type="email" maxlength="246" /></div>
+            <div class="field"><label for="cv-input-location">Địa điểm</label><input id="cv-input-location" data-cv-target="cv-location" placeholder="Ví dụ: TP. Hồ Chí Minh" maxlength="200" /></div>
+            <div class="field"><label for="cv-input-website">Portfolio / liên kết</label><input id="cv-input-website" data-cv-target="cv-website" placeholder="Website hoặc hồ sơ chuyên môn" maxlength="290" /></div>
+            <div class="field"><label for="cv-input-skills">Kỹ năng</label><textarea id="cv-input-skills" data-cv-target="cv-skills" rows="4" maxlength="990">@skills</textarea></div>
+            <div class="field"><label for="cv-input-certificates">Chứng chỉ</label><textarea id="cv-input-certificates" data-cv-target="cv-certificates" rows="3" maxlength="1990" placeholder="Tên chứng chỉ · năm cấp"></textarea></div>
+            <div class="field"><label for="cv-input-references">Người giới thiệu (tùy chọn)</label><textarea id="cv-input-references" data-cv-target="cv-references" rows="3" maxlength="990" placeholder="Họ tên · chức vụ&#10;Thông tin liên hệ khi đã được đồng ý"></textarea></div>
+            <div class="field"><label for="cv-input-interests">Sở thích (tùy chọn)</label><textarea id="cv-input-interests" data-cv-target="cv-interests" rows="2" maxlength="990"></textarea></div>
+        </aside>
+        <div class="cv-preview-wrap">
+            <p class="cv-preview-label">BẢN XEM TRƯỚC · KHỔ A4</p>
+            <article class="cv-paper" aria-label="Bản xem trước CV">
+                <header class="cv-document-header">
+                    <div class="cv-portrait"><span id="cv-initials">@initials</span><img id="cv-photo" alt="Ảnh chân dung của bạn" hidden /></div>
+                    <div class="cv-document-intro"><div class="cv-heading-line"><h2 id="cv-name">@Model.FullName</h2><p id="cv-title">Thực tập sinh @Model.MajorName</p></div><p id="cv-summary" class="cv-summary cv-lines" data-cv-optional>@Model.Bio</p></div>
+                </header>
+                <div class="cv-document-columns">
+                    <div class="cv-main-column">
+                        <section class="cv-block cv-education-block"><h3>Học vấn</h3><strong id="cv-school" data-cv-optional></strong><p id="cv-education" class="cv-lines">@education</p></section>
+                        <section class="cv-block" data-cv-section="cv-experience" hidden><h3>Dự án & kinh nghiệm</h3><p id="cv-experience" class="cv-lines"></p></section>
+                    </div>
+                    <div class="cv-side-column">
+                        <section class="cv-block"><h3>Thông tin cá nhân</h3><ul class="cv-contact"><li data-cv-section="cv-phone" hidden="@(string.IsNullOrWhiteSpace(Model.PhoneNumber))"><span aria-hidden="true">☎</span><span id="cv-phone">@Model.PhoneNumber</span></li><li data-cv-section="cv-email"><span aria-hidden="true">✉</span><span id="cv-email">@Model.Email</span></li><li data-cv-section="cv-location" hidden><span aria-hidden="true">⌖</span><span id="cv-location"></span></li><li data-cv-section="cv-website" hidden><span aria-hidden="true">↗</span><span id="cv-website"></span></li></ul></section>
+                        <section class="cv-block" data-cv-section="cv-skills" hidden="@(string.IsNullOrWhiteSpace(skills))"><h3>Kỹ năng</h3><p id="cv-skills" class="cv-lines">@skills</p></section>
+                        <section class="cv-block" data-cv-section="cv-certificates" hidden><h3>Chứng chỉ</h3><p id="cv-certificates" class="cv-lines"></p></section>
+                        <section class="cv-block" data-cv-section="cv-references" hidden><h3>Người giới thiệu</h3><p id="cv-references" class="cv-lines"></p></section>
+                        <section class="cv-block" data-cv-section="cv-interests" hidden><h3>Sở thích</h3><p id="cv-interests" class="cv-lines"></p></section>
+                    </div>
+                </div>
+            </article>
+            <p class="cv-print-note">Khi in, chọn “Lưu thành PDF”, khổ A4 và tắt đầu trang/chân trang của trình duyệt. Sau đó tải PDF vào mục CV trong hồ sơ.</p>
+        </div>
+    </div>
+</section>
+@section Scripts { <script src="~/js/cv-template.js" asp-append-version="true"></script> }

@@ -1,0 +1,23 @@
+@model InternshipPortal.ViewModels.CompanyInternships.EditCompanyInternshipViewModel
+@using InternshipPortal.Models.Enums
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Cập nhật thực tập"; }
+<section class="student-diary-page">
+    <a asp-action="Details" asp-route-id="@Model.Id" class="catalog-back">← Hồ sơ thực tập</a>
+    <header class="position-detail-heading"><span class="section-index">DOANH NGHIỆP / CẬP NHẬT THỰC TẬP</span><h1>@Model.FullName</h1><p>Trạng thái hiện tại: @Model.CurrentStatus.DisplayName()</p></header>
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="account-form">
+        <input asp-for="Version" type="hidden" />
+        <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+        <div class="field"><label asp-for="SupervisorName"></label><input asp-for="SupervisorName" maxlength="150" /><span asp-validation-for="SupervisorName"></span></div>
+        <div class="field"><label asp-for="SupervisorEmail"></label><input asp-for="SupervisorEmail" type="email" maxlength="246" /><span asp-validation-for="SupervisorEmail"></span></div>
+        <div class="field"><label asp-for="SupervisorPhone"></label><input asp-for="SupervisorPhone" type="tel" maxlength="30" /><span asp-validation-for="SupervisorPhone"></span></div>
+        <div class="field"><label asp-for="Status"></label><select asp-for="Status">
+            <option value="@((int)Model.CurrentStatus)">@Model.CurrentStatus.DisplayName()</option>
+            @if (Model.CurrentStatus == InternshipStatus.NotStarted) { <option value="1">Đang thực tập</option> }
+            @if (Model.CurrentStatus == InternshipStatus.InProgress) { <option value="2">Hoàn thành</option><option value="3">Không hoàn thành</option> }
+        </select><span asp-validation-for="Status"></span></div>
+        <p>Khi kết thúc thực tập, sinh viên chỉ được xem nhật ký đã nộp. Kết quả Hoàn thành/Không hoàn thành không thể đổi lại.</p>
+        <button type="submit" class="account-submit">Lưu thay đổi ↗</button>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Tải lại thông tin mới nhất</a>
+    </form>
+</section>

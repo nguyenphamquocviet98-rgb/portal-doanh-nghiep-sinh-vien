@@ -1,0 +1,29 @@
+@model InternshipPortal.ViewModels.CompanyInternships.CompanyInternshipListViewModel
+@using InternshipPortal.Models.Enums
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Sinh viên thực tập"; }
+<section class="applications-page">
+    <header class="catalog-heading"><div><span class="section-index">DOANH NGHIỆP / THỰC TẬP</span><h1>Sinh viên<br /><em>đang đồng hành.</em></h1></div><a asp-controller="Applications" asp-action="Index" class="action-link">Ứng viên ↗</a></header>
+    <form asp-action="Index" method="get" class="application-filter">
+        <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+        <div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div>
+        <div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<InternshipStatus>()"><option value="">Tất cả trạng thái</option></select></div>
+        <button type="submit" class="account-submit">Tìm sinh viên ↗</button><a asp-action="Index">Bỏ bộ lọc</a>
+    </form>
+    <p><strong>@Model.TotalCount</strong> hồ sơ thực tập</p>
+    @if (Model.Internships.Count == 0) { <div class="catalog-empty"><h2>Chưa có hồ sơ trong danh sách này.</h2><p>Thử bỏ bộ lọc hoặc xem lại các đơn đã duyệt.</p></div> }
+    <div class="position-list">
+    @foreach (var item in Model.Internships)
+    {
+        <article class="position-row" data-internship-id="@item.Id"><div class="position-row-main"><span class="position-company">@item.PositionTitle · @item.PeriodName</span><h2><a asp-action="Details" asp-route-id="@item.Id">@item.FullName</a></h2><div class="position-meta"><span>@item.StudentCode</span><span>@item.StartDate.VietnamDate() — @item.EndDate.VietnamDate()</span></div></div><div class="position-row-side"><span class="application-status">@item.Status.DisplayName()</span><a asp-action="Details" asp-route-id="@item.Id" class="position-detail-link">Xem thực tập ↗</a></div></article>
+    }
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="catalog-pagination" aria-label="Phân trang thực tập">
+        @if (Model.Page > 1) { <a asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">← Trang trước</a> }
+        <span>Trang @Model.Page / @Model.TotalPages</span>
+        @if (Model.Page < Model.TotalPages) { <a asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">Trang sau →</a> }
+        </nav>
+    }
+</section>

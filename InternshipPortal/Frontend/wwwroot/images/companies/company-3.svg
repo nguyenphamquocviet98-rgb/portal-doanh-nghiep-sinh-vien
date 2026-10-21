@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="20" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
+    <path d="M24 72V28L50 52L76 28V72H62V46L50 58L38 46V72H24Z" fill="#2563eb"/>
+    <text x="50" y="92" font-family="sans-serif" font-size="11" font-weight="800" fill="#1d4ed8" text-anchor="middle">MINH AN</text>
+</svg>

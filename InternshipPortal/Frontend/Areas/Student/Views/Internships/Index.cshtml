@@ -1,0 +1,19 @@
+@model IReadOnlyList<InternshipPortal.ViewModels.Internships.StudentInternshipViewModel>
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Thực tập của tôi"; }
+<section class="student-internships-page">
+    <header class="catalog-heading"><div><span class="section-index">SINH VIÊN / HÀNH TRÌNH THỰC TẬP</span><h1>Từng tuần học hỏi.<br /><em>Từng bước trưởng thành.</em></h1></div></header>
+    @if (Model.Count == 0)
+    {
+        <div class="catalog-empty"><h2>Bạn chưa có hồ sơ thực tập.</h2><p>Hồ sơ sẽ được tạo khi doanh nghiệp tiếp nhận đơn ứng tuyển.</p><a asp-area="" asp-controller="Internships" asp-action="Index" class="account-inline-link">Tìm vị trí thực tập ↗</a></div>
+    }
+    else
+    {
+        <div class="position-list">
+        @foreach (var internship in Model)
+        {
+            <article class="position-row" data-internship-id="@internship.Id"><div class="position-row-main"><span class="position-company">@internship.CompanyName · @internship.PeriodName</span><h2><a asp-action="Details" asp-route-id="@internship.Id">@internship.PositionTitle</a></h2><div class="position-meta"><span>@internship.StartDate.VietnamDate() — @internship.EndDate.VietnamDate()</span><span>@internship.DiaryCount nhật ký</span></div></div><div class="position-row-side"><span class="application-status">@internship.Status.DisplayName()</span><a asp-action="Details" asp-route-id="@internship.Id" class="position-detail-link">Theo dõi thực tập ↗</a></div></article>
+        }
+        </div>
+    }
+</section>

@@ -1,0 +1,26 @@
+@model InternshipPortal.ViewModels.Internships.StudentEvaluationViewModel
+@using InternshipPortal.Helpers
+@using System.Globalization
+@{ ViewData["Title"] = "Kết quả đánh giá"; }
+<section class="student-evaluation-page">
+    <a asp-action="Details" asp-route-id="@Model.InternshipId" class="catalog-back">← Hồ sơ thực tập</a>
+    <header class="position-detail-heading"><span class="section-index">THỰC TẬP / KẾT QUẢ ĐÁNH GIÁ</span><h1>@Model.PositionTitle<span class="profile-dot">.</span></h1><p>@Model.CompanyName</p></header>
+    @if (!Model.HasEvaluation)
+    {
+        <div class="catalog-empty"><h2>Chưa có đánh giá.</h2><p>Đánh giá của doanh nghiệp sẽ được hiển thị tại đây sau khi hồ sơ thực tập kết thúc và doanh nghiệp gửi kết quả.</p></div>
+    }
+    else
+    {
+        <div class="evaluation-columns">
+            <div class="evaluation-criteria">
+                <span class="section-index">01 / CÁC TIÊU CHÍ</span>
+                @foreach (var criterion in Model.Criteria)
+                {
+                    <div class="evaluation-criterion"><div><span>@criterion.Name</span><strong>@criterion.Score.ToString("0.##", CultureInfo.GetCultureInfo("vi-VN")) / 10</strong></div><div class="evaluation-score-track" role="img" aria-label="@criterion.Name: @criterion.Score trên 10"><span style="width: @((criterion.Score * 10).ToString(CultureInfo.InvariantCulture))%"></span></div></div>
+                }
+                <section class="evaluation-comment"><span class="section-index">02 / NHẬN XÉT</span><p>@Model.Comment</p></section>
+            </div>
+            <aside class="evaluation-average"><span class="section-index">ĐIỂM TRUNG BÌNH</span><div class="evaluation-average-number" data-average-score="@Model.AverageScore.ToString(CultureInfo.InvariantCulture)">@Model.AverageScore.ToString("0.00", CultureInfo.GetCultureInfo("vi-VN"))<small>/ 10</small></div><p>Trung bình cộng của 6 tiêu chí.</p><p class="account-footnote">Ngày đánh giá: @(Model.EvaluatedAt!.Value.VietnamDateTime())</p></aside>
+        </div>
+    }
+</section>

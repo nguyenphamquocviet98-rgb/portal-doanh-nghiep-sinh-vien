@@ -1,0 +1,22 @@
+@model InternshipPortal.ViewModels.AdminCompanies.AdminCompanyListViewModel
+@using InternshipPortal.Helpers
+@using InternshipPortal.Models.Enums
+@{ ViewData["Title"] = "Duyệt doanh nghiệp"; }
+<section class="applications-page">
+<header class="catalog-heading"><h1>Doanh nghiệp.</h1></header>
+<form method="get" asp-action="Index" class="application-filter">
+<div asp-validation-summary="All" class="validation-summary"></div>
+<div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div>
+<div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<CompanyApprovalStatus>()"><option value="">Tất cả trạng thái</option></select></div>
+<button class="account-submit" type="submit">Tìm doanh nghiệp ↗</button><a asp-action="Index">Bỏ bộ lọc</a>
+</form><p>@Model.TotalCount doanh nghiệp</p>
+@if (Model.Companies.Count == 0) { <p>Không có doanh nghiệp phù hợp.</p> }
+<div class="position-list">
+@foreach (var item in Model.Companies) { <article class="position-row" data-company-id="@item.Id"><div><h2><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h2><p>@item.Email</p></div><div><span>@item.Status.DisplayName()</span><p>@(item.IsActive ? "Đang hoạt động" : "Ngừng hoạt động")</p></div></article> }
+</div>
+@if (Model.TotalPages > 1) { <nav class="catalog-pagination" aria-label="Phân trang doanh nghiệp">
+@if (Model.Page > 1) { <a asp-action="Index" asp-route-page="@(Model.Page-1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">← Trang trước</a> }
+<span>Trang @Model.Page / @Model.TotalPages</span>
+@if (Model.Page < Model.TotalPages) { <a asp-action="Index" asp-route-page="@(Model.Page+1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">Trang sau →</a> }
+</nav> }
+</section>

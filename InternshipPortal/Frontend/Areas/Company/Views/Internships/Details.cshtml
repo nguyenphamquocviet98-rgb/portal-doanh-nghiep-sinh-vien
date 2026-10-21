@@ -1,0 +1,21 @@
+@model InternshipPortal.ViewModels.CompanyInternships.CompanyInternshipViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Hồ sơ thực tập"; }
+<section class="student-diary-page">
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    <a asp-action="Index" class="catalog-back">← Sinh viên thực tập</a>
+    <header class="position-detail-heading"><span class="section-index">DOANH NGHIỆP / HỒ SƠ THỰC TẬP</span><h1>@Model.FullName<span class="profile-dot">.</span></h1><div class="position-meta"><span>@Model.StudentCode</span><span>@Model.Status.DisplayName()</span></div></header>
+    <div class="company-record-actions" aria-label="Thao tác hồ sơ thực tập">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="action-link">Người hướng dẫn & trạng thái ↗</a>
+    <a href="#internship-diaries" class="company-secondary-action">Xem nhật ký ↓</a>
+    <a asp-action="Evaluation" asp-route-id="@Model.Id" class="company-secondary-action">Chấm điểm / xem đánh giá ↗</a>
+    </div>
+    <div class="position-description">
+        <section><h2>Thông tin thực tập</h2><p>@Model.PositionTitle · @Model.PeriodName</p><p>@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate()</p><a asp-controller="Applications" asp-action="Details" asp-route-id="@Model.ApplicationId">Xem hồ sơ ứng viên và CV ↗</a></section>
+        <section><h2>Người hướng dẫn</h2><p>@(Model.SupervisorName ?? "Chưa gán người hướng dẫn")</p>@if (!string.IsNullOrWhiteSpace(Model.SupervisorEmail)) { <p>@Model.SupervisorEmail</p> }@if (!string.IsNullOrWhiteSpace(Model.SupervisorPhone)) { <p>@Model.SupervisorPhone</p> }</section>
+        <section id="internship-diaries"><h2>Nhật ký đã nộp (@Model.Diaries.Count)</h2>
+        @if (Model.Diaries.Count == 0) { <p>Sinh viên chưa nộp nhật ký.</p> }
+        @foreach (var diary in Model.Diaries) { <p><a asp-action="Diary" asp-route-id="@diary.Id">Tuần @diary.WeekNumber · @diary.StartDate.VietnamDate() — @diary.EndDate.VietnamDate() ↗</a></p> }
+        </section>
+    </div>
+</section>

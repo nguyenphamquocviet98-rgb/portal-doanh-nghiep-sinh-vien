@@ -1,0 +1,19 @@
+@model InternshipPortal.ViewModels.AdminCompanies.AdminCompanyDetailsViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Hồ sơ doanh nghiệp"; }
+<section class="applications-page">
+<a asp-action="Index" class="catalog-back">← Doanh nghiệp</a>
+@if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+<header class="position-detail-heading"><h1>@Model.Name</h1><p>@Model.Status.DisplayName() · @(Model.IsActive ? "Đang hoạt động" : "Ngừng hoạt động")</p></header>
+<div class="position-description"><p>Email: @Model.Email</p><p>Mã số thuế: @Model.TaxCode</p><p>Địa chỉ: @Model.Address</p><p>Website: @Model.Website</p><p>Lĩnh vực: @Model.BusinessField</p><p>@Model.Description</p><p>Ghi chú xét duyệt: @Model.ApprovalNote</p></div>
+<div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+@if (Model.CanDecide) {
+<form asp-action="Decide" asp-route-id="@Model.Id" method="post" class="account-form">
+<input asp-for="Decision.Version" type="hidden" />
+<div class="field"><label asp-for="Decision.Note"></label><textarea asp-for="Decision.Note" maxlength="990" rows="4"></textarea></div>
+<p>Từ chối phải có lý do. Kiểm tra hồ sơ trước khi quyết định.</p>
+<button type="submit" name="Decision.TargetStatus" value="1" class="account-submit">Duyệt doanh nghiệp ↗</button>
+<button type="submit" name="Decision.TargetStatus" value="2" class="account-submit">Từ chối hồ sơ</button>
+</form> }
+<a asp-action="Details" asp-route-id="@Model.Id">Tải lại thông tin mới nhất</a>
+</section>

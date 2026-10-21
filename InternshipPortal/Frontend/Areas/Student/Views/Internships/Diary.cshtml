@@ -1,0 +1,10 @@
+@model InternshipPortal.ViewModels.Internships.DiaryDetailsViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Nhật ký tuần " + Model.WeekNumber; }
+<section class="student-diary-page">
+    <a asp-action="Details" asp-route-id="@Model.InternshipId" class="catalog-back">← Hồ sơ thực tập</a>
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    <header class="position-detail-heading"><span class="section-index">THỰC TẬP / NHẬT KÝ TUẦN</span><h1>Tuần @Model.WeekNumber<span class="profile-dot">.</span></h1><div class="position-meta"><span>@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate()</span><span>Nộp @Model.CreatedAt.VietnamDateTime()</span></div></header>
+    <div class="position-description diary-reading"><section><span class="section-index">01 / CÔNG VIỆC</span><p>@Model.WorkContent</p></section><section><span class="section-index">02 / KẾT QUẢ</span><p>@Model.Results</p></section>@if (!string.IsNullOrWhiteSpace(Model.Difficulties)) { <section><span class="section-index">03 / KHÓ KHĂN</span><p>@Model.Difficulties</p></section> }@if (!string.IsNullOrWhiteSpace(Model.Note)) { <section><span class="section-index">04 / GHI CHÚ</span><p>@Model.Note</p></section> }</div>
+    @if (Model.CanEdit) { <a asp-action="EditDiary" asp-route-id="@Model.Id" class="action-link">Chỉnh sửa nhật ký ↗</a> }
+</section>

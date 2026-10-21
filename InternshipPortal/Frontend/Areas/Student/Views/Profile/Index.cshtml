@@ -1,0 +1,15 @@
+@model InternshipPortal.ViewModels.StudentProfileViewModel
+@{ ViewData["Title"] = "Hồ sơ sinh viên"; }
+<section class="student-profile">
+    <div class="profile-heading"><div><span class="section-index">SINH VIÊN / HỒ SƠ CỦA TÔI</span><h1>@Model.FullName<span class="profile-dot">.</span></h1><p>@Model.StudentCode · @Model.ClassName</p></div><a asp-action="Edit" class="action-link">Chỉnh sửa hồ sơ <span aria-hidden="true">↗</span></a></div>
+    @if (TempData["Success"] is string message) { <div class="notice-success" role="status">@message</div> }
+    <div class="profile-columns">
+        <div class="profile-information"><span class="section-index">01 / THÔNG TIN</span><dl class="profile-details"><div><dt>Email</dt><dd>@Model.Email</dd></div><div><dt>Điện thoại</dt><dd>@(Model.PhoneNumber ?? "Chưa cập nhật")</dd></div><div><dt>Khoa</dt><dd>@Model.FacultyName</dd></div><div><dt>Ngành</dt><dd>@Model.MajorName</dd></div></dl><h2>Kỹ năng</h2><p class="profile-text">@(string.IsNullOrWhiteSpace(Model.Skills) ? "Bạn chưa bổ sung kỹ năng." : Model.Skills)</p><h2>Giới thiệu</h2><p class="profile-text">@(string.IsNullOrWhiteSpace(Model.Bio) ? "Chia sẻ một vài điều về bản thân và định hướng của bạn." : Model.Bio)</p></div>
+        <aside class="cv-panel"><span class="section-index">02 / CV CỦA BẠN</span><h2>Một hồ sơ tốt.<br /><em>Một bước tiến mới.</em></h2><p>CV giúp doanh nghiệp hiểu kỹ năng và kinh nghiệm của bạn.</p>
+            @if (Model.HasCv) { <a asp-action="DownloadCv" class="account-inline-link">Tải CV hiện tại ↓</a> } else { <p class="cv-empty">Chưa có CV. Hãy tải lên trước khi ứng tuyển.</p> }
+            <div><a asp-action="Cv" class="account-inline-link">Soạn CV theo mẫu hai cột ↗</a></div>
+            @if (TempData["CvError"] is string error) { <div class="validation-summary" role="alert">@error</div> }
+            <form asp-action="UploadCv" method="post" enctype="multipart/form-data" class="cv-form"><div class="field"><label for="cv-file">@(Model.HasCv ? "Thay CV mới" : "Chọn CV")</label><input id="cv-file" name="file" type="file" accept="application/pdf,.pdf" required aria-describedby="cv-file-hint" /><span id="cv-file-hint" class="password-hint">PDF · tối đa 10 MB</span></div><button type="submit" class="account-submit">Lưu CV <span aria-hidden="true">↗</span></button></form>
+        </aside>
+    </div>
+</section>

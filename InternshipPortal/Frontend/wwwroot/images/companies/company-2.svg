@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="20" fill="#fef3c7" stroke="#fde68a" stroke-width="2"/>
+    <path d="M50 18L58 38L80 40L63 54L68 76L50 64L32 76L37 54L20 40L42 38L50 18Z" fill="#f59e0b"/>
+    <circle cx="50" cy="48" r="8" fill="#d97706"/>
+    <text x="50" y="92" font-family="sans-serif" font-size="11" font-weight="800" fill="#b45309" text-anchor="middle">SAO MAI</text>
+</svg>

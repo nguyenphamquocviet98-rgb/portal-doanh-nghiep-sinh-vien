@@ -1,0 +1,37 @@
+@model InternshipPortal.ViewModels.Applications.ApplicationDetailsViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Chi tiết đơn ứng tuyển"; }
+<section class="application-details-page">
+    <a asp-action="Index" class="catalog-back">← Lịch sử ứng tuyển</a>
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    @if (TempData["ApplicationError"] is string error) { <div class="portal-notice" role="alert">@error</div> }
+    <header class="position-detail-heading">
+        <span class="section-index">ĐƠN #@Model.Id / @(Model.Status.DisplayName().ToUpperInvariant())</span>
+        <h1>@Model.PositionTitle<span class="profile-dot">.</span></h1>
+        <p>@Model.CompanyName</p>
+        <div class="position-meta">
+            <span>Gửi @Model.CreatedAt.VietnamDateTime()</span>
+            @if (Model.UpdatedAt.HasValue)
+            {
+                <span>Cập nhật @(Model.UpdatedAt.Value.VietnamDateTime())</span>
+            }
+        </div>
+    </header>
+    <div class="position-detail-columns">
+        <div class="position-description">
+            <section>
+                <span class="section-index">01 / LỜI GIỚI THIỆU</span>
+                <p>@(string.IsNullOrWhiteSpace(Model.CoverLetter) ? "Bạn không gửi lời giới thiệu kèm đơn." : Model.CoverLetter)</p>
+            </section>
+            @if (!string.IsNullOrWhiteSpace(Model.Note))
+            {
+                <section>
+                    <span class="section-index">02 / GHI CHÚ</span>
+                    <p>@Model.Note</p>
+                </section>
+            }
+        </div>
+    <aside class="position-facts"><h2>Hồ sơ đã gửi</h2><p class="application-status status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status.DisplayName()</p>@if (Model.HasCv) { <a asp-action="DownloadCv" asp-route-id="@Model.Id" class="account-inline-link">Tải CV của đơn này ↓</a> } else { <p class="account-footnote">File CV hiện không còn trên máy chủ.</p> }<p class="account-footnote">CV được lưu theo thời điểm ứng tuyển.</p>
+        @if (Model.CanWithdraw) { <form asp-action="Withdraw" asp-route-id="@Model.Id" method="post" class="withdraw-form"><p>Bạn chỉ được rút khi đơn còn Chờ duyệt. Sau khi rút, không thể gửi lại vào vị trí này.</p><div class="remember-field"><input id="confirm-withdraw" type="checkbox" required /><label for="confirm-withdraw">Tôi xác nhận rút đơn này.</label></div><button type="submit" class="withdraw-button">Rút đơn ứng tuyển</button></form> }
+    </aside></div>
+</section>

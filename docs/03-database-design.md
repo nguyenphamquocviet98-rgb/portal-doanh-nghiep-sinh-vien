@@ -26,9 +26,10 @@ Thiết kế database cho Cổng thông tin Thực tập và Kết nối Doanh n
 ## 3. Quy ước dữ liệu
 
 - Các bảng nghiệp vụ dùng `Id int IDENTITY` làm Primary Key.
-- `ApplicationUser` kế thừa `IdentityUser`, dùng `Id nvarchar(450)`.
-- Foreign Key tới Identity dùng `nvarchar(450)`.
+- `ApplicationUser` kế thừa `IdentityUser`, dùng `Id nvarchar(440)`.
+- Foreign Key tới Identity dùng `nvarchar(440)`.
 - Văn bản tiếng Việt dùng `nvarchar`; độ dài ghi trong bảng bên dưới.
+- Theo yêu cầu bổ sung: không dùng kiểu chuỗi max; các độ dài đã chọn từ 220 trở lên giảm 10 một lần, tên file 255 đổi thành 200. Schema bên dưới đã cập nhật theo quy tắc này.
 - Các ngày dùng `datetime2`, lưu UTC và hiển thị theo múi giờ Việt Nam. Quy ước hạn ứng tuyển phải được giải thích trên form khi lập trình.
 - Các trạng thái và loại dữ liệu dùng enum C#, lưu số nguyên; gắn `Display(Name = "...")` cho giao diện.
 - `CreatedAt datetime2 NOT NULL` có trên cả 12 bảng. Các bảng thường xuyên sửa có thêm `UpdatedAt datetime2 NULL`.
@@ -38,7 +39,7 @@ Thiết kế database cho Cổng thông tin Thực tập và Kết nối Doanh n
 
 ## 4. Tài khoản Identity
 
-`ApplicationUser` mở rộng tài khoản với `FullName nvarchar(150)`, `AvatarPath nvarchar(500)?`, `IsActive bit`, `CreatedAt datetime2`.
+`ApplicationUser` mở rộng tài khoản với `FullName nvarchar(150)`, `AvatarPath nvarchar(490)?`, `IsActive bit`, `CreatedAt datetime2`.
 
 Email, số điện thoại, password hash, khóa tài khoản và role dùng cấu trúc Identity. Không lưu mật khẩu riêng trong Student hoặc Company.
 
@@ -53,14 +54,14 @@ Service đăng ký bảo đảm tài khoản Student chỉ có hồ sơ Student,
 | Cột | Kiểu SQL | Ý nghĩa |
 |---|---|---|
 | Id | int | PK |
-| UserId | nvarchar(450) | FK tới AspNetUsers, unique |
+| UserId | nvarchar(440) | FK tới AspNetUsers, unique |
 | StudentCode | nvarchar(30) | MSSV, unique |
 | MajorId | int | FK tới Majors |
 | ClassName | nvarchar(50) | Lớp |
 | Gpa | decimal(4,2)? | Điểm trung bình; thang điểm chốt trước khi làm form |
-| CvPath | nvarchar(500)? | CV hiện tại; bắt buộc khi ứng tuyển |
-| Skills | nvarchar(1000)? | Kỹ năng |
-| Bio | nvarchar(2000)? | Giới thiệu |
+| CvPath | nvarchar(490)? | CV hiện tại; bắt buộc khi ứng tuyển |
+| Skills | nvarchar(990)? | Kỹ năng |
+| Bio | nvarchar(1990)? | Giới thiệu |
 
 Không lưu FacultyId vì lấy khoa qua Major. Họ tên, email, điện thoại lấy từ tài khoản.
 
@@ -69,15 +70,15 @@ Không lưu FacultyId vì lấy khoa qua Major. Họ tên, email, điện thoạ
 | Cột | Kiểu SQL | Ý nghĩa |
 |---|---|---|
 | Id | int | PK |
-| UserId | nvarchar(450) | FK tới AspNetUsers, unique |
+| UserId | nvarchar(440) | FK tới AspNetUsers, unique |
 | Name | nvarchar(200) | Tên doanh nghiệp |
 | TaxCode | nvarchar(30)? | Mã số thuế |
-| Website | nvarchar(300)? | Website |
-| Address | nvarchar(300) | Địa chỉ |
+| Website | nvarchar(290)? | Website |
+| Address | nvarchar(290) | Địa chỉ |
 | BusinessField | nvarchar(150)? | Lĩnh vực hoạt động |
-| Description | nvarchar(max)? | Giới thiệu |
+| Description | nvarchar(1990)? | Giới thiệu |
 | ApprovalStatus | int | Pending, Approved, Rejected |
-| ApprovalNote | nvarchar(1000)? | Ghi chú duyệt hoặc từ chối |
+| ApprovalNote | nvarchar(990)? | Ghi chú duyệt hoặc từ chối |
 | IsActive | bit | Đang hoạt động |
 
 Không đặt unique Name vì doanh nghiệp có thể trùng tên. Chưa đặt unique TaxCode khi chưa thống nhất tài khoản theo pháp nhân.
@@ -106,8 +107,8 @@ Status đề xuất: Planned — Chưa mở; Open — Đang mở; Closed — Đ�
 | MajorId | int | FK tới Majors |
 | InternshipPeriodId | int | FK tới InternshipPeriods |
 | Title | nvarchar(200) | Tên vị trí |
-| Description | nvarchar(max) | Mô tả |
-| Requirements | nvarchar(max) | Yêu cầu |
+| Description | nvarchar(2990) | Mô tả |
+| Requirements | nvarchar(1990) | Yêu cầu |
 | Quantity | int | Chỉ tiêu |
 | Location | nvarchar(200) | Địa điểm |
 | WorkMode | int | OnSite, Remote, Hybrid |
@@ -120,7 +121,7 @@ Số người đã nhận tính từ Application Approved, không tạo cột Ac
 
 ### 5.7. Applications — Entity Application
 
-`Id int PK`, `StudentId int FK → Students`, `InternshipPositionId int FK → InternshipPositions`, `CvPath nvarchar(500)`, `CoverLetter nvarchar(2000)?`, `Status int`, `Note nvarchar(2000)?`.
+`Id int PK`, `StudentId int FK → Students`, `InternshipPositionId int FK → InternshipPositions`, `CvPath nvarchar(490)`, `CoverLetter nvarchar(1990)?`, `Status int`, `Note nvarchar(1990)?`.
 
 Unique `(StudentId, InternshipPositionId)` ngăn đơn trùng. Ngày ứng tuyển dùng CreatedAt.
 
@@ -130,7 +131,7 @@ Không lưu CompanyId vì lấy doanh nghiệp qua vị trí.
 
 ### 5.8. Internships — Entity Internship
 
-`Id int PK`, `ApplicationId int FK → Applications UNIQUE`, `StudentId int FK → Students`, `InternshipPeriodId int FK → InternshipPeriods`, `SupervisorName nvarchar(150)?`, `SupervisorEmail nvarchar(256)?`, `SupervisorPhone nvarchar(30)?`, `StartDate datetime2`, `EndDate datetime2`, `Status int`.
+`Id int PK`, `ApplicationId int FK → Applications UNIQUE`, `StudentId int FK → Students`, `InternshipPeriodId int FK → InternshipPeriods`, `SupervisorName nvarchar(150)?`, `SupervisorEmail nvarchar(246)?`, `SupervisorPhone nvarchar(30)?`, `StartDate datetime2`, `EndDate datetime2`, `Status int`.
 
 Unique `(StudentId, InternshipPeriodId)` áp dụng cho mọi trạng thái, đúng quy tắc một lần tiếp nhận trong một đợt.
 
@@ -140,13 +141,13 @@ Không lưu CompanyId hoặc InternshipPositionId. Không lưu Progress khi chư
 
 ### 5.9. InternshipDiaries — Entity InternshipDiary
 
-`Id int PK`, `InternshipId int FK → Internships`, `WeekNumber int`, `StartDate datetime2`, `EndDate datetime2`, `WorkContent nvarchar(max)`, `Results nvarchar(3000)`, `Difficulties nvarchar(3000)?`, `Note nvarchar(2000)?`.
+`Id int PK`, `InternshipId int FK → Internships`, `WeekNumber int`, `StartDate datetime2`, `EndDate datetime2`, `WorkContent nvarchar(2990)`, `Results nvarchar(2990)`, `Difficulties nvarchar(2990)?`, `Note nvarchar(1990)?`.
 
 Unique `(InternshipId, WeekNumber)`. Chưa thêm bảng phản hồi hoặc duyệt nhật ký vì chưa có yêu cầu quản lý độc lập.
 
 ### 5.10. InternshipDocuments — Entity InternshipDocument
 
-`Id int PK`, `InternshipId int FK → Internships`, `DocumentType int`, `OriginalFileName nvarchar(255)`, `FilePath nvarchar(500)`, `FileSize bigint`.
+`Id int PK`, `InternshipId int FK → Internships`, `DocumentType int`, `OriginalFileName nvarchar(200)`, `FilePath nvarchar(490)`, `FileSize bigint`.
 
 DocumentType đề xuất: Report — Báo cáo; SupportingDocument — Tài liệu thực tập. CV hồ sơ và CV ứng tuyển nằm ở Students và Applications.
 
@@ -154,7 +155,7 @@ OriginalFileName chỉ dùng hiển thị, không dùng làm tên lưu file. Fil
 
 ### 5.11. Evaluations — Entity Evaluation
 
-`Id int PK`, `InternshipId int FK → Internships UNIQUE`, `ProfessionalKnowledge decimal(4,2)`, `WorkSkills decimal(4,2)`, `Attitude decimal(4,2)`, `Responsibility decimal(4,2)`, `Communication decimal(4,2)`, `TaskCompletion decimal(4,2)`, `Comment nvarchar(3000)`.
+`Id int PK`, `InternshipId int FK → Internships UNIQUE`, `ProfessionalKnowledge decimal(4,2)`, `WorkSkills decimal(4,2)`, `Attitude decimal(4,2)`, `Responsibility decimal(4,2)`, `Communication decimal(4,2)`, `TaskCompletion decimal(4,2)`, `Comment nvarchar(2990)`.
 
 Mỗi điểm từ 0 đến 10. Điểm trung bình = tổng sáu điểm / 6, tính phía server; đề xuất hiển thị hai chữ số thập phân. Không lưu AverageScore và không nhận trường này từ form.
 
@@ -162,7 +163,7 @@ Doanh nghiệp đánh giá xác định qua Internship → Application → Inter
 
 ### 5.12. Notifications — Entity Notification
 
-`Id int PK`, `UserId nvarchar(450) FK → AspNetUsers`, `Type int`, `Title nvarchar(200)`, `Message nvarchar(2000)`, `TargetUrl nvarchar(500)?`, `DeduplicationKey nvarchar(200)?`, `IsRead bit`, `ReadAt datetime2?`.
+`Id int PK`, `UserId nvarchar(440) FK → AspNetUsers`, `Type int`, `Title nvarchar(200)`, `Message nvarchar(1990)`, `TargetUrl nvarchar(490)?`, `DeduplicationKey nvarchar(200)?`, `IsRead bit`, `ReadAt datetime2?`.
 
 Unique filtered index `(UserId, DeduplicationKey)` khi DeduplicationKey không NULL, chống trùng thông báo tự động. Thông báo thủ công có thể để khóa này NULL. TargetUrl chỉ chấp nhận đường dẫn nội bộ; trang đích vẫn kiểm tra quyền.
 
@@ -251,9 +252,9 @@ Việc giảm Quantity cũng cần kiểm tra số đã duyệt trong giao dịc
 
 - Thang điểm GPA là 4 hay 10.
 - Có chặn ứng tuyển theo trạng thái đợt và có bắt buộc ngày vị trí nằm trong đợt không.
-- Thời điểm được tạo/sửa nhật ký và nộp tài liệu.
+- Nhật ký đã chốt: chỉ tạo/sửa khi InProgress, tuần tính từng 7 ngày từ ngày bắt đầu; hồ sơ còn lại chỉ xem. Tài liệu nộp được khi InProgress/Completed/Failed; NotStarted chỉ xem.
 - Cách tính tiến độ; đề xuất tỷ lệ tuần đã nộp nhật ký.
-- Giới hạn upload; đề xuất CV PDF tối đa 5 MB, tài liệu PDF/DOCX tối đa 10 MB.
+- CV đã chốt: PDF tối đa 10 MB. Tài liệu đã chốt: PDF/DOCX tối đa 10 MB.
 - Quyền sửa đánh giá đã gửi và thao tác điều chỉnh của Admin.
 - Thời điểm nhắc hạn; đề xuất trước 3 ngày, kiểm tra khi đăng nhập.
 

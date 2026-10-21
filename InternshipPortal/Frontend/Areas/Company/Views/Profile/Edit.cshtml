@@ -1,0 +1,24 @@
+@model CompanyProfileViewModel
+@{ ViewData["Title"] = "Chỉnh sửa hồ sơ doanh nghiệp"; }
+<section class="account-page">
+    <div class="account-intro">
+        <span class="section-index">DOANH NGHIỆP / CHỈNH SỬA HỒ SƠ</span>
+        <h1>Giới thiệu<br /><em>doanh nghiệp của bạn.</em></h1>
+        <p>Tài khoản: @Model.Email</p>
+        <p>Trạng thái: @Model.ApprovalStatusName. Việc sửa hồ sơ không thay đổi trạng thái duyệt.</p>
+        <a asp-action="Index" class="account-inline-link">Quay lại hồ sơ →</a>
+    </div>
+    <div class="account-panel"><h2>Thông tin doanh nghiệp</h2>
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+            <div class="field"><label asp-for="Name"></label><input asp-for="Name" maxlength="200" /><span asp-validation-for="Name"></span></div>
+            <div class="field"><label asp-for="TaxCode"></label><input asp-for="TaxCode" maxlength="30" /><span asp-validation-for="TaxCode"></span></div>
+            <div class="field"><label asp-for="Address"></label><input asp-for="Address" maxlength="290" /><span asp-validation-for="Address"></span></div>
+            <div class="field"><label asp-for="Website"></label><input asp-for="Website" maxlength="290" placeholder="https://example.com" /><span asp-validation-for="Website"></span></div>
+            <div class="field"><label asp-for="BusinessField"></label><input asp-for="BusinessField" maxlength="150" /><span asp-validation-for="BusinessField"></span></div>
+            <div class="field"><label asp-for="Description"></label><textarea asp-for="Description" rows="6" maxlength="1990"></textarea><span asp-validation-for="Description"></span></div>
+            <button type="submit" class="account-submit">Lưu thay đổi ↗</button>
+        </form>
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

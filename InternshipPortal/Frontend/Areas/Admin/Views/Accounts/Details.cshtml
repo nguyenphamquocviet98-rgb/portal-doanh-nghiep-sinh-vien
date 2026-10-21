@@ -1,0 +1,12 @@
+@model InternshipPortal.ViewModels.AdminAccountDetailsViewModel
+@{ ViewData["Title"] = "Hồ sơ tài khoản"; }
+<section class="applications-page"><a asp-action="Index">← Tài khoản</a><h1>@Model.FullName</h1>
+@if (TempData["Success"] is string message) { <div class="notice-success" role="status">@message</div> }
+<div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+<div class="position-description"><p>Email: @Model.Email</p><p>Điện thoại: @Model.Phone</p><p>Nhóm: @string.Join(", ", Model.Roles.Select(r => r == "Student" ? "Sinh viên" : r == "Company" ? "Doanh nghiệp" : r == "Admin" ? "Nhà trường" : r))</p><p>@(Model.IsActive ? "Đang hoạt động" : "Ngừng hoạt động")</p>
+@if (Model.StudentCode is not null) { <h2>Hồ sơ sinh viên</h2><p>Mã sinh viên: @Model.StudentCode</p><p>Lớp: @Model.ClassName</p><p>Ngành: @Model.MajorName</p><p>Khoa: @Model.FacultyName</p> }
+@if (Model.CompanyName is not null) { <p>Doanh nghiệp: @Model.CompanyName</p> }
+</div>
+@if (Model.CanToggle) { <form asp-action="Toggle" asp-route-id="@Model.Id" method="post"><input type="hidden" name="Version" value="@Model.Version" /><input type="hidden" name="IsActive" value="@((!Model.IsActive).ToString().ToLowerInvariant())" /><p>Ngừng hoạt động chặn đăng nhập và phiên đang sử dụng; dữ liệu hồ sơ và lịch sử được giữ lại.</p><button type="submit" class="action-link">@(Model.IsActive ? "Ngừng hoạt động tài khoản" : "Kích hoạt tài khoản")</button></form> }
+else { <p>Tài khoản Admin được bảo vệ khỏi thao tác ngừng hoạt động tại đây.</p> }
+<p><a asp-action="Details" asp-route-id="@Model.Id">Tải lại thông tin mới nhất</a></p></section>

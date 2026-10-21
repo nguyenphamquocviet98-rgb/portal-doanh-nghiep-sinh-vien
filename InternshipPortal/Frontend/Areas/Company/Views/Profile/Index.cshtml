@@ -1,0 +1,24 @@
+@model CompanyProfileViewModel
+@{ ViewData["Title"] = "Hồ sơ doanh nghiệp"; }
+<section class="account-page">
+    <div class="account-intro">
+        <span class="section-index">DOANH NGHIỆP / HỒ SƠ</span>
+        <h1>@Model.Name</h1>
+        <p>@Model.BusinessField</p>
+        <a asp-action="Edit" class="account-inline-link">Chỉnh sửa hồ sơ →</a>
+        <p><a asp-controller="Dashboard" asp-action="Index">Về cổng doanh nghiệp</a></p>
+    </div>
+    <div class="account-panel">
+        <h2>Thông tin doanh nghiệp</h2>
+        @if (TempData["Success"] is string success) { <div class="alert alert-success" role="status">@success</div> }
+        <dl>
+            <dt>Tài khoản</dt><dd>@Model.Email</dd>
+            <dt>Trạng thái duyệt</dt><dd>@Model.ApprovalStatusName</dd>
+            @if (!string.IsNullOrWhiteSpace(Model.ApprovalNote)) { <dt>Ghi chú nhà trường</dt><dd>@Model.ApprovalNote</dd> }
+            <dt>Mã số thuế</dt><dd>@(Model.TaxCode ?? "Chưa cập nhật")</dd>
+            <dt>Địa chỉ</dt><dd>@Model.Address</dd>
+            <dt>Website</dt><dd>@(Model.Website ?? "Chưa cập nhật")</dd>
+            <dt>Giới thiệu</dt><dd class="text-break" style="white-space: pre-line">@(Model.Description ?? "Chưa cập nhật")</dd>
+        </dl>
+    </div>
+</section>

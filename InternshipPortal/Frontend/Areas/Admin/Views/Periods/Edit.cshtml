@@ -1,0 +1,16 @@
+@model InternshipPortal.ViewModels.PeriodFormViewModel
+@using InternshipPortal.Models.Enums
+@{ ViewData["Title"] = "Thông tin đợt thực tập"; }
+<section class="applications-page"><h1>@ViewData["Title"]</h1><a asp-action="Index">← Danh sách đợt</a>
+<form asp-action="Edit" asp-route-id="@(Model.Id == 0 ? (int?)null : Model.Id)" method="post" class="account-form">
+<input asp-for="Version" type="hidden" />
+<div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+<div class="field"><label asp-for="Code"></label><input asp-for="Code" maxlength="30" required /></div>
+<div class="field"><label asp-for="Name"></label><input asp-for="Name" maxlength="150" required /></div>
+<div class="field"><label asp-for="StartDate"></label><input asp-for="StartDate" type="date" required /></div>
+<div class="field"><label asp-for="EndDate"></label><input asp-for="EndDate" type="date" required /></div>
+<div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<InternshipPeriodStatus>()"></select></div>
+<p>Đóng đợt ngăn chọn đợt này khi tạo vị trí mới. Các vị trí và hồ sơ đã có vẫn được giữ lại. Sửa thời gian đợt không tự đổi ngày thực tập của từng hồ sơ.</p>
+<button type="submit" class="account-submit">Lưu đợt thực tập ↗</button>
+<a asp-action="Edit" asp-route-id="@(Model.Id == 0 ? (int?)null : Model.Id)">Tải lại thông tin</a>
+</form></section>

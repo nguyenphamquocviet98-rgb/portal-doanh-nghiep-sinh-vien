@@ -1,0 +1,61 @@
+@model InternshipPortal.ViewModels.CompanyPositions.CompanyPositionListViewModel
+@using InternshipPortal.Models.Enums
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Quản lý vị trí thực tập"; }
+<section class="applications-page">
+    <header class="catalog-heading">
+        <div><span class="section-index">DOANH NGHIỆP / VỊ TRÍ CỦA TÔI</span><h1>Cơ hội thực tập.<br /><em>Bắt đầu từ bạn.</em></h1></div>
+        @if (Model.CanManage) { <a asp-action="Create" class="action-link">Đăng vị trí mới ↗</a> }
+    </header>
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    @if (TempData["PositionError"] is string error) { <div class="portal-notice" role="alert">@error</div> }
+    @if (!Model.CanManage) { <div class="portal-notice">Doanh nghiệp chưa được duyệt. Bạn có thể xem danh sách, nhưng chưa được đăng, sửa hoặc đóng vị trí.</div> }
+    <form asp-action="Index" method="get" class="application-filter">
+        <div asp-validation-summary="All" class="validation-summary"></div>
+        <div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div>
+        <div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<InternshipPositionStatus>()"><option value="">Tất cả trạng thái</option></select></div>
+        <button type="submit" class="account-submit">Tìm vị trí ↗</button><a asp-action="Index">Bỏ bộ lọc</a>
+    </form>
+    <div class="catalog-results-heading"><span><strong>@Model.TotalCount</strong> vị trí của doanh nghiệp</span></div>
+    @if (Model.Positions.Count == 0) { <div class="catalog-empty"><h2>Chưa có vị trí trong danh sách này.</h2><p>Đăng một vị trí mới hoặc thay đổi bộ lọc để tìm lại.</p></div> }
+    else
+    {
+        <div class="position-list">
+        @foreach (var position in Model.Positions)
+        {
+            <article class="position-row" data-position-id="@position.Id">
+                <div class="position-row-main">
+                    <span class="position-company">@position.Code · @position.PeriodName</span>
+                    <h2>@position.Title</h2>
+                    <div class="position-meta"><span>@position.MajorName</span><span>@position.ApplicationCount đơn · @position.AcceptedCount/@position.Quantity đã duyệt</span><span>Hạn @position.ApplicationDeadline.VietnamDateTime()</span></div>
+                </div>
+                <div class="position-row-side">
+                    <strong>@position.Status.DisplayName()</strong>
+                    @if (Model.CanManage) { <a asp-controller="Applications" asp-action="Index" asp-route-positionId="@position.Id" class="position-detail-link">Xem ứng viên ↗</a> }
+                    @if (position.Status == InternshipPositionStatus.Open && position.ApplicationDeadline < DateTime.UtcNow) { <span>Đã hết hạn nhận hồ sơ</span> }
+                    @if (Model.CanManage)
+                    {
+                        <a asp-action="Edit" asp-route-id="@position.Id" class="position-detail-link">Chỉnh sửa ↗</a>
+                        @if (position.Status == InternshipPositionStatus.Open)
+                        {
+                            <form asp-action="Close" asp-route-id="@position.Id" method="post" class="position-close-form">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Đóng vị trí</button>
+                            </form>
+                        }
+                    }
+                </div>
+            </article>
+        }
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="catalog-pagination" aria-label="Phân trang vị trí">
+                @if (Model.Page > 1) { <a asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">← Trang trước</a> }
+                <span>Trang @Model.Page / @Model.TotalPages</span>
+                @if (Model.Page < Model.TotalPages) { <a asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-keyword="@Model.Keyword" asp-route-status="@((int?)Model.Status)">Trang sau →</a> }
+            </nav>
+        }
+    }
+    <p><a asp-controller="Dashboard" asp-action="Index" class="account-inline-link">Về cổng doanh nghiệp →</a></p>
+</section>
+@section Scripts { <script src="~/js/company-positions.js" asp-append-version="true"></script> }

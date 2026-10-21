@@ -1,0 +1,18 @@
+@model InternshipPortal.ViewModels.AdminMonitoringViewModel
+@using InternshipPortal.Helpers
+@using InternshipPortal.Models.Enums
+@{ ViewData["Title"] = Model.Kind == "Positions" ? "Giám sát vị trí" : Model.Kind == "Applications" ? "Giám sát ứng tuyển" : "Giám sát thực tập"; var detail = Model.Kind == "Positions" ? "Position" : Model.Kind == "Applications" ? "Application" : "Internship"; }
+<section class="applications-page"><h1>@ViewData["Title"]</h1>
+<nav aria-label="Giám sát toàn hệ thống" class="company-navigation-links"><a asp-action="Positions">Vị trí</a><a asp-action="Applications">Ứng tuyển</a><a asp-action="Internships">Thực tập</a></nav>
+<form asp-action="@Model.Kind" method="get" class="application-filter"><div asp-validation-summary="All" class="validation-summary"></div><div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div><button class="account-submit" type="submit">Tìm kiếm ↗</button><a asp-action="@Model.Kind">Bỏ bộ lọc</a></form>
+<p>@Model.TotalCount hồ sơ</p>
+@if (Model.Rows.Count == 0) { <p>Không có hồ sơ phù hợp.</p> }
+@foreach (var item in Model.Rows) {
+ var status = Model.Kind == "Positions" ? ((InternshipPositionStatus)item.Status).DisplayName() : Model.Kind == "Applications" ? ((ApplicationStatus)item.Status).DisplayName() : ((InternshipStatus)item.Status).DisplayName();
+ <article class="position-row" data-record-id="@item.Id"><div><h2><a asp-action="@detail" asp-route-id="@item.Id">@(item.Student ?? item.Title)</a></h2><p>@item.Title · @item.Company</p><p>@item.StudentCode · @item.Period · @status</p></div><a asp-action="@detail" asp-route-id="@item.Id">Xem chi tiết ↗</a></article>
+}
+<nav class="catalog-pagination" aria-label="Phân trang">
+@if (Model.Page > 1) { <a asp-action="@Model.Kind" asp-route-page="@(Model.Page-1)" asp-route-keyword="@Model.Keyword">← Trang trước</a> }
+<span>Trang @Model.Page / @Model.TotalPages</span>
+@if (Model.Page < Model.TotalPages) { <a asp-action="@Model.Kind" asp-route-page="@(Model.Page+1)" asp-route-keyword="@Model.Keyword">Trang sau →</a> }
+</nav></section>

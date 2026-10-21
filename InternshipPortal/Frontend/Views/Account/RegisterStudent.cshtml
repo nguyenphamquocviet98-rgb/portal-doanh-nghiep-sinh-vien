@@ -1,0 +1,24 @@
+@model InternshipPortal.ViewModels.Account.RegisterStudentViewModel
+@{ ViewData["Title"] = "Đăng ký sinh viên"; }
+<section class="account-page registration-page">
+    <div class="account-intro">
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2">ĐĂNG KÝ SINH VIÊN</span>
+        <h1 class="fs-2 fw-bold text-dark mb-2">Đăng ký tài khoản sinh viên thực tập</h1>
+        <p class="text-muted small mb-3">Vui lòng nhập đúng mã sinh viên, lớp và chọn chính xác khoa, chuyên ngành đào tạo để hệ thống gợi ý vị trí thực tập phù hợp.</p>
+        <a asp-action="Login" class="account-inline-link">Đã có tài khoản? Đăng nhập ngay →</a>
+    </div>
+    <div class="account-panel"><h2>Đăng ký sinh viên</h2>
+        <form asp-action="RegisterStudent" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+            <div class="field-pair"><div class="field"><label asp-for="StudentCode"></label><input asp-for="StudentCode" /><span asp-validation-for="StudentCode"></span></div><div class="field"><label asp-for="ClassName"></label><input asp-for="ClassName" /><span asp-validation-for="ClassName"></span></div></div>
+            <div class="field-pair"><div class="field"><label asp-for="FacultyId"></label><select asp-for="FacultyId" asp-items="Model.Faculties"><option value="0">Chọn khoa</option></select><span asp-validation-for="FacultyId"></span></div>
+            <div class="field"><label asp-for="MajorId"></label><select asp-for="MajorId"><option value="0">Chọn ngành</option>@foreach (var major in Model.Majors) { <option value="@major.Id" data-faculty="@major.FacultyId">@major.Name</option> }</select><span asp-validation-for="MajorId"></span></div></div>
+            <partial name="_RegisterFields" model="Model" />
+            <button class="account-submit" type="submit">Tạo tài khoản sinh viên <span aria-hidden="true">↗</span></button>
+        </form>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/register-student.js" asp-append-version="true"></script>
+}

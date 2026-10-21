@@ -1,0 +1,13 @@
+@model InternshipPortal.ViewModels.EditStudentProfileViewModel
+@{ ViewData["Title"] = "Chỉnh sửa hồ sơ"; }
+<section class="account-page profile-edit-page"><div class="account-intro"><span class="section-index">SINH VIÊN / CHỈNH SỬA HỒ SƠ</span><h1>Giới thiệu bạn.<br /><em>Theo cách của bạn.</em></h1><p>Cập nhật thông tin và những kỹ năng bạn muốn phát triển trong kỳ thực tập.</p><p class="profile-email">Tài khoản: @Model.Email</p><a asp-action="Index" class="account-inline-link">Quay lại hồ sơ →</a></div><div class="account-panel"><h2>Thông tin cá nhân</h2><form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+    <div class="field"><label asp-for="FullName"></label><input asp-for="FullName" autocomplete="name" /><span asp-validation-for="FullName"></span></div>
+    <div class="field-pair"><div class="field"><label asp-for="StudentCode"></label><input asp-for="StudentCode" /><span asp-validation-for="StudentCode"></span></div><div class="field"><label asp-for="ClassName"></label><input asp-for="ClassName" /><span asp-validation-for="ClassName"></span></div></div>
+    <div class="field"><label asp-for="PhoneNumber"></label><input asp-for="PhoneNumber" type="tel" autocomplete="tel" /><span asp-validation-for="PhoneNumber"></span></div>
+    <div class="field-pair"><div class="field"><label asp-for="FacultyId"></label><select asp-for="FacultyId" asp-items="Model.Faculties"><option value="0">Chọn khoa</option></select><span asp-validation-for="FacultyId"></span></div><div class="field"><label asp-for="MajorId"></label><select asp-for="MajorId"><option value="0">Chọn ngành</option>@foreach (var major in Model.Majors) { <option value="@major.Id" data-faculty="@major.FacultyId">@major.Name</option> }</select><span asp-validation-for="MajorId"></span></div></div>
+    <div class="field"><label asp-for="Skills"></label><textarea asp-for="Skills" rows="3" placeholder="Ví dụ: C#, SQL, làm việc nhóm"></textarea><span asp-validation-for="Skills"></span></div>
+    <div class="field"><label asp-for="Bio"></label><textarea asp-for="Bio" rows="5"></textarea><span asp-validation-for="Bio"></span></div>
+    <button type="submit" class="account-submit">Lưu thay đổi <span aria-hidden="true">↗</span></button>
+</form></div></section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /><script src="~/js/register-student.js" asp-append-version="true"></script> }

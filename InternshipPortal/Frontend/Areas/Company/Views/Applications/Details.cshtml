@@ -1,0 +1,46 @@
+@model InternshipPortal.ViewModels.CompanyApplications.CompanyApplicationDetailsViewModel
+@using InternshipPortal.Helpers
+@using InternshipPortal.Models.Enums
+@{ ViewData["Title"] = "Hồ sơ ứng viên"; }
+<section class="account-page">
+    <div class="account-intro">
+        <span class="section-index">DOANH NGHIỆP / HỒ SƠ ỨNG VIÊN</span><h1>@Model.FullName</h1>
+        <p>Ứng tuyển: @Model.PositionTitle</p><p>@Model.Status.DisplayName() · @Model.CreatedAt.VietnamDateTime()</p>
+        @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+        <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+        @if (Model.HasCv) { <p><a asp-action="DownloadCv" asp-route-id="@Model.Id" class="account-inline-link">Tải CV đã gửi →</a></p> }
+        else { <p>CV của đơn hiện không có trên máy chủ.</p> }
+        <p>CV giữ theo thời điểm gửi đơn. Thông tin hồ sơ bên cạnh là thông tin hiện tại của sinh viên.</p>
+        <a asp-action="Index" asp-route-positionId="@Model.PositionId" class="account-inline-link">Về danh sách ứng viên →</a>
+        @if (Model.Status is ApplicationStatus.Pending or ApplicationStatus.Viewed or ApplicationStatus.Interviewed)
+        {
+            var next = Model.Status == ApplicationStatus.Pending ? ApplicationStatus.Viewed
+                : Model.Status == ApplicationStatus.Viewed ? ApplicationStatus.Interviewed : ApplicationStatus.Approved;
+            <h2>Xử lý đơn</h2>
+            <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post" class="application-decision-form">
+                <input type="hidden" name="ExpectedStatus" value="@((int)Model.Status)" />
+                <input type="hidden" name="TargetStatus" value="@((int)next)" />
+                @if (next == ApplicationStatus.Approved) { <p>Duyệt sẽ tạo hồ sơ thực tập và tự hủy các đơn chưa kết thúc của sinh viên trong cùng đợt.</p> }
+                <button type="submit" class="account-submit">@(next == ApplicationStatus.Viewed ? "Đánh dấu đã xem" : next == ApplicationStatus.Interviewed ? "Đánh dấu đã phỏng vấn" : "Duyệt ứng viên")</button>
+            </form>
+            <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post" class="application-decision-form mt-3">
+                <input type="hidden" name="ExpectedStatus" value="@((int)Model.Status)" />
+                <input type="hidden" name="TargetStatus" value="@((int)ApplicationStatus.Rejected)" />
+                <div class="field"><label for="rejection-note">Lý do từ chối</label><textarea id="rejection-note" name="Note" rows="3" maxlength="1990" required>@Model.Decision.Note</textarea></div>
+                <button type="submit" class="btn btn-outline-danger">Từ chối ứng viên</button>
+            </form>
+        }
+    </div>
+    <div class="account-panel"><h2>Thông tin sinh viên</h2>
+        <dl>
+            <dt>Mã sinh viên</dt><dd>@Model.StudentCode</dd><dt>Email</dt><dd class="text-break">@Model.Email</dd>
+            <dt>Điện thoại</dt><dd>@(Model.PhoneNumber ?? "Chưa cập nhật")</dd><dt>Lớp</dt><dd>@Model.ClassName</dd>
+            <dt>Khoa / Ngành</dt><dd>@Model.FacultyName / @Model.MajorName</dd>
+            <dt>Kỹ năng</dt><dd class="text-break" style="white-space: pre-line">@(Model.Skills ?? "Chưa cập nhật")</dd>
+            <dt>Giới thiệu</dt><dd class="text-break" style="white-space: pre-line">@(Model.Bio ?? "Chưa cập nhật")</dd>
+            <dt>Lời giới thiệu trong đơn</dt><dd class="text-break" style="white-space: pre-line">@(Model.CoverLetter ?? "Không có")</dd>
+            <dt>Ghi chú xử lý</dt><dd class="text-break" style="white-space: pre-line">@(Model.Note ?? "Chưa có")</dd>
+        </dl>
+    </div>
+</section>
+@section Scripts { <script src="~/js/company-applications.js" asp-append-version="true"></script> }

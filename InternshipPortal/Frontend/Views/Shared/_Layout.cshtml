@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cổng thông tin Thực tập và Kết nối Doanh nghiệp — Kết nối sinh viên, doanh nghiệp và nhà trường." />
+    <title>@ViewData["Title"] - Cổng thông tin Thực tập</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="@(ViewContext.RouteData.Values["area"]?.ToString() == "Company" ? "company-workspace" : "")">
+    <a class="skip-link" href="#main-content">Đến nội dung chính</a>
+    
+    <!-- Header / Navbar -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg page-width" aria-label="Điều hướng chính">
+            <!-- Brand Logo with SVG -->
+            <a class="brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo.svg" alt="Cổng thông tin Thực tập" height="40" style="max-height: 40px; width: auto;" />
+            </a>
+            
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Mở menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            
+            <!-- Navigation Links & User Actions -->
+            <div class="collapse navbar-collapse" id="main-menu">
+                <!-- Primary Navigation Links (Left, beside Logo) -->
+                <nav class="nav-links me-auto ms-lg-4" aria-label="Menu chính">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" && ViewContext.RouteData.Values["area"] == null ? "is-active" : "")">
+                        Trang chủ
+                    </a>
+                    <a asp-area="" asp-controller="Internships" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Internships" ? "is-active" : "")">
+                        Vị trí thực tập
+                    </a>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })#doanh-nghiep" class="nav-link-item">
+                        Doanh nghiệp đối tác
+                    </a>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })#quy-trinh" class="nav-link-item">
+                        Quy trình & Biểu mẫu
+                    </a>
+                </nav>
+
+                <!-- User Actions (Far Right) -->
+                <div class="nav-user-actions ms-auto">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="nav-user-wrap">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <span class="user-role-badge user-role-admin">Quản trị viên</span>
+                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="fw-semibold">Cổng trường</a>
+                            }
+                            else if (User.IsInRole("Company"))
+                            {
+                                <span class="user-role-badge user-role-company">Doanh nghiệp</span>
+                                <a asp-area="Company" asp-controller="Dashboard" asp-action="Index" class="fw-semibold">Bàn làm việc</a>
+                            }
+                            else if (User.IsInRole("Student"))
+                            {
+                                <span class="user-role-badge user-role-student">Sinh viên</span>
+                                <a asp-area="Student" asp-controller="Profile" asp-action="Index">Hồ sơ</a>
+                                <a asp-area="Student" asp-controller="Applications" asp-action="Index">Ứng tuyển</a>
+                            }
+
+                            <!-- Notification Bell -->
+                            <div class="dropdown notification-dropdown">
+                                <button class="btn btn-light position-relative p-2 rounded-circle border shadow-none d-flex align-items-center justify-content-center" id="notif-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Thông báo" style="width: 38px; height: 38px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                    </svg>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="notif-badge" style="font-size: 10px; padding: 3px 6px;">
+                                        0
+                                    </span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end shadow-lg p-0 rounded-4 border-subtle" style="width: 320px; max-width: 90vw;" aria-labelledby="notif-dropdown-btn">
+                                    <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                                        <span class="fw-bold fs-6">Thông báo</span>
+                                        <a asp-area="" asp-controller="Notifications" asp-action="Index" class="small text-primary text-decoration-none fw-semibold">Xem tất cả</a>
+                                    </div>
+                                    <div id="notif-dropdown-list" class="p-2" style="max-height: 320px; overflow-y: auto;">
+                                        <div class="text-center text-muted small py-3">Đang tải...</div>
+                                    </div>
+                                    <div class="p-2 text-center border-top bg-light rounded-bottom-4">
+                                        <a asp-area="" asp-controller="Notifications" asp-action="Index" class="small text-muted text-decoration-none">Trung tâm thông báo →</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown account-menu">
+                                <button class="nav-account" id="account-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>Tài khoản</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="account-dropdown-btn">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Portal">Cổng của tôi</a></li>
+                                    <li><hr class="dropdown-divider my-1"></li>
+                                    <li>
+                                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="nav-logout w-100">
+                                            <button type="submit" class="dropdown-item text-danger w-100 border-0 bg-transparent text-start">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                                <span>Đăng xuất</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center gap-2">
+                            <a class="nav-btn-login" asp-area="" asp-controller="Account" asp-action="Login">
+                                Đăng nhập
+                            </a>
+                            <a class="nav-btn-register" asp-area="" asp-controller="Account" asp-action="Register">
+                                Đăng ký
+                            </a>
+                            <span class="nav-action-divider d-none d-lg-inline-block"></span>
+                            <a class="nav-btn-employer d-none d-lg-inline-flex" asp-area="" asp-controller="Account" asp-action="RegisterCompany">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                <span>Nhà tuyển dụng</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="page-width site-main" id="main-content">
+        @if (ViewContext.RouteData.Values["area"]?.ToString() == "Company")
+        {
+            <partial name="~/Frontend/Areas/Company/Views/Shared/_CompanyNavigation.cshtml" />
+        }
+        else if (ViewContext.RouteData.Values["area"]?.ToString() == "Student")
+        {
+            <partial name="~/Frontend/Views/Shared/_StudentNavigation.cshtml" />
+        }
+        else if (ViewContext.RouteData.Values["area"]?.ToString() == "Admin")
+        {
+            <partial name="~/Frontend/Views/Shared/_AdminNavigation.cshtml" />
+        }
+
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="page-width">
+            <div class="footer-content">
+                <!-- Col 1: University Identity -->
+                <div class="footer-brand">
+                    <strong>TRƯỜNG ĐẠI HỌC — CỔNG THỰC TẬP</strong>
+                    <p>Hệ thống kết nối trực tiếp Sinh viên — Doanh nghiệp — Nhà trường. Đồng hành cùng sinh viên trong quá trình thực tập, phát triển kỹ năng và tiếp cận việc làm chuyên nghiệp.</p>
+                </div>
+                
+                <!-- Col 2: Quick Links -->
+                <div class="footer-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul class="footer-links-list">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a asp-area="" asp-controller="Internships" asp-action="Index">Danh sách vị trí thực tập</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="RegisterStudent">Đăng ký dành cho sinh viên</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="RegisterCompany">Đăng ký dành cho doanh nghiệp</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Quy định & Quyền riêng tư</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Support Contact -->
+                <div class="footer-col">
+                    <h4>Hỗ trợ & Hợp tác</h4>
+                    <ul class="footer-links-list">
+                        <li><span class="text-white-50">Phòng Quan hệ Doanh nghiệp & Việc làm</span></li>
+                        <li><span class="text-white-50">Email:</span> <a href="mailto:admin@demo.edu.vn">admin@demo.edu.vn</a></li>
+                        <li><span class="text-white-50">Thời gian làm việc:</span> Thứ 2 – Thứ 6 (08:00 – 17:00)</li>
+                        <li><span class="text-white-50">Hỗ trợ kỹ thuật:</span> Ban Đào tạo & CNTT</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div>© @DateTime.Now.Year Cổng thông tin Thực tập và Kết nối Doanh nghiệp. All rights reserved.</div>
+                <div>Đồ án tốt nghiệp Công nghệ Thông tin — Nền tảng ASP.NET Core MVC</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Floating Demo Bar (1-Click Role Switcher) -->
+    <partial name="_DemoQuickBar" />
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

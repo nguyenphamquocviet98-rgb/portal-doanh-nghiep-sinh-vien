@@ -47,4 +47,5 @@ next-env.d.ts
 *.user
 *.suo
 InternshipPortal/wwwroot/uploads/
+InternshipPortal/Frontend/wwwroot/uploads/
 .preview/

@@ -1,0 +1,126 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<InternshipPortal.Models.ApplicationUser> UserManager
+
+<aside id="demo-quick-bar" class="demo-quick-bar" aria-label="Thanh điều hướng demo nhanh">
+    <!-- Collapsed Toggle Pill -->
+    <button type="button" id="demo-toggle-btn" class="demo-toggle-pill shadow" title="Thu gọn / Mở rộng bảng điều khiển Demo" aria-expanded="true">
+        <span class="demo-pulse-dot"></span>
+        <span class="demo-pill-title">⚡ Demo 1-Chạm</span>
+        <svg id="demo-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
+
+    <!-- Main Expanded Panel -->
+    <div id="demo-panel" class="demo-panel shadow-lg">
+        <div class="demo-panel-header">
+            <div class="d-flex align-items-center gap-2">
+                <span class="demo-badge-flash">⚡ BẢNG ĐIỀU KHIỂN DEMO</span>
+                <span class="small text-muted d-none d-sm-inline">· Đồ án Tốt nghiệp</span>
+            </div>
+            <button type="button" id="demo-close-btn" class="demo-btn-minimize" title="Thu gọn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+        </div>
+
+        <div class="demo-status-row">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="demo-status-indicator active"></span>
+                        <span class="small text-dark">
+                            Đang là: 
+                            <strong>
+                                @(User.IsInRole("Admin") ? "👑 Quản trị Nhà trường" : User.IsInRole("Company") ? "🏢 Doanh nghiệp (An Việt)" : "🎓 Sinh viên (Minh Anh)")
+                            </strong>
+                        </span>
+                    </div>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="m-0 p-0 d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm py-0 px-2 rounded-pill" style="font-size: 11px;">
+                            Đăng xuất
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex align-items-center gap-2">
+                    <span class="demo-status-indicator idle"></span>
+                    <span class="small text-muted">Chế độ: <em>Khách vãng lai (Chưa đăng nhập)</em></span>
+                </div>
+            }
+        </div>
+
+        <!-- 3 One-Click Role Switch Buttons -->
+        <div class="demo-role-buttons">
+            <a href="/Account/QuickLogin?role=admin" class="demo-role-btn demo-btn-admin @(User.IsInRole("Admin") ? "current-role" : "")" title="Đăng nhập Quản trị viên (admin@demo.edu.vn)">
+                <span class="demo-role-icon">👑</span>
+                <div class="demo-role-info">
+                    <span class="demo-role-name">Nhà trường</span>
+                    <span class="demo-role-sub">Admin / Chart.js</span>
+                </div>
+                @if (User.IsInRole("Admin")) { <span class="demo-current-tag">Đang chọn</span> }
+            </a>
+
+            <a href="/Account/QuickLogin?role=company" class="demo-role-btn demo-btn-company @(User.IsInRole("Company") ? "current-role" : "")" title="Đăng nhập Doanh nghiệp (company@demo.vn)">
+                <span class="demo-role-icon">🏢</span>
+                <div class="demo-role-info">
+                    <span class="demo-role-name">Doanh nghiệp</span>
+                    <span class="demo-role-sub">Tuyển dụng / Duyệt SV</span>
+                </div>
+                @if (User.IsInRole("Company")) { <span class="demo-current-tag">Đang chọn</span> }
+            </a>
+
+            <a href="/Account/QuickLogin?role=student" class="demo-role-btn demo-btn-student @(User.IsInRole("Student") ? "current-role" : "")" title="Đăng nhập Sinh viên (student@demo.edu.vn)">
+                <span class="demo-role-icon">🎓</span>
+                <div class="demo-role-info">
+                    <span class="demo-role-name">Sinh viên</span>
+                    <span class="demo-role-sub">Ứng tuyển / Nhật ký</span>
+                </div>
+                @if (User.IsInRole("Student")) { <span class="demo-current-tag">Đang chọn</span> }
+            </a>
+        </div>
+
+        <!-- Quick Navigation Shortcuts -->
+        <div class="demo-shortcuts-row">
+            <span class="text-muted small">Đi nhanh:</span>
+            <a href="/" class="demo-shortcut-link">Trang chủ</a>
+            <span class="text-muted">·</span>
+            <a href="/Internships" class="demo-shortcut-link">Vị trí thực tập</a>
+            <span class="text-muted">·</span>
+            <a href="/Account/Login" class="demo-shortcut-link">Trang Login</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <span class="text-muted">·</span>
+                <a href="/Account/Portal" class="demo-shortcut-link fw-semibold text-success">Bàn làm việc →</a>
+            }
+        </div>
+    </div>
+</aside>
+
+<script>
+(function() {
+    var bar = document.getElementById('demo-quick-bar');
+    var toggleBtn = document.getElementById('demo-toggle-btn');
+    var closeBtn = document.getElementById('demo-close-btn');
+    var panel = document.getElementById('demo-panel');
+    var icon = document.getElementById('demo-toggle-icon');
+
+    if (!bar || !toggleBtn || !panel) return;
+
+    // Check saved state
+    var isCollapsed = localStorage.getItem('demo_bar_collapsed') === 'true';
+    if (isCollapsed) {
+        bar.classList.add('is-collapsed');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleDemoBar() {
+        var collapsed = bar.classList.toggle('is-collapsed');
+        localStorage.setItem('demo_bar_collapsed', collapsed ? 'true' : 'false');
+        toggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    }
+
+    toggleBtn.addEventListener('click', toggleDemoBar);
+    if (closeBtn) closeBtn.addEventListener('click', toggleDemoBar);
+})();
+</script>

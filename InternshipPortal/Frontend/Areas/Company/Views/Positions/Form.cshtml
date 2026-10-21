@@ -1,0 +1,49 @@
+@model InternshipPortal.ViewModels.CompanyPositions.PositionFormViewModel
+@using InternshipPortal.Models.Enums
+@{
+    var id = ViewData["PositionId"] as int?;
+    ViewData["Title"] = id.HasValue ? "Chỉnh sửa vị trí" : "Đăng vị trí thực tập";
+}
+<section class="account-page">
+    <div class="account-intro">
+        <span class="section-index">DOANH NGHIỆP / VỊ TRÍ THỰC TẬP</span>
+        <h1>@ViewData["Title"]</h1>
+        @if (id.HasValue) { <p>Mã vị trí: @Model.Code</p> }
+        else { <p>Mã vị trí được tạo tự động khi lưu.</p> }
+        <p>Hạn ứng tuyển tính theo giờ Việt Nam. Vị trí đã đóng giữ nguyên trạng thái sau khi chỉnh sửa.</p>
+        @if (Model.HasApplications) { <div class="portal-notice">Vị trí đã có đơn ứng tuyển. Ngành và đợt thực tập được giữ nguyên để bảo toàn hồ sơ đã gửi.</div> }
+        <a asp-action="Index" class="account-inline-link">Quay lại danh sách →</a>
+    </div>
+    <div class="account-panel">
+        <h2>Thông tin vị trí</h2>
+        <form asp-action="@(id.HasValue ? "Edit" : "Create")" asp-route-id="@id" method="post">
+            <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+            <div class="field"><label asp-for="Title"></label><input asp-for="Title" maxlength="200" /><span asp-validation-for="Title"></span></div>
+            @if (Model.HasApplications)
+            {
+                <input asp-for="MajorId" type="hidden" /><input asp-for="InternshipPeriodId" type="hidden" />
+                <div class="field"><label>Ngành</label><p>@Model.Majors.FirstOrDefault(x => x.Value == Model.MajorId.ToString())?.Text</p></div>
+                <div class="field"><label>Đợt thực tập</label><p>@Model.Periods.FirstOrDefault(x => x.Value == Model.InternshipPeriodId.ToString())?.Text</p></div>
+            }
+            else
+            {
+                <div class="field"><label asp-for="MajorId"></label><select asp-for="MajorId" asp-items="Model.Majors"><option value="0">Chọn ngành</option></select><span asp-validation-for="MajorId"></span></div>
+                <div class="field"><label asp-for="InternshipPeriodId"></label><select asp-for="InternshipPeriodId" asp-items="Model.Periods"><option value="0">Chọn đợt thực tập</option></select><span asp-validation-for="InternshipPeriodId"></span></div>
+            }
+            <div class="field-pair">
+                <div class="field"><label asp-for="Quantity"></label><input asp-for="Quantity" min="1" /><span asp-validation-for="Quantity"></span></div>
+                <div class="field"><label asp-for="WorkMode"></label><select asp-for="WorkMode" asp-items="Html.GetEnumSelectList<WorkMode>()"></select><span asp-validation-for="WorkMode"></span></div>
+            </div>
+            <div class="field"><label asp-for="Location"></label><input asp-for="Location" maxlength="200" /><span asp-validation-for="Location"></span></div>
+            <div class="field-pair">
+                <div class="field"><label asp-for="StartDate"></label><input asp-for="StartDate" type="date" /><span asp-validation-for="StartDate"></span></div>
+                <div class="field"><label asp-for="EndDate"></label><input asp-for="EndDate" type="date" /><span asp-validation-for="EndDate"></span></div>
+            </div>
+            <div class="field"><label asp-for="ApplicationDeadline"></label><input asp-for="ApplicationDeadline" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm:ss}" step="1" /><span asp-validation-for="ApplicationDeadline"></span></div>
+            <div class="field"><label asp-for="Description"></label><textarea asp-for="Description" rows="6" maxlength="2990"></textarea><span asp-validation-for="Description"></span></div>
+            <div class="field"><label asp-for="Requirements"></label><textarea asp-for="Requirements" rows="5" maxlength="1990"></textarea><span asp-validation-for="Requirements"></span></div>
+            <button type="submit" class="account-submit">@(id.HasValue ? "Lưu thay đổi" : "Đăng vị trí") ↗</button>
+        </form>
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

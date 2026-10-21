@@ -1,0 +1,28 @@
+@model InternshipPortal.ViewModels.Internships.StudentInternshipViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Theo dõi thực tập"; }
+<section class="student-internship-detail">
+    <a asp-action="Index" class="catalog-back">← Thực tập của tôi</a>
+    <header class="position-detail-heading"><span class="section-index">@Model.PeriodName.ToUpperInvariant() / @Model.Status.DisplayName().ToUpperInvariant()</span><h1>@Model.PositionTitle<span class="profile-dot">.</span></h1><p>@Model.CompanyName</p><div class="position-meta"><span>@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate()</span><span>@Model.DiaryCount nhật ký / @Model.TotalWeeks tuần thực tập</span></div></header>
+    <div class="position-detail-columns">
+        <div>
+            <div class="catalog-results-heading diary-action-row">
+                <h2>Nhật ký theo tuần</h2>
+                @if (Model.CanWriteDiary)
+                {
+                    <a asp-action="CreateDiary" asp-route-internshipId="@Model.Id" class="action-link">Viết nhật ký ↗</a>
+                }
+                else
+                {
+                    <span>Chỉ xem ở trạng thái hiện tại</span>
+                }
+            </div>
+            @if (Model.Diaries.Count == 0) { <div class="catalog-empty"><p>Chưa có nhật ký cho hồ sơ này.</p></div> }
+            else
+            {
+                <div class="position-list">@foreach (var diary in Model.Diaries) { <article class="position-row" data-diary-id="@diary.Id"><div class="position-row-main"><h2><a asp-action="Diary" asp-route-id="@diary.Id">Tuần @diary.WeekNumber</a></h2><div class="position-meta"><span>@diary.StartDate.VietnamDate() — @diary.EndDate.VietnamDate()</span></div></div><div class="position-row-side"><a asp-action="Diary" asp-route-id="@diary.Id" class="position-detail-link">Xem nhật ký ↗</a></div></article> }</div>
+            }
+        </div>
+        <aside class="position-facts"><h2>Người hướng dẫn</h2><dl><div><dt>Họ và tên</dt><dd>@(Model.SupervisorName ?? "Chưa được phân công")</dd></div><div><dt>Email</dt><dd>@(Model.SupervisorEmail ?? "Chưa cập nhật")</dd></div><div><dt>Điện thoại</dt><dd>@(Model.SupervisorPhone ?? "Chưa cập nhật")</dd></div></dl><p class="account-footnote">Trạng thái thực tập được doanh nghiệp và nhà trường quản lý.</p><div><a asp-controller="Documents" asp-action="Index" asp-route-internshipId="@Model.Id" class="account-inline-link">Báo cáo & tài liệu ↗</a></div><a asp-action="Evaluation" asp-route-id="@Model.Id" class="account-inline-link">Xem kết quả đánh giá ↗</a></aside>
+    </div>
+</section>

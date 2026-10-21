@@ -1,0 +1,32 @@
+@model InternshipPortal.ViewModels.CompanyInternships.CompanyEvaluationViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Đánh giá sinh viên"; }
+<section class="student-evaluation-page">
+    <a asp-action="Details" asp-route-id="@Model.InternshipId" class="catalog-back">← Hồ sơ thực tập</a>
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    <header class="position-detail-heading"><span class="section-index">DOANH NGHIỆP / ĐÁNH GIÁ</span><h1>@Model.FullName</h1><p>@Model.Status.DisplayName()</p></header>
+    <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+    @if (Model.Existing is not null)
+    {
+        <partial name="~/Frontend/Areas/Student/Views/Internships/Evaluation.cshtml" model="Model.Existing" />
+    }
+    else if (!Model.CanCreate)
+    {
+        <div class="catalog-empty"><h2>Hồ sơ chưa kết thúc.</h2><p>Chỉ được đánh giá khi hồ sơ Hoàn thành hoặc Không hoàn thành.</p></div>
+    }
+    else
+    {
+        <form asp-action="Evaluation" asp-route-id="@Model.InternshipId" method="post" class="account-form">
+            <p>Mỗi tiêu chí từ 0–10, tối đa hai chữ số thập phân. Điểm trung bình được hệ thống tự tính. Kiểm tra kỹ trước khi gửi; mỗi hồ sơ chỉ có một đánh giá.</p>
+            <div class="field"><label asp-for="ProfessionalKnowledge"></label><input asp-for="ProfessionalKnowledge" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="ProfessionalKnowledge"></span></div>
+            <div class="field"><label asp-for="WorkSkills"></label><input asp-for="WorkSkills" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="WorkSkills"></span></div>
+            <div class="field"><label asp-for="Attitude"></label><input asp-for="Attitude" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="Attitude"></span></div>
+            <div class="field"><label asp-for="Responsibility"></label><input asp-for="Responsibility" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="Responsibility"></span></div>
+            <div class="field"><label asp-for="Communication"></label><input asp-for="Communication" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="Communication"></span></div>
+            <div class="field"><label asp-for="TaskCompletion"></label><input asp-for="TaskCompletion" type="number" min="0" max="10" step="0.01" required /><span asp-validation-for="TaskCompletion"></span></div>
+            <div class="field"><label asp-for="Comment"></label><textarea asp-for="Comment" maxlength="2990" rows="6" required></textarea><span asp-validation-for="Comment"></span></div>
+            <button type="submit" class="account-submit">Gửi đánh giá ↗</button>
+        </form>
+    }
+</section>
+

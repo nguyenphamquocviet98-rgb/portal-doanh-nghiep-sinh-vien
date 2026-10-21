@@ -1,0 +1,50 @@
+@model IReadOnlyList<InternshipPortal.ViewModels.Internships.PositionCardViewModel>
+@using InternshipPortal.Helpers
+
+<div class="position-list">
+@foreach (var position in Model)
+{
+    var companyInitial = !string.IsNullOrWhiteSpace(position.CompanyName) ? position.CompanyName.Substring(0, 1).ToUpperInvariant() : "D";
+    <article class="position-row" data-position-id="@position.Id">
+        <div class="position-row-logo">
+            <img src="@position.LogoUrl" alt="@position.CompanyName" loading="lazy" />
+        </div>
+        <div class="position-row-main">
+            <a class="position-company" asp-area="" asp-controller="Companies" asp-action="Details" asp-route-id="@position.CompanyId">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line></svg>
+                <span>@position.CompanyName</span>
+            </a>
+            <h2>
+                <a asp-area="" asp-controller="Internships" asp-action="Details" asp-route-id="@position.Id">@position.Title</a>
+            </h2>
+            <div class="position-meta">
+                <span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    @position.Location
+                </span>
+                <span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    @position.WorkMode.DisplayName()
+                </span>
+                <span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    @position.MajorName
+                </span>
+            </div>
+        </div>
+        <div class="position-row-side">
+            <span class="position-deadline">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                Hạn: @position.ApplicationDeadline.VietnamDate()
+            </span>
+            <span class="position-places @(position.AvailablePlaces > 0 ? "status-approved" : "status-rejected")">
+                @(position.AvailablePlaces > 0 ? $"Còn {position.AvailablePlaces} chỉ tiêu" : "Đã đủ chỉ tiêu")
+            </span>
+            <a class="position-detail-link" asp-area="" asp-controller="Internships" asp-action="Details" asp-route-id="@position.Id" aria-label="Xem chi tiết @position.Title">
+                <span>Xem chi tiết</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+        </div>
+    </article>
+}
+</div>

@@ -1,0 +1,4 @@
+@model InternshipPortal.Models.Application
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Chi tiết ứng tuyển"; }
+<section class="applications-page"><a asp-action="Applications">← Ứng tuyển</a><h1>@Model.Student.User.FullName</h1><div class="position-description"><p>@Model.Student.StudentCode · @Model.Status.DisplayName()</p><p>@Model.InternshipPosition.Title · @Model.InternshipPosition.Company.Name</p><p>Ngày gửi: @Model.CreatedAt.VietnamDateTime()</p><h2>Lời giới thiệu</h2><p>@Model.CoverLetter</p><h2>Ghi chú xử lý</h2><p>@Model.Note</p></div><p><a asp-controller="Accounts" asp-action="Details" asp-route-id="@Model.Student.UserId">Hồ sơ sinh viên ↗</a></p><a asp-action="Position" asp-route-id="@Model.InternshipPositionId">Vị trí ứng tuyển ↗</a></section>

@@ -1,0 +1,26 @@
+@model InternshipPortal.ViewModels.PortalViewModel
+
+<section class="portal-home card border-0 shadow-sm p-4 p-md-5 rounded-4 bg-white mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small">BÀN LÀM VIỆC — CỔNG @Model.RoleName.ToUpperInvariant()</span>
+        <span class="user-role-badge @(Model.RoleName == "Student" ? "user-role-student" : (Model.RoleName == "Company" ? "user-role-company" : "user-role-admin"))">
+            Vai trò: @Model.RoleName
+        </span>
+    </div>
+    
+    <h1 class="fs-2 my-2 text-dark">
+        @Model.Heading, <span class="text-success">@Model.FullName</span>
+    </h1>
+    
+    <div class="portal-detail text-muted fs-6 mb-3">
+        @Model.Detail
+    </div>
+    
+    @if (Model.Notice is not null)
+    {
+        <div class="portal-notice my-2" role="status">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>@Model.Notice</span>
+        </div>
+    }
+</section>

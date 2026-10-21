@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="20" fill="#fff1f2" stroke="#fecdd3" stroke-width="2"/>
+    <circle cx="50" cy="46" r="14" fill="#e11d48"/>
+    <path d="M50 20V26M50 66V72M24 46H30M70 46H76M32 28L36 32M64 60L68 64M32 64L36 60M64 32L68 28" stroke="#f43f5e" stroke-width="4" stroke-linecap="round"/>
+    <text x="50" y="92" font-family="sans-serif" font-size="11" font-weight="800" fill="#be123c" text-anchor="middle">HƯỚNG DƯƠNG</text>
+</svg>

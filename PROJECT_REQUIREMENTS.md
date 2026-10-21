@@ -414,6 +414,8 @@ Chỉ hiển thị vị trí cho sinh viên khi:
 
 Doanh nghiệp chỉ được sửa hoặc đóng vị trí thuộc về mình.
 
+Quy tắc bổ sung được người dùng xác nhận ngày 09/10/2026: khi vị trí đã có ít nhất một đơn ứng tuyển, khóa ngành và đợt thực tập; kiểm tra lại tại thời điểm lưu, không chỉ khóa trên giao diện.
+
 ---
 
 # 13. QUẢN LÝ ỨNG TUYỂN
@@ -496,6 +498,8 @@ Mỗi sinh viên chỉ có **một hồ sơ thực tập đang hiệu lực tron
 
 Nếu sinh viên đã được duyệt ở một vị trí trong cùng đợt, các đơn còn lại phải được xử lý theo quy tắc đã thống nhất.
 
+Đã xác nhận ngày 09/10/2026: khi duyệt một đơn, tự chuyển các đơn Chờ duyệt/Đã xem/Đã phỏng vấn còn lại của sinh viên trong cùng đợt sang Đã hủy, giữ lịch sử và tạo thông báo lý do. Các đơn đã kết thúc và đơn thuộc đợt khác giữ nguyên. Duyệt đơn, tạo Internship và hủy các đơn còn lại phải cùng một transaction.
+
 Nếu nghiệp vụ này chưa rõ, hãy đề xuất cách xử lý đơn giản nhất và hỏi tôi xác nhận trước khi code.
 
 ---
@@ -552,6 +556,14 @@ Mỗi nhật ký gồm:
 
 Sinh viên chỉ được sửa nhật ký của mình.
 
+Quy tắc nhật ký đã được người dùng xác nhận:
+
+- Chỉ được tạo/sửa khi hồ sơ ở trạng thái Đang thực tập; Chưa bắt đầu, Hoàn thành và Không hoàn thành chỉ được xem.
+- Tuần 1 tính từ ngày bắt đầu thực tập, mỗi tuần 7 ngày, tuần cuối có thể ngắn hơn.
+- Hệ thống tự tính ngày bắt đầu/kết thúc tuần, không nhận ngày tùy ý từ form.
+- Một hồ sơ có tối đa một nhật ký cho mỗi tuần.
+- Phải kiểm tra lại trạng thái hồ sơ và quyền sở hữu tại thời điểm lưu.
+
 Doanh nghiệp có thể xem nhật ký của sinh viên đang thực tập tại doanh nghiệp.
 
 ---
@@ -580,6 +592,16 @@ File upload phải:
 - Kiểm tra phần mở rộng.
 - Đổi tên bằng GUID.
 - Không sử dụng trực tiếp tên file người dùng gửi.
+
+Giới hạn CV đã được người dùng xác nhận: chỉ nhận PDF, tối đa 10 MB. CV được tải qua action có kiểm tra role và quyền sở hữu; không truy cập trực tiếp thư mục uploads. Thay CV mới phải giữ các bản đang được đơn ứng tuyển tham chiếu.
+
+Quy tắc tài liệu thực tập đã được người dùng xác nhận:
+
+- Nhận PDF hoặc DOCX, tối đa 10 MB mỗi file.
+- Được nộp khi Đang thực tập, Hoàn thành hoặc Không hoàn thành; Chưa bắt đầu chỉ xem.
+- Giữ từng lần nộp riêng, không tự ghi đè tài liệu đã nộp.
+- Tên gốc tối đa 200 ký tự chỉ dùng hiển thị; tên lưu trên máy chủ là GUID.
+- Tải tài liệu qua action có kiểm tra role và quyền sở hữu.
 
 ---
 
@@ -699,6 +721,17 @@ Khoa 1 ──── N Ngành
 Sinh viên và vị trí thực tập cùng tham chiếu ngành phù hợp.
 
 Không cấu hình Cascade Delete gây lỗi vòng trong SQL Server.
+
+### Quy ước bổ sung đã được người dùng xác nhận
+
+- Mỗi bảng nghiệp vụ phải liên kết với ít nhất một bảng khác bằng Foreign Key, ở phía tham chiếu hoặc được tham chiếu; không để bảng nghiệp vụ đứng riêng.
+- Các cột chuỗi dùng độ dài cụ thể phù hợp, không dùng `varchar(max)` hoặc `nvarchar(max)`.
+- Giữ `nvarchar` cho dữ liệu tiếng Việt để bảo toàn dấu.
+- Khi chọn độ dài hợp lý từ 220 trở lên, giảm 10 đơn vị một lần. Ví dụ: 300 → 290, 500 → 490, 2000 → 1990.
+- Riêng ví dụ tên file 255 → 200 theo yêu cầu người dùng.
+- Các cột khóa chính/khóa ngoại chuỗi phải được chỉnh đồng bộ; không thay đổi quan hệ nghiệp vụ.
+- Trước khi giảm độ dài phải kiểm tra dữ liệu hiện tại. Không tự cắt dữ liệu dài hơn giới hạn mới.
+- Các bảng hệ thống nội bộ SQL Server và bảng lịch sử Migration không thuộc quy tắc nối bảng nghiệp vụ. Không chỉnh bảng hệ thống của SQL Server.
 
 Dữ liệu đã phát sinh quan hệ không nên xóa cứng.
 

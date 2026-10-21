@@ -1,0 +1,42 @@
+@model InternshipPortal.ViewModels.Internships.DiaryFormViewModel
+@using InternshipPortal.Helpers
+@{
+    ViewData["Title"] = Model.DiaryId.HasValue ? "Sửa nhật ký" : "Viết nhật ký";
+    var action = Model.DiaryId.HasValue ? "EditDiary" : "CreateDiary";
+}
+<section class="account-page diary-form-page">
+    <div class="account-intro">
+        <span class="section-index">THỰC TẬP / NHẬT KÝ TUẦN</span>
+        <h1>Ghi lại công việc.<br /><em>Nhìn lại bước tiến.</em></h1>
+        <h2>@Model.PositionTitle</h2>
+        <p>@Model.CompanyName</p>
+        <p>Tuần 1 tính từ ngày bắt đầu thực tập. Mỗi tuần 7 ngày; tuần cuối kết thúc vào ngày cuối kỳ.</p>
+        <a asp-action="Details" asp-route-id="@Model.InternshipId" class="account-inline-link">Quay lại hồ sơ thực tập →</a>
+    </div>
+    <div class="account-panel">
+        <h2>@(Model.DiaryId.HasValue ? "Chỉnh sửa nhật ký" : "Nhật ký mới")</h2>
+        @if (!Model.CanWrite)
+        {
+            <div class="portal-notice" role="status">Chỉ được tạo hoặc sửa nhật ký khi hồ sơ Đang thực tập. Ở trạng thái hiện tại, bạn chỉ có thể xem.</div>
+        }
+        <form asp-action="@action" asp-route-id="@Model.DiaryId" method="post" id="diary-form" data-start="@Model.InternshipStartDate.AddHours(7).ToString("yyyy-MM-dd")" data-end="@Model.InternshipEndDate.AddHours(7).ToString("yyyy-MM-dd")">
+            <input asp-for="InternshipId" type="hidden" />
+            <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+            <div class="field">
+                <label asp-for="WeekNumber"></label>
+                <input asp-for="WeekNumber" type="number" min="1" max="@Model.TotalWeeks" disabled="@(!Model.CanWrite)" />
+                <span asp-validation-for="WeekNumber"></span>
+            </div>
+            <div class="diary-date-summary" id="diary-date-summary" aria-live="polite">@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate() · @Model.TotalWeeks tuần trong kỳ</div>
+            <div class="field"><label asp-for="WorkContent"></label><textarea asp-for="WorkContent" rows="5" maxlength="2990" disabled="@(!Model.CanWrite)"></textarea><span asp-validation-for="WorkContent"></span></div>
+            <div class="field"><label asp-for="Results"></label><textarea asp-for="Results" rows="4" maxlength="2990" disabled="@(!Model.CanWrite)"></textarea><span asp-validation-for="Results"></span></div>
+            <div class="field"><label asp-for="Difficulties"></label><textarea asp-for="Difficulties" rows="3" maxlength="2990" disabled="@(!Model.CanWrite)"></textarea><span asp-validation-for="Difficulties"></span></div>
+            <div class="field"><label asp-for="Note"></label><textarea asp-for="Note" rows="2" maxlength="1990" disabled="@(!Model.CanWrite)"></textarea><span asp-validation-for="Note"></span></div>
+            @if (Model.CanWrite) { <button type="submit" class="account-submit">Lưu nhật ký <span aria-hidden="true">↗</span></button> }
+        </form>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/diary-form.js" asp-append-version="true"></script>
+}

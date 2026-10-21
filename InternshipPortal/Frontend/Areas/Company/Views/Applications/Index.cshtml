@@ -1,0 +1,37 @@
+@model InternshipPortal.ViewModels.CompanyApplications.CompanyApplicationListViewModel
+@using InternshipPortal.Models.Enums
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Ứng viên của doanh nghiệp"; }
+<section class="applications-page">
+    <a asp-controller="Internships" asp-action="Index" class="action-link">Sinh viên thực tập ↗</a>
+    <header class="catalog-heading"><div><span class="section-index">DOANH NGHIỆP / ỨNG VIÊN</span><h1>Gặp những người<br /><em>muốn đồng hành.</em></h1></div><a asp-controller="Positions" asp-action="Index" class="action-link">Vị trí của tôi ↗</a></header>
+    <form asp-action="Index" method="get" class="application-filter">
+        <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+        <div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div>
+        <div class="field"><label asp-for="PositionId"></label><select asp-for="PositionId" asp-items="Model.Positions"><option value="">Tất cả vị trí</option></select></div>
+        <div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"><option value="">Tất cả trạng thái</option></select></div>
+        <button type="submit" class="account-submit">Tìm ứng viên ↗</button><a asp-action="Index">Bỏ bộ lọc</a>
+    </form>
+    <div class="catalog-results-heading"><span><strong>@Model.TotalCount</strong> đơn ứng tuyển</span></div>
+    @if (Model.Applications.Count == 0) { <div class="catalog-empty"><h2>Chưa có ứng viên trong danh sách này.</h2><p>Thử thay đổi bộ lọc hoặc xem lại các vị trí đang tuyển.</p></div> }
+    else
+    {
+        <div class="position-list">
+        @foreach (var application in Model.Applications)
+        {
+            <article class="position-row" data-application-id="@application.Id">
+                <div class="position-row-main"><span class="position-company">@application.PositionTitle</span><h2><a asp-action="Details" asp-route-id="@application.Id">@application.FullName</a></h2><div class="position-meta"><span>@application.StudentCode</span><span>Gửi @application.CreatedAt.VietnamDateTime()</span></div></div>
+                <div class="position-row-side"><span class="application-status status-@application.Status.ToString().ToLowerInvariant()">@application.Status.DisplayName()</span><a asp-action="Details" asp-route-id="@application.Id" class="position-detail-link">Xem hồ sơ ↗</a></div>
+            </article>
+        }
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="catalog-pagination" aria-label="Phân trang ứng viên">
+            @if (Model.Page > 1) { <a asp-action="Index" asp-route-page="@(Model.Page-1)" asp-route-positionId="@Model.PositionId" asp-route-status="@((int?)Model.Status)" asp-route-keyword="@Model.Keyword">← Trang trước</a> }
+            <span>Trang @Model.Page / @Model.TotalPages</span>
+            @if (Model.Page < Model.TotalPages) { <a asp-action="Index" asp-route-page="@(Model.Page+1)" asp-route-positionId="@Model.PositionId" asp-route-status="@((int?)Model.Status)" asp-route-keyword="@Model.Keyword">Trang sau →</a> }
+            </nav>
+        }
+    }
+</section>

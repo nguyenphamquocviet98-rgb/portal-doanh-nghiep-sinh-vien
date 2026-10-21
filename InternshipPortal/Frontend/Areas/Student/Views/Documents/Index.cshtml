@@ -1,0 +1,46 @@
+@model InternshipPortal.ViewModels.Internships.StudentDocumentsViewModel
+@using InternshipPortal.Models.Enums
+@using InternshipPortal.Helpers
+@using System.Globalization
+@{ ViewData["Title"] = "Tài liệu thực tập"; }
+<section class="student-documents-page">
+    <a asp-controller="Internships" asp-action="Details" asp-route-id="@Model.InternshipId" class="catalog-back">← Hồ sơ thực tập</a>
+    <header class="position-detail-heading"><span class="section-index">THỰC TẬP / BÁO CÁO & TÀI LIỆU</span><h1>@Model.PositionTitle<span class="profile-dot">.</span></h1><p>@Model.CompanyName · @Model.Status.DisplayName()</p></header>
+    @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
+    @if (TempData["DocumentError"] is string error) { <div class="portal-notice" role="alert">@error</div> }
+    <div class="document-columns">
+        <div>
+            <div class="catalog-results-heading"><h2>Tài liệu đã nộp</h2><span data-document-count="@Model.Documents.Count">@Model.Documents.Count file</span></div>
+            @if (Model.Documents.Count == 0)
+            {
+                <div class="catalog-empty"><p>Chưa có tài liệu cho hồ sơ này.</p></div>
+            }
+            else
+            {
+                <div class="document-list">
+                @foreach (var document in Model.Documents)
+                {
+                    <article class="document-row" data-document-id="@document.Id"><div><span class="position-company">@document.DocumentType.DisplayName()</span><h2>@document.Name</h2><div class="position-meta"><span>@document.CreatedAt.VietnamDateTime()</span><span>@((document.FileSize / 1024d).ToString("0.#", CultureInfo.GetCultureInfo("vi-VN"))) KB</span></div></div>@if (document.HasFile) { <a asp-action="Download" asp-route-id="@document.Id" class="position-detail-link">Tải xuống ↓</a> } else { <span class="position-deadline">File chưa có trên máy chủ</span> }</article>
+                }
+                </div>
+            }
+        </div>
+        <aside class="document-upload-panel">
+            <span class="section-index">NỘP TÀI LIỆU</span><h2>Ghi nhận<br /><em>những điều đã làm.</em></h2>
+            @if (Model.CanUpload)
+            {
+                <p>PDF hoặc DOCX · tối đa 10 MB. Mỗi lần nộp được giữ riêng để theo dõi lịch sử.</p>
+                <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                    <input name="InternshipId" type="hidden" value="@Model.InternshipId" />
+                    <div class="field"><label for="document-type">Loại tài liệu</label><select id="document-type" name="DocumentType" asp-items="Html.GetEnumSelectList<DocumentType>()"></select></div>
+                    <div class="field"><label for="document-file">Chọn file</label><input id="document-file" type="file" name="File" accept="application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx" required /><span class="password-hint">Tên file không quá 200 ký tự.</span></div>
+                    <button type="submit" class="account-submit">Nộp tài liệu <span aria-hidden="true">↗</span></button>
+                </form>
+            }
+            else
+            {
+                <p>Hồ sơ Chưa bắt đầu chỉ xem tài liệu. Bạn có thể nộp khi Đang thực tập hoặc sau khi kết thúc.</p>
+            }
+        </aside>
+    </div>
+</section>

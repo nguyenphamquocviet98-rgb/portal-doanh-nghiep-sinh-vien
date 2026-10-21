@@ -1,0 +1,15 @@
+@model InternshipPortal.ViewModels.AcademicUnitViewModel
+@{ ViewData["Title"] = Model.IsMajor ? "Thông tin ngành" : "Thông tin khoa"; }
+<section class="applications-page"><h1>@ViewData["Title"]</h1>
+<a asp-action="Index" asp-route-major="@Model.IsMajor">← Danh sách</a>
+<form asp-action="Edit" asp-route-major="@Model.IsMajor" asp-route-id="@(Model.Id == 0 ? (int?)null : Model.Id)" method="post" class="account-form">
+<input asp-for="Version" type="hidden" />
+<div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+<div class="field"><label asp-for="Code"></label><input asp-for="Code" maxlength="20" required /></div>
+<div class="field"><label asp-for="Name"></label><input asp-for="Name" maxlength="150" required /></div>
+@if (Model.IsMajor) { <div class="field"><label asp-for="FacultyId"></label><select asp-for="FacultyId" asp-items="Model.Faculties"><option value="">Chọn khoa</option></select></div> }
+<p><label><input asp-for="IsActive" /> @Html.DisplayNameFor(x => x.IsActive)</label></p>
+<p>Ngừng hoạt động giữ nguyên hồ sơ và các liên kết đã có.</p>
+<button type="submit" class="account-submit">Lưu ↗</button>
+<a asp-action="Edit" asp-route-major="@Model.IsMajor" asp-route-id="@(Model.Id == 0 ? (int?)null : Model.Id)">Tải lại thông tin</a>
+</form></section>

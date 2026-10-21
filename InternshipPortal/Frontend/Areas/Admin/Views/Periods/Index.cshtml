@@ -1,0 +1,9 @@
+@model List<InternshipPortal.Models.InternshipPeriod>
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Đợt thực tập"; }
+<section class="applications-page"><h1>Đợt thực tập</h1>
+@if (TempData["Success"] is string message) { <div class="notice-success" role="status">@message</div> }
+<a asp-action="Edit" class="action-link">Thêm đợt thực tập ↗</a>
+@if (Model.Count == 0) { <p>Chưa có đợt thực tập.</p> }
+@foreach (var item in Model) { <article class="position-row" data-period-id="@item.Id"><div><h2>@item.Code · @item.Name</h2><p>@item.StartDate.VietnamDate() — @item.EndDate.VietnamDate()</p><p>@item.Status.DisplayName()</p></div><a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa ↗</a></article> }
+</section>

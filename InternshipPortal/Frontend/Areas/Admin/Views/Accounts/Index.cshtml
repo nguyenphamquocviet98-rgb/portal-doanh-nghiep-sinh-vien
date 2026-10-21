@@ -1,0 +1,16 @@
+@model InternshipPortal.ViewModels.AdminAccountsViewModel
+@{ ViewData["Title"] = "Tài khoản và sinh viên"; }
+<section class="applications-page"><h1>Tài khoản và sinh viên</h1>
+<form asp-action="Index" method="get" class="application-filter">
+<div asp-validation-summary="All" class="validation-summary"></div>
+<div class="field"><label asp-for="Keyword"></label><input asp-for="Keyword" maxlength="200" /></div>
+<div class="field"><label asp-for="Role"></label><select asp-for="Role"><option value="">Tất cả</option><option value="Student">Sinh viên</option><option value="Company">Doanh nghiệp</option><option value="Admin">Nhà trường</option></select></div>
+<button type="submit" class="account-submit">Tìm tài khoản ↗</button><a asp-action="Index">Bỏ bộ lọc</a></form>
+<p>@Model.TotalCount tài khoản</p>
+@if (Model.Accounts.Count == 0) { <p>Không có tài khoản phù hợp.</p> }
+@foreach (var item in Model.Accounts) { <article class="position-row" data-account-id="@item.Id"><div><h2><a asp-action="Details" asp-route-id="@item.Id">@item.FullName</a></h2><p>@item.Email</p><p>@(item.IsActive ? "Đang hoạt động" : "Ngừng hoạt động")</p></div><a asp-action="Details" asp-route-id="@item.Id">Xem hồ sơ ↗</a></article> }
+<nav class="catalog-pagination" aria-label="Phân trang tài khoản">
+@if (Model.Page > 1) { <a asp-action="Index" asp-route-page="@(Model.Page-1)" asp-route-keyword="@Model.Keyword" asp-route-role="@Model.Role">← Trang trước</a> }
+<span>Trang @Model.Page / @Model.TotalPages</span>
+@if (Model.Page < Model.TotalPages) { <a asp-action="Index" asp-route-page="@(Model.Page+1)" asp-route-keyword="@Model.Keyword" asp-route-role="@Model.Role">Trang sau →</a> }
+</nav></section>

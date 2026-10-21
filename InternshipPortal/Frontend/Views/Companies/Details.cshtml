@@ -1,0 +1,71 @@
+@model InternshipPortal.ViewModels.Internships.CompanyDetailsViewModel
+@{ 
+    ViewData["Title"] = Model.Name; 
+}
+
+<section class="company-public-page">
+    <a asp-controller="Internships" asp-action="Index" class="catalog-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Quay lại danh sách vị trí</span>
+    </a>
+
+    <!-- Company Header Banner -->
+    <header class="position-detail-heading">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2 d-inline-block">HỒ SƠ DOANH NGHIỆP</span>
+            <span class="art-badge status-open">Đã được Nhà trường phê duyệt</span>
+        </div>
+        
+        <h1>@Model.Name</h1>
+        
+        <p class="text-muted d-flex align-items-center gap-2 mt-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>@Model.Address</span>
+        </p>
+        
+        @if (!string.IsNullOrWhiteSpace(Model.BusinessField))
+        {
+            <p class="d-inline-flex align-items-center gap-2 text-primary fw-medium">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                <span>Lĩnh vực hoạt động: @Model.BusinessField</span>
+            </p>
+        }
+        
+        @if (Model.SafeWebsite is not null)
+        {
+            <div class="mt-2">
+                <a href="@Model.SafeWebsite" target="_blank" rel="noopener noreferrer" class="action-link-outline py-2 px-3 fs-6">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <span>Truy cập Website Doanh nghiệp ↗</span>
+                </a>
+            </div>
+        }
+    </header>
+
+    <!-- Description Section -->
+    <section class="position-description mb-4">
+        <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
+            <h3 class="fs-6 fw-bold text-dark mb-2">Giới thiệu về doanh nghiệp</h3>
+            <p class="mt-2 text-muted small mb-0">@(string.IsNullOrWhiteSpace(Model.Description) ? "Doanh nghiệp hiện chưa cập nhật mô tả chi tiết." : Model.Description)</p>
+        </div>
+    </section>
+
+    <!-- Open Positions Section -->
+    <div class="catalog-results-heading">
+        <h2>Các vị trí thực tập đang mở tuyển</h2>
+        <span>Có <strong>@Model.Positions.Count</strong> vị trí đang nhận hồ sơ</span>
+    </div>
+
+    @if (Model.Positions.Count == 0)
+    {
+        <div class="catalog-empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mb-2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <h2>Doanh nghiệp chưa có vị trí mở tuyển mới</h2>
+            <p>Vui lòng quay lại sau hoặc xem các cơ hội từ những doanh nghiệp đối tác khác.</p>
+        </div>
+    }
+    else
+    {
+        <partial name="_PositionList" model="Model.Positions" />
+    }
+</section>

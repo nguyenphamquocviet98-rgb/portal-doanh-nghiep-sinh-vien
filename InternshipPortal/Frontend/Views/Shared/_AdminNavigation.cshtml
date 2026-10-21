@@ -1,0 +1,26 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var items = new[] {
+        ("Dashboard", "Index", "Tổng quan"),
+        ("Companies", "Index", "Duyệt doanh nghiệp"),
+        ("AcademicUnits", "Index", "Khoa & Ngành"),
+        ("Periods", "Index", "Đợt thực tập"),
+        ("Accounts", "Index", "Tài khoản & Sinh viên"),
+        ("Monitoring", "Positions", "Giám sát hệ thống")
+    };
+}
+<nav class="portal-subnav" aria-label="Chức năng quản trị nhà trường">
+    <div class="portal-subnav-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>CỔNG QUẢN TRỊ NHÀ TRƯỜNG</span>
+    </div>
+    <div class="portal-subnav-links">
+        @foreach (var item in items)
+        {
+            var isCurrent = controller == item.Item1;
+            <a asp-area="Admin" asp-controller="@item.Item1" asp-action="@item.Item2" class="@(isCurrent ? "is-current" : "")" aria-current="@(isCurrent ? "page" : null)">
+                @item.Item3
+            </a>
+        }
+    </div>
+</nav>

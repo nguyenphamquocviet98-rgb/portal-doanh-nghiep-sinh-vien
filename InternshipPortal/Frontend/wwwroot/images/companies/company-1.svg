@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="20" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="2"/>
+    <path d="M50 20L75 68H60L50 48L40 68H25L50 20Z" fill="#059669"/>
+    <path d="M36 76H64" stroke="#047857" stroke-width="6" stroke-linecap="round"/>
+    <text x="50" y="92" font-family="sans-serif" font-size="11" font-weight="800" fill="#065f46" text-anchor="middle">AN VIỆT</text>
+</svg>

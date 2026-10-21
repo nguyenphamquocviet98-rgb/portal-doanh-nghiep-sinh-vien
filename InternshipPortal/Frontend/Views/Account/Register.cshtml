@@ -1,0 +1,38 @@
+@{ 
+    ViewData["Title"] = "Đăng ký tài khoản"; 
+}
+
+<section class="register-choice">
+    <div class="mb-4">
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2">ĐĂNG KÝ TÀI KHOẢN MỚI</span>
+        <h1 class="fs-2 fw-bold text-dark mb-2">Chọn đối tượng tham gia hệ thống</h1>
+        <p class="text-muted small m-0">Vui lòng chọn đúng vai trò để hệ thống cung cấp biểu mẫu đăng ký và phân quyền chức năng chính xác.</p>
+    </div>
+    
+    <div class="register-options">
+        <a asp-action="RegisterStudent" class="card border p-4 rounded-4 shadow-sm text-decoration-none transition-card">
+            <div class="portal-icon-badge portal-student-badge mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small fw-semibold mb-2 d-inline-block">DÀNH CHO SINH VIÊN</span>
+            <h2 class="fs-4 fw-bold text-dark mb-2">Sinh viên thực tập</h2>
+            <p class="small text-muted mb-3">Đăng ký tài khoản theo mã số sinh viên và chuyên ngành đào tạo để ứng tuyển vị trí, tạo CV và nộp nhật ký thực tập.</p>
+            <strong class="text-success small fw-bold">Đi đến đăng ký Sinh viên →</strong>
+        </a>
+
+        <a asp-action="RegisterCompany" class="card border p-4 rounded-4 shadow-sm text-decoration-none transition-card">
+            <div class="portal-icon-badge portal-company-badge mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small fw-semibold mb-2 d-inline-block">DÀNH CHO DOANH NGHIỆP</span>
+            <h2 class="fs-4 fw-bold text-dark mb-2">Doanh nghiệp tiếp nhận</h2>
+            <p class="small text-muted mb-3">Đăng ký thông tin doanh nghiệp đối tác để đăng tin tuyển dụng, tiếp nhận hồ sơ ứng viên và chấm điểm đánh giá thực tập.</p>
+            <strong class="text-primary small fw-bold">Đi đến đăng ký Doanh nghiệp →</strong>
+        </a>
+    </div>
+
+    <div class="mt-4">
+        <span class="text-muted">Đã có tài khoản trên hệ thống? </span>
+        <a asp-action="Login" class="account-inline-link">Đăng nhập ngay →</a>
+    </div>
+</section>

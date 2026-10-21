@@ -1,0 +1,101 @@
+@model InternshipPortal.ViewModels.Internships.InternshipSearchViewModel
+@using InternshipPortal.Models.Enums
+@{ 
+    ViewData["Title"] = "Vị trí thực tập"; 
+}
+
+<section class="catalog-page">
+    <header class="catalog-heading">
+        <div>
+            <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2 d-inline-block">DANH MỤC TUYỂN DỤNG</span>
+            <h1 class="fs-2 fw-bold text-dark mb-2">Danh sách Vị trí Thực tập</h1>
+        </div>
+        <p class="text-muted small m-0">Tra cứu các cơ hội thực tập chính thức từ doanh nghiệp đối tác đã được Nhà trường thẩm định và phê duyệt.</p>
+    </header>
+
+    <form asp-action="Index" method="get" class="catalog-filter" role="search">
+        <div asp-validation-summary="All" class="validation-summary"></div>
+        <div class="catalog-search">
+            <label for="Keyword">Bạn muốn tìm kiếm vị trí thực tập nào?</label>
+            <div>
+                <input asp-for="Keyword" type="search" placeholder="Nhập chức danh, kỹ năng (VD: .NET, React, Tester, Marketing, Kế toán...)" maxlength="100" />
+                <button type="submit" class="action-link border-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span>Tìm kiếm</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="catalog-filter-options">
+            <div class="field">
+                <label asp-for="MajorId">Chuyên ngành đào tạo</label>
+                <select asp-for="MajorId" asp-items="Model.Majors">
+                    <option value="">Tất cả chuyên ngành</option>
+                </select>
+            </div>
+            <div class="field">
+                <label asp-for="Location">Địa điểm làm việc</label>
+                <select asp-for="Location" asp-items="Model.Locations">
+                    <option value="">Tất cả địa điểm</option>
+                </select>
+            </div>
+            <div class="field">
+                <label asp-for="CompanyId">Doanh nghiệp tiếp nhận</label>
+                <select asp-for="CompanyId" asp-items="Model.Companies">
+                    <option value="">Tất cả doanh nghiệp</option>
+                </select>
+            </div>
+            <div class="field">
+                <label asp-for="WorkMode">Hình thức thực tập</label>
+                <select asp-for="WorkMode" asp-items="Html.GetEnumSelectList<WorkMode>()">
+                    <option value="">Tất cả hình thức</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="catalog-results-heading">
+        <span data-total-count="@Model.TotalCount">
+            Tìm thấy <strong>@Model.TotalCount</strong> vị trí tuyển dụng phù hợp
+        </span>
+        <a asp-action="Index" class="d-inline-flex align-items-center gap-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Đặt lại bộ lọc</span>
+        </a>
+    </div>
+
+    @if (Model.Positions.Count == 0)
+    {
+        <div class="catalog-empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mb-3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <h2>Không tìm thấy vị trí phù hợp</h2>
+            <p>Vui lòng thử lại với từ khóa khác hoặc bỏ bớt các tiêu chí lọc để mở rộng kết quả tìm kiếm.</p>
+            <a asp-action="Index" class="action-link mt-3">Xem tất cả vị trí</a>
+        </div>
+    }
+    else
+    {
+        <partial name="_PositionList" model="Model.Positions" />
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="catalog-pagination" aria-label="Phân trang vị trí">
+                @if (Model.Page > 1) 
+                { 
+                    <a asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-keyword="@Model.Keyword" asp-route-majorId="@Model.MajorId" asp-route-location="@Model.Location" asp-route-companyId="@Model.CompanyId" asp-route-workMode="@((int?)Model.WorkMode)">
+                        ← Trang trước
+                    </a> 
+                }
+                
+                <span>Trang <strong>@Model.Page</strong> / @Model.TotalPages</span>
+                
+                @if (Model.Page < Model.TotalPages) 
+                { 
+                    <a asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-keyword="@Model.Keyword" asp-route-majorId="@Model.MajorId" asp-route-location="@Model.Location" asp-route-companyId="@Model.CompanyId" asp-route-workMode="@((int?)Model.WorkMode)">
+                        Trang sau →
+                    </a> 
+                }
+            </nav>
+        }
+    }
+</section>

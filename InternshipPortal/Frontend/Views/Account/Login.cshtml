@@ -1,0 +1,124 @@
+@model InternshipPortal.ViewModels.Account.LoginViewModel
+@{ 
+    ViewData["Title"] = "Đăng nhập hệ thống"; 
+}
+
+<section class="account-page">
+    <div class="account-intro">
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2">HỆ THỐNG XÁC THỰC</span>
+        <h1 class="fs-2 fw-bold text-dark mb-2">Đăng nhập tài khoản hệ thống</h1>
+        <p class="text-muted small mb-3">Cổng thông tin phục vụ Sinh viên thực tập, Doanh nghiệp tiếp nhận và Ban Quản lý Nhà trường. Vui lòng đăng nhập bằng địa chỉ email đã được cấp hoặc đăng ký.</p>
+        
+        <div class="mt-4 p-3 bg-white border rounded-4 shadow-sm">
+            <div class="d-flex align-items-center gap-2 mb-2 text-success fw-semibold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <span>Chưa có tài khoản trên cổng?</span>
+            </div>
+            <p class="small text-muted mb-2">Chọn đúng đối tượng để đăng ký tài khoản tham gia hệ thống:</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <a asp-action="RegisterStudent" class="account-inline-link">Sinh viên đăng ký →</a>
+                <span class="text-muted">·</span>
+                <a asp-action="RegisterCompany" class="account-inline-link">Doanh nghiệp đăng ký →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="account-panel">
+        <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-crest" style="width: 36px; height: 36px; border-radius: 8px;" aria-hidden="true">
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9z"/></svg>
+            </div>
+            <h2 class="m-0 fs-4">Đăng nhập tài khoản</h2>
+        </div>
+
+        @if (TempData["Success"] is string message)
+        {
+            <div class="notice-success" role="status">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span>@message</span>
+            </div>
+        }
+
+        @if (TempData["Error"] is string errorMessage)
+        {
+            <div class="alert alert-danger py-2 px-3 small rounded-3 mb-3" role="alert">
+                @errorMessage
+            </div>
+        }
+
+        <!-- Quick 1-Click Demo Section -->
+        <div class="mb-4 p-3 rounded-4 border" style="background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); border-color: #a7f3d0 !important;">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="small fw-bold text-success d-flex align-items-center gap-1">
+                    <span>⚡</span> TRUY CẬP NHANH DEMO (1-CHẠM)
+                </span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 10px;">Hội đồng / Báo cáo</span>
+            </div>
+            <p class="small text-muted mb-2" style="font-size: 12px;">Bấm chọn vai trò để đăng nhập tức thì không cần gõ mật khẩu:</p>
+            <div class="d-grid gap-2">
+                <a href="/Account/QuickLogin?role=admin@(string.IsNullOrEmpty(Model.ReturnUrl) ? "" : $"&returnUrl={System.Net.WebUtility.UrlEncode(Model.ReturnUrl)}")" class="btn btn-outline-dark btn-sm rounded-pill d-flex align-items-center justify-content-between px-3 py-2 bg-white text-dark shadow-sm">
+                    <span class="d-flex align-items-center gap-2">
+                        <span>👑</span>
+                        <strong class="small">Quản trị Nhà trường (Admin)</strong>
+                    </span>
+                    <span class="text-muted small" style="font-size: 11px;">admin@demo.edu.vn →</span>
+                </a>
+                <a href="/Account/QuickLogin?role=company@(string.IsNullOrEmpty(Model.ReturnUrl) ? "" : $"&returnUrl={System.Net.WebUtility.UrlEncode(Model.ReturnUrl)}")" class="btn btn-outline-dark btn-sm rounded-pill d-flex align-items-center justify-content-between px-3 py-2 bg-white text-dark shadow-sm">
+                    <span class="d-flex align-items-center gap-2">
+                        <span>🏢</span>
+                        <strong class="small">Doanh nghiệp tiếp nhận (Company)</strong>
+                    </span>
+                    <span class="text-muted small" style="font-size: 11px;">company@demo.vn →</span>
+                </a>
+                <a href="/Account/QuickLogin?role=student@(string.IsNullOrEmpty(Model.ReturnUrl) ? "" : $"&returnUrl={System.Net.WebUtility.UrlEncode(Model.ReturnUrl)}")" class="btn btn-outline-dark btn-sm rounded-pill d-flex align-items-center justify-content-between px-3 py-2 bg-white text-dark shadow-sm">
+                    <span class="d-flex align-items-center gap-2">
+                        <span>🎓</span>
+                        <strong class="small">Sinh viên thực tập (Student)</strong>
+                    </span>
+                    <span class="text-muted small" style="font-size: 11px;">student@demo.edu.vn →</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 my-3">
+            <hr class="flex-grow-1 m-0 text-muted" />
+            <span class="text-muted small fw-semibold" style="font-size: 11px;">HOẶC ĐĂNG NHẬP THỦ CÔNG</span>
+            <hr class="flex-grow-1 m-0 text-muted" />
+        </div>
+
+        <form asp-action="Login" method="post" novalidate>
+            <input asp-for="ReturnUrl" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
+
+            <div class="field">
+                <label asp-for="Email">Địa chỉ Email đăng nhập</label>
+                <input asp-for="Email" type="email" autocomplete="username" placeholder="name@domain.edu.vn" required />
+                <span asp-validation-for="Email" class="field-validation-error"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="Password">Mật khẩu</label>
+                <input asp-for="Password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+                <span asp-validation-for="Password" class="field-validation-error"></span>
+            </div>
+
+            <div class="remember-field">
+                <input asp-for="RememberMe" id="RememberMe" />
+                <label asp-for="RememberMe" for="RememberMe" class="m-0 user-select-none">Ghi nhớ đăng nhập trên thiết bị này</label>
+            </div>
+
+            <button class="account-submit" type="submit">
+                <span>Đăng nhập hệ thống</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </form>
+
+        <p class="account-footnote">
+            Bảo mật thông tin: Dữ liệu tài khoản được phân quyền nghiêm ngặt theo vai trò Sinh viên, Doanh nghiệp và Nhà trường.
+        </p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

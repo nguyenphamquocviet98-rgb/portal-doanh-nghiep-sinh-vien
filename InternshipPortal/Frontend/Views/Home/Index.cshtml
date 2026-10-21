@@ -1,0 +1,419 @@
+@model InternshipPortal.ViewModels.Home.HomeIndexViewModel
+@using InternshipPortal.Helpers
+@{
+    ViewData["Title"] = "Cổng thông tin Thực tập & Tuyển dụng";
+}
+
+<!-- SECTION 1: Top Search Hero (Left: Search & Quick tags, Right: Login Widget) -->
+<section class="portal-v24h-hero bg-white border rounded-4 p-4 shadow-sm mb-4">
+    <div class="row g-4 align-items-center">
+        <!-- Left: Search Column (70%) -->
+        <div class="col-lg-8">
+            <div class="mb-3">
+                <h1 class="fs-4 fs-md-3 fw-bold text-dark m-0">
+                    <span class="text-success">@Model.TotalOpenPositions+ vị trí thực tập</span> đang mở nộp hồ sơ!
+                </h1>
+                <p class="text-muted small m-0 mt-1">Nhanh hơn. Dễ dàng hơn. Cơ hội phát triển nghề nghiệp cùng các doanh nghiệp đối tác hàng đầu.</p>
+            </div>
+
+            <!-- Horizontal Search Bar (Vieclam24h style) -->
+            <form asp-controller="Internships" asp-action="Index" method="get" class="portal-v24h-search border rounded-pill shadow-sm p-1 d-flex align-items-center bg-white" role="search">
+                <div class="d-flex align-items-center flex-grow-1 ps-3 pe-2 py-1">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" class="me-2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="search" name="keyword" class="form-control border-0 shadow-none p-0 text-dark small" placeholder="Nhập vị trí, kỹ năng, tên công ty..." aria-label="Tìm kiếm vị trí" maxlength="100" />
+                </div>
+
+                <div class="border-start px-2 py-1 d-none d-md-block" style="min-width: 170px;">
+                    <select name="majorId" class="form-select border-0 shadow-none p-0 text-muted small bg-transparent">
+                        <option value="">Ngành nghề</option>
+                        @foreach (var major in Model.MajorOptions)
+                        {
+                            <option value="@major.Value">@major.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="border-start px-2 py-1 d-none d-sm-block" style="min-width: 150px;">
+                    <select name="location" class="form-select border-0 shadow-none p-0 text-muted small bg-transparent">
+                        <option value="">Địa điểm</option>
+                        @foreach (var loc in Model.LocationOptions)
+                        {
+                            <option value="@loc.Value">@loc.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-1 shadow-sm">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span>Tìm việc</span>
+                </button>
+            </form>
+
+            <!-- Quick Keyword Pills -->
+            <div class="d-flex align-items-center gap-2 flex-wrap mt-3 pt-1 text-muted small">
+                <a href="/Internships?keyword=.NET" class="badge bg-light text-dark text-decoration-none border rounded-pill px-3 py-1">Việc làm .NET</a>
+                <a href="/Internships?keyword=Marketing" class="badge bg-light text-dark text-decoration-none border rounded-pill px-3 py-1">Việc làm Marketing</a>
+                <a href="/Internships?keyword=H%E1%BB%87%20th%E1%BB%91ng" class="badge bg-light text-dark text-decoration-none border rounded-pill px-3 py-1">Hệ thống thông tin</a>
+                <a href="/Internships?keyword=Kinh%20doanh" class="badge bg-light text-dark text-decoration-none border rounded-pill px-3 py-1">Việc làm Kinh doanh</a>
+                <a href="/Internships?keyword=Ti%E1%BA%BFng%20Anh" class="badge bg-light text-dark text-decoration-none border rounded-pill px-3 py-1">Biên dịch tiếng Anh</a>
+            </div>
+
+            <!-- 2 Action Pills -->
+            <div class="d-flex align-items-center gap-2 flex-wrap mt-3">
+                <a href="#tuyen-gap" class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2 text-decoration-none fw-semibold">
+                    ⚡ Việc thực tập tuyển gấp <span class="badge bg-danger text-white rounded-pill ms-1">HOT</span>
+                </a>
+                <a asp-area="Student" asp-controller="CvTemplate" asp-action="Index" class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 text-decoration-none fw-semibold">
+                    📄 Soạn CV mẫu A4 trực tuyến
+                </a>
+            </div>
+        </div>
+
+        <!-- Right: Login Card Widget (30%) -->
+        <div class="col-lg-4">
+            <div class="card border rounded-4 shadow-sm p-4 text-center h-100 d-flex flex-column justify-content-between" style="background: linear-gradient(145deg, #f0fdf4 0%, #ffffff 100%);">
+                <div>
+                    <div class="portal-icon-badge mx-auto mb-2" style="background-color: #dcfce7; color: #15803d; width: 44px; height: 44px; border-radius: 12px;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <h3 class="fs-6 fw-bold text-dark mb-1">Đăng nhập để xem ngay việc làm phù hợp hơn!</h3>
+                    <p class="text-muted small mb-3">Vị trí sẽ được tự động gợi ý theo chuyên ngành đào tạo và kỹ năng của bạn.</p>
+                </div>
+
+                <div>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="mb-2">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mb-1">
+                                Đang đăng nhập: @(User.IsInRole("Admin") ? "Quản trị viên" : User.IsInRole("Company") ? "Doanh nghiệp" : "Sinh viên")
+                            </span>
+                        </div>
+                        <a asp-area="" asp-controller="Account" asp-action="Portal" class="btn btn-success w-100 rounded-pill py-2 fw-semibold">
+                            Vào bàn làm việc của bạn →
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Account" asp-action="Login" class="btn btn-success w-100 rounded-pill py-2 fw-semibold mb-2 shadow-sm">
+                            Đăng nhập
+                        </a>
+                        <div class="small text-muted mb-2">
+                            Chưa có tài khoản? <a asp-area="" asp-controller="Account" asp-action="Register" class="text-success fw-semibold text-decoration-none">Đăng ký ngay</a>
+                        </div>
+                        <div class="pt-2 border-top">
+                            <div class="small text-muted fw-bold mb-1" style="font-size: 11px;">⚡ TRUY CẬP NHANH DEMO:</div>
+                            <div class="d-flex gap-1 justify-content-center">
+                                <a href="/Account/QuickLogin?role=admin" class="btn btn-sm btn-outline-dark rounded-pill py-1 px-2 bg-white" style="font-size: 11px;" title="Đăng nhập Quản trị Nhà trường">👑 Admin</a>
+                                <a href="/Account/QuickLogin?role=company" class="btn btn-sm btn-outline-dark rounded-pill py-1 px-2 bg-white" style="font-size: 11px;" title="Đăng nhập Doanh nghiệp An Việt">🏢 Doanh nghiệp</a>
+                                <a href="/Account/QuickLogin?role=student" class="btn btn-sm btn-outline-dark rounded-pill py-1 px-2 bg-white" style="font-size: 11px;" title="Đăng nhập Sinh viên Minh Anh">🎓 Sinh viên</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: Categories List (Left) + Promotional Student Banner (Right) -->
+<section class="row g-4 mb-5">
+    <!-- Left: Categories Menu (Vieclam24h style) -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 bg-white p-3 p-md-4 h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                <span class="fw-bold text-dark fs-6">Danh mục ngành nghề</span>
+                <a asp-controller="Internships" asp-action="Index" class="small text-success text-decoration-none fw-semibold">Tất cả ngành →</a>
+            </div>
+
+            <ul class="list-unstyled d-flex flex-column gap-2 m-0">
+                <li>
+                    <a href="/Internships?keyword=Ph%E1%BA%A7n%20m%E1%BB%81m" class="d-flex align-items-center justify-content-between p-2 rounded-3 text-dark text-decoration-none bg-light-hover transition-card">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-5">💻</span>
+                            <span class="small fw-semibold">Công nghệ thông tin & Phần mềm</span>
+                        </div>
+                        <span class="badge bg-light text-muted border rounded-pill">HOT</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Internships?keyword=Kinh%20doanh" class="d-flex align-items-center justify-content-between p-2 rounded-3 text-dark text-decoration-none bg-light-hover transition-card">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-5">📈</span>
+                            <span class="small fw-semibold">Kinh doanh & Bán hàng</span>
+                        </div>
+                        <span class="badge bg-light text-muted border rounded-pill">Mới</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Internships?keyword=Marketing" class="d-flex align-items-center justify-content-between p-2 rounded-3 text-dark text-decoration-none bg-light-hover transition-card">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-5">📢</span>
+                            <span class="small fw-semibold">Marketing & Truyền thông</span>
+                        </div>
+                        <span class="badge bg-light text-muted border rounded-pill">HOT</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Internships?keyword=H%E1%BB%87%20th%E1%BB%91ng" class="d-flex align-items-center justify-content-between p-2 rounded-3 text-dark text-decoration-none bg-light-hover transition-card">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-5">⚙️</span>
+                            <span class="small fw-semibold">Hệ thống thông tin & Dữ liệu</span>
+                        </div>
+                        <span class="badge bg-light text-muted border rounded-pill">Ưu tiên</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Internships?keyword=Ti%E1%BA%BFng" class="d-flex align-items-center justify-content-between p-2 rounded-3 text-dark text-decoration-none bg-light-hover transition-card">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-5">🌐</span>
+                            <span class="small fw-semibold">Biên phiên dịch & Ngôn ngữ</span>
+                        </div>
+                        <span class="badge bg-light text-muted border rounded-pill">Mới</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right: Big Graphic Carousel Banner ("Lướt lướt" Slider) -->
+    <div class="col-lg-8">
+        <div id="heroBannerCarousel" class="carousel slide carousel-fade h-100 rounded-4 shadow-sm overflow-hidden position-relative" data-bs-ride="carousel" data-bs-interval="4500" data-bs-pause="hover" data-bs-touch="true">
+            <!-- Indicators -->
+            <div class="carousel-indicators mb-2 pb-1">
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <!-- Slides Inner -->
+            <div class="carousel-inner h-100">
+                <!-- Slide 1: Tìm việc thực tập -->
+                <div class="carousel-item active h-100" data-bs-interval="4500">
+                    <div class="card border-0 rounded-4 overflow-hidden h-100 position-relative text-white" style="background: linear-gradient(135deg, #064e3b 0%, #059669 100%); min-height: 290px;">
+                        <div class="row g-0 h-100 align-items-center">
+                            <div class="col-sm-7 p-4 p-md-5">
+                                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white text-success small fw-bold mb-3 shadow-sm">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    <span>CỔNG THỰC TẬP CHÍNH THỨC</span>
+                                </div>
+                                <h2 class="fs-2 fw-extrabold text-white mb-2">Tìm đúng việc<br /><span style="color: #6ee7b7;">Nhanh hơn. Dễ dàng hơn!</span></h2>
+                                <p class="text-white-50 small mb-4">Hàng trăm cơ hội thực tập có phụ cấp và lộ trình trở thành nhân viên chính thức sau khi tốt nghiệp.</p>
+                                <a asp-controller="Internships" asp-action="Index" class="btn btn-light rounded-pill px-4 py-2 text-success fw-bold shadow-sm">
+                                    Khám phá vị trí ngay →
+                                </a>
+                            </div>
+                            <div class="col-sm-5 d-none d-sm-block text-end pe-0 h-100">
+                                <img src="~/images/banner-student.jpg" alt="Sinh viên thực tập" class="hero-banner-img" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Doanh nghiệp hợp tác tuyển dụng -->
+                <div class="carousel-item h-100" data-bs-interval="4500">
+                    <div class="card border-0 rounded-4 overflow-hidden h-100 position-relative text-white" style="background: linear-gradient(135deg, #042f2e 0%, #0f766e 55%, #059669 100%); min-height: 290px;">
+                        <div class="row g-0 h-100 align-items-center">
+                            <div class="col-sm-7 p-4 p-md-5">
+                                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white small fw-bold mb-3 shadow-sm" style="color: #0f766e;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                                    <span>ĐỐI TÁC DOANH NGHIỆP</span>
+                                </div>
+                                <h2 class="fs-2 fw-extrabold text-white mb-2">Kết nối 500+ Đối tác<br /><span style="color: #5eead4;">Tuyển dụng trực tiếp</span></h2>
+                                <p class="text-white-50 small mb-4">Mạng lưới doanh nghiệp uy tín, bảo đảm đầy đủ quyền lợi, môi trường làm việc thực chiến và mentor tận tâm.</p>
+                                <a href="@Url.Action("Index", "Home", new { area = "" })#doanh-nghiep" class="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm" style="color: #0f766e;">
+                                    Xem doanh nghiệp đối tác →
+                                </a>
+                            </div>
+                            <div class="col-sm-5 d-none d-sm-block text-end pe-0 h-100">
+                                <img src="~/images/banner-company.jpg" alt="Doanh nghiệp đối tác thực tập" class="hero-banner-img" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Tạo CV trực tuyến -->
+                <div class="carousel-item h-100" data-bs-interval="4500">
+                    <div class="card border-0 rounded-4 overflow-hidden h-100 position-relative text-white" style="background: linear-gradient(135deg, #064e3b 0%, #1e3a8a 60%, #312e81 100%); min-height: 290px;">
+                        <div class="row g-0 h-100 align-items-center">
+                            <div class="col-sm-7 p-4 p-md-5">
+                                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white small fw-bold mb-3 shadow-sm" style="color: #1e3a8a;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>MẪU CV CHUẨN A4 MIỄN PHÍ</span>
+                                </div>
+                                <h2 class="fs-2 fw-extrabold text-white mb-2">Tạo CV chuyên nghiệp<br /><span style="color: #fde047;">Gây ấn tượng nhà tuyển dụng</span></h2>
+                                <p class="text-white-50 small mb-4">Soạn thảo hai cột chuẩn mực, bố cục tinh gọn, xuất PDF sắc nét và ứng tuyển vị trí thực tập nhanh chóng.</p>
+                                <a asp-area="Student" asp-controller="Profile" asp-action="Cv" class="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm" style="color: #1e3a8a;">
+                                    Trải nghiệm mẫu CV ngay →
+                                </a>
+                            </div>
+                            <div class="col-sm-5 d-none d-sm-block text-end pe-0 h-100">
+                                <img src="~/images/banner-cv.jpg" alt="Mẫu CV chuyên nghiệp" class="hero-banner-img" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls (Left/Right Arrows) -->
+            <button class="carousel-control-prev hero-carousel-arrow ps-2" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="prev" aria-label="Slide trước">
+                <span class="carousel-nav-btn shadow-sm" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </span>
+            </button>
+            <button class="carousel-control-next hero-carousel-arrow pe-2" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="next" aria-label="Slide tiếp theo">
+                <span class="carousel-nav-btn shadow-sm" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3: 🔥 Việc làm tuyển gấp (JOB CARDS GRID WITH COMPANY LOGOS!) -->
+<section class="mb-5" id="tuyen-gap">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <span class="fs-4">🔥</span>
+            <h2 class="fs-4 fw-bold text-dark m-0">Việc làm thực tập tuyển gấp</h2>
+        </div>
+        <a asp-controller="Internships" asp-action="Index" class="small text-success text-decoration-none fw-semibold">
+            Xem thêm (@Model.TotalOpenPositions) vị trí →
+        </a>
+    </div>
+
+    <!-- Quick Location Filter Tabs -->
+    <div class="d-flex align-items-center gap-2 flex-wrap mb-4">
+        <a asp-controller="Internships" asp-action="Index" class="btn btn-sm btn-success rounded-pill px-3 fw-semibold">Tất cả</a>
+        <a href="/Internships?location=TP.+H%E1%BB%93+Ch%C3%AD+Minh" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold">TP. Hồ Chí Minh</a>
+        <a href="/Internships?location=H%C3%A0+N%E1%BB%99i" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold">Hà Nội</a>
+        <a href="/Internships?location=%C4%90%C3%A0+N%E1%BA%B5ng" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold">Đà Nẵng</a>
+        <a href="/Internships?workMode=Remote" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold">Làm việc từ xa (Remote)</a>
+    </div>
+
+    <!-- 3-Column Job Cards Grid (Vieclam24h style WITH COMPANY LOGOS) -->
+    <div class="row g-3">
+        @foreach (var job in Model.LatestPositions)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm p-3 rounded-4 bg-white h-100 transition-card d-flex flex-column justify-content-between">
+                    <!-- Top: Logo + Title + Company + Salary -->
+                    <div>
+                        <div class="d-flex align-items-start gap-3 mb-2">
+                            <!-- Company Logo (Square, bordered, clean) -->
+                            <a asp-controller="Companies" asp-action="Details" asp-route-id="@job.CompanyId" class="flex-shrink-0" title="@job.CompanyName">
+                                <img src="@job.LogoUrl" alt="@job.CompanyName" width="52" height="52" class="rounded-3 border p-1 bg-white object-fit-contain shadow-xs" />
+                            </a>
+
+                            <!-- Title & Company -->
+                            <div class="flex-grow-1 min-w-0">
+                                <h3 class="fs-6 fw-bold text-dark text-truncate mb-1">
+                                    <a asp-controller="Internships" asp-action="Details" asp-route-id="@job.Id" class="text-dark text-decoration-none hover-text-success" title="@job.Title">
+                                        @job.Title
+                                    </a>
+                                </h3>
+                                <div class="small text-muted text-truncate mb-1">
+                                    <a asp-controller="Companies" asp-action="Details" asp-route-id="@job.CompanyId" class="text-muted text-decoration-none">
+                                        @job.CompanyName
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Salary / Allowance & Location -->
+                        <div class="d-flex align-items-center justify-content-between gap-2 mb-2 bg-light p-2 rounded-3 small">
+                            <span class="text-success fw-bold">@job.AllowanceText</span>
+                            <span class="text-muted text-truncate">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                @job.Location
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Badge & Time Left & CTA -->
+                    <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2 small">
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1" style="font-size: 10px;">🔥 HOT</span>
+                            <span class="text-muted" style="font-size: 11px;">
+                                Còn @job.DaysRemaining ngày
+                            </span>
+                        </div>
+                        <a asp-controller="Internships" asp-action="Details" asp-route-id="@job.Id" class="btn btn-sm btn-link p-0 text-success text-decoration-none fw-semibold">
+                            Ứng tuyển →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Center Pagination / Explore button -->
+    <div class="text-center mt-4">
+        <a asp-controller="Internships" asp-action="Index" class="btn btn-outline-success rounded-pill px-4 py-2 fw-semibold shadow-sm">
+            Xem tất cả (@Model.TotalOpenPositions) vị trí tuyển dụng →
+        </a>
+    </div>
+</section>
+
+<!-- SECTION 4: Top Employers (Doanh nghiệp đối tác hàng đầu có Logo) -->
+<section class="card border-0 shadow-sm p-4 p-md-4 rounded-4 bg-white mb-5">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 border-bottom pb-2">
+        <div>
+            <h2 class="fs-5 fw-bold text-dark m-0">Doanh nghiệp đối tác tiêu biểu</h2>
+            <p class="text-muted small m-0">Các đối tác đã ký kết thỏa thuận hợp tác tiếp nhận sinh viên thực tập của nhà trường.</p>
+        </div>
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1">@Model.TotalApprovedCompanies đối tác đã xác thực</span>
+    </div>
+
+    <div class="row g-3">
+        @foreach (var company in Model.FeaturedCompanies)
+        {
+            <div class="col-6 col-md-4 col-lg-2">
+                <a asp-controller="Companies" asp-action="Details" asp-route-id="@company.Id" class="card border p-3 rounded-4 text-center text-decoration-none h-100 transition-card bg-light-hover d-flex flex-column align-items-center justify-content-center">
+                    <img src="@company.LogoUrl" alt="@company.Name" width="48" height="48" class="rounded-3 border p-1 bg-white mb-2 shadow-xs object-fit-contain" />
+                    <span class="small fw-bold text-dark text-truncate w-100 mb-1" style="font-size: 12px;" title="@company.Name">@company.Name</span>
+                    <span class="badge bg-success-subtle text-success rounded-pill" style="font-size: 10px;">@company.OpenPositionsCount vị trí</span>
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- SECTION 5: Quy trình thực tập 4 bước -->
+<section class="card border-0 shadow-sm p-4 rounded-4 bg-white mb-4" id="quy-trinh">
+    <div class="text-center max-w-800 mx-auto mb-4">
+        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2">QUY TRÌNH HỌC VỤ</span>
+        <h2 class="fs-4 fw-bold text-dark mb-1">Quy trình 4 bước thực hiện kỳ thực tập</h2>
+        <p class="text-muted small m-0">Sinh viên và doanh nghiệp thực hiện các bước theo đúng quy định của Nhà trường.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="p-3 border rounded-4 bg-light h-100">
+                <span class="badge bg-success text-white rounded-pill px-2 py-1 mb-2 fw-bold">Bước 1</span>
+                <h3 class="fs-6 fw-bold text-dark mb-1">Soạn CV & Chọn vị trí</h3>
+                <p class="small text-muted m-0">Sử dụng công cụ soạn CV chuẩn A4 để nộp đơn vào các vị trí thực tập phù hợp.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 border rounded-4 bg-light h-100">
+                <span class="badge bg-success text-white rounded-pill px-2 py-1 mb-2 fw-bold">Bước 2</span>
+                <h3 class="fs-6 fw-bold text-dark mb-1">Ứng tuyển & Phỏng vấn</h3>
+                <p class="small text-muted m-0">Doanh nghiệp xem xét hồ sơ, phỏng vấn và gửi thông báo tiếp nhận trên hệ thống.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 border rounded-4 bg-light h-100">
+                <span class="badge bg-success text-white rounded-pill px-2 py-1 mb-2 fw-bold">Bước 3</span>
+                <h3 class="fs-6 fw-bold text-dark mb-1">Thực tập & Viết nhật ký</h3>
+                <p class="small text-muted m-0">Sinh viên làm việc tại công ty, ghi nhận nhật ký công việc tuần trực tuyến.</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 border rounded-4 bg-light h-100">
+                <span class="badge bg-success text-white rounded-pill px-2 py-1 mb-2 fw-bold">Bước 4</span>
+                <h3 class="fs-6 fw-bold text-dark mb-1">Đánh giá & Báo cáo</h3>
+                <p class="small text-muted m-0">Doanh nghiệp chấm 6 tiêu chí; sinh viên nộp báo cáo để nhà trường ghi nhận kết quả.</p>
+            </div>
+        </div>
+    </div>
+</section>

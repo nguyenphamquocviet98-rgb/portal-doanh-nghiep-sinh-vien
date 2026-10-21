@@ -1,0 +1,19 @@
+@model InternshipPortal.ViewModels.Applications.ApplyViewModel
+@using InternshipPortal.Helpers
+@{ ViewData["Title"] = "Gửi đơn ứng tuyển"; }
+<section class="account-page application-create-page">
+    <div class="account-intro"><span class="section-index">SINH VIÊN / ỨNG TUYỂN</span><h1>Một cơ hội.<br /><em>Một bước tiến.</em></h1><h2>@Model.Title</h2><p>@Model.CompanyName<br />@Model.Location · @Model.WorkMode.DisplayName()<br />Hạn nộp: @Model.ApplicationDeadline.VietnamDateTime()</p><a asp-area="" asp-controller="Internships" asp-action="Details" asp-route-id="@Model.PositionId" class="account-inline-link">Quay lại vị trí →</a></div>
+    <div class="account-panel"><h2>Đơn ứng tuyển của bạn</h2>
+        @if (Model.BlockReason is not null) { <div class="portal-notice" role="status">@Model.BlockReason</div> }
+        @if (Model.ExistingApplicationId.HasValue) { <a asp-action="Details" asp-route-id="@Model.ExistingApplicationId" class="account-inline-link">Xem đơn đã gửi →</a> }
+        <div class="application-cv-summary"><strong>CV gửi kèm</strong><p>@(Model.HasCv ? "Bản CV hiện tại trong hồ sơ sẽ được gửi cùng đơn." : "Hồ sơ của bạn chưa có CV hợp lệ.")</p>@if (Model.HasCv) { <a asp-controller="Profile" asp-action="DownloadCv">Kiểm tra CV ↓</a> }<a asp-controller="Profile" asp-action="Index">Cập nhật hồ sơ ↗</a></div>
+        <form asp-action="Create" method="post">
+            <input asp-for="PositionId" type="hidden" />
+            <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+            <div class="field"><label asp-for="CoverLetter"></label><textarea asp-for="CoverLetter" rows="6" maxlength="1990" placeholder="Chia sẻ điều bạn muốn học hỏi và lý do phù hợp với vị trí này."></textarea><span asp-validation-for="CoverLetter"></span></div>
+            <p class="account-footnote">Mỗi vị trí chỉ gửi một lần. CV trong đơn đã gửi được giữ nguyên khi bạn thay CV hồ sơ.</p>
+            @if (Model.CanSubmit) { <button class="account-submit" type="submit">Gửi đơn ứng tuyển <span aria-hidden="true">↗</span></button> }
+        </form>
+    </div>
+</section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
