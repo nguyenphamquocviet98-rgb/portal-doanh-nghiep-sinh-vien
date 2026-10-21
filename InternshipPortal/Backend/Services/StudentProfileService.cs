@@ -33,7 +33,7 @@ public class StudentProfileService(ApplicationDbContext db, PdfUploadService fil
         {
             FullName = student.User.FullName, StudentCode = student.StudentCode, ClassName = student.ClassName,
             PhoneNumber = student.User.PhoneNumber, FacultyId = student.Major.FacultyId, MajorId = student.MajorId,
-            Skills = student.Skills, Bio = student.Bio, Email = student.User.Email ?? ""
+            Gpa = student.Gpa, Skills = student.Skills, Bio = student.Bio, Email = student.User.Email ?? ""
         };
         await PopulateOptionsAsync(model, cancellationToken);
         return model;
@@ -62,6 +62,7 @@ public class StudentProfileService(ApplicationDbContext db, PdfUploadService fil
             student.StudentCode = code;
             student.ClassName = model.ClassName.Trim();
             student.MajorId = model.MajorId;
+            student.Gpa = model.Gpa;
             student.Skills = model.Skills?.Trim();
             student.Bio = model.Bio?.Trim();
             student.User.FullName = model.FullName.Trim();

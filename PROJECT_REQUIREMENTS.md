@@ -368,6 +368,7 @@ Sinh viên nhập:
 - Email.
 - Khoa.
 - Ngành.
+- Điểm GPA (thang điểm 4, giá trị hợp lệ từ 0.00 đến 4.00).
 - Thông tin cơ bản.
 
 Doanh nghiệp tự đăng ký nhưng trạng thái ban đầu là:

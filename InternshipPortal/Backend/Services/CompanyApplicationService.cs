@@ -61,7 +61,8 @@ public class CompanyApplicationService(ApplicationDbContext db, PdfUploadService
             Id = application.Id, PositionId = application.InternshipPositionId, PositionTitle = application.InternshipPosition.Title,
             FullName = student.User.FullName, StudentCode = student.StudentCode, Email = student.User.Email ?? "",
             PhoneNumber = student.User.PhoneNumber, ClassName = student.ClassName,
-            MajorName = student.Major.Name, FacultyName = student.Major.Faculty.Name, Skills = student.Skills, Bio = student.Bio,
+            MajorName = student.Major.Name, FacultyName = student.Major.Faculty.Name, Gpa = student.Gpa,
+            Skills = student.Skills, Bio = student.Bio,
             CoverLetter = application.CoverLetter, Note = application.Note, Status = application.Status,
             CreatedAt = application.CreatedAt, HasCv = files.ResolvePrivatePath(application.CvPath) is not null
         };

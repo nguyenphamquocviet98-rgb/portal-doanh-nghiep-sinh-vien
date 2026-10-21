@@ -112,6 +112,8 @@ public static class SeedData
                 "Dương Hải Đăng", "Lý Khánh An", "Mai Phương Thảo", "Huỳnh Nhật Minh", "Phan Bảo Ngọc",
                 "Cao Quỳnh Như", "Tạ Đức Thành", "Đinh Hồng Nhung", "Vũ Anh Khoa", "Trương Mỹ Duyên" };
             var students = new List<Student>();
+            var sampleGpas = new decimal[] { 3.45m, 3.60m, 3.20m, 2.85m, 3.75m, 3.10m, 3.90m, 3.30m, 2.95m, 3.50m,
+                3.40m, 3.65m, 3.15m, 3.80m, 2.90m, 3.55m, 3.25m, 3.70m, 3.05m, 3.60m };
             for (var i = 0; i < studentNames.Length; i++)
             {
                 var email = i == 0 ? "student@demo.edu.vn" : $"student{i + 1:00}@demo.edu.vn";
@@ -119,7 +121,8 @@ public static class SeedData
                 students.Add(new Student
                 {
                     UserId = user.Id, StudentCode = $"DEMO{i + 1:000}", MajorId = majors[i % majors.Length].Id,
-                    ClassName = $"DH{20 + i % 3}", Skills = "Làm việc nhóm, tin học văn phòng",
+                    ClassName = $"DH{20 + i % 3}", Gpa = sampleGpas[i % sampleGpas.Length],
+                    Skills = "Làm việc nhóm, tin học văn phòng",
                     Bio = "Sinh viên giả lập dùng để kiểm tra nghiệp vụ.",
                     CvPath = CreateDemoPdf(environment, $"Demo CV - Student {i + 1:00}", createdFiles)
                 });

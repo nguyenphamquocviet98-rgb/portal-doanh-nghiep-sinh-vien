@@ -32,6 +32,7 @@ public class CompanyApplicationDetailsViewModel
     public string ClassName { get; set; } = "";
     public string MajorName { get; set; } = "";
     public string FacultyName { get; set; } = "";
+    public decimal? Gpa { get; set; }
     public string? Skills { get; set; }
     public string? Bio { get; set; }
     public string? CoverLetter { get; set; }

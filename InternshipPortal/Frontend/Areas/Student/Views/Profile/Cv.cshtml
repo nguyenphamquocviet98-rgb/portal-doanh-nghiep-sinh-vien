@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Soạn CV";
     var initials = string.Concat(Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).TakeLast(2).Select(x => x[0]));
-    var education = $"{Model.FacultyName}\n{Model.MajorName}\nLớp: {Model.ClassName} · MSSV: {Model.StudentCode}";
+    var education = $"{Model.FacultyName}\n{Model.MajorName}\nLớp: {Model.ClassName} · MSSV: {Model.StudentCode}" + (Model.Gpa.HasValue ? $"\nGPA: {Model.Gpa.Value:0.00} / 4.0" : "");
     var skills = (Model.Skills ?? "").Replace(", ", "\n").Replace(",", "\n");
 }
 @section Styles { <link rel="stylesheet" href="~/css/cv-template.css" asp-append-version="true" /> }

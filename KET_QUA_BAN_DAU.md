@@ -109,8 +109,8 @@ Trong hồ sơ thực tập có liên kết tới nhật ký, tài liệu và đ
 
 ## 7. Phần chưa hoàn thành
 
-- GPA: chưa chốt hỗ trợ thang 4, thang 10 hay cả hai; chưa thêm trường/thay quy tắc GPA.
-- Company: sửa hồ sơ, tạo/sửa/đóng vị trí, xử lý ứng viên, duyệt/từ chối, gán hướng dẫn, cập nhật thực tập và tạo đánh giá.
+- GPA: Đã chốt và hoàn thiện hỗ trợ thang 4 (0.00 – 4.00), kiểm tra hợp lệ Range, cập nhật hồ sơ, mẫu CV hai cột, màn hình duyệt ứng viên của Company và ràng buộc CK_Students_Gpa.
+- Company: sửa hồ sơ, tạo/sửa/đóng vị trí, xử lý ứng viên, duyệt/từ chối, gán hướng dẫn, cập nhật thực tập và tạo đánh giá (đã hoàn thành).
 - Admin: duyệt doanh nghiệp, quản lý khoa/ngành/đợt, tài khoản và giám sát toàn hệ thống.
 - Luồng duyệt tạo Internship/hủy các đơn còn lại/thông báo đầy đủ theo nghiệp vụ chung.
 - Danh sách thông báo, đánh dấu đã đọc, nhắc hạn và gửi thông báo.

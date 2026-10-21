@@ -19,6 +19,8 @@ public class EditStudentProfileViewModel
     [Display(Name = "Khoa")] public int FacultyId { get; set; }
     [Range(1, int.MaxValue, ErrorMessage = "Vui lòng chọn ngành.")]
     [Display(Name = "Ngành")] public int MajorId { get; set; }
+    [Range(0.0, 4.0, ErrorMessage = "Điểm GPA hệ 4 phải từ 0.00 đến 4.00.")]
+    [Display(Name = "Điểm GPA (hệ 4)")] public decimal? Gpa { get; set; }
     [StringLength(990, ErrorMessage = "Kỹ năng không quá 990 ký tự.")]
     [Display(Name = "Kỹ năng")] public string? Skills { get; set; }
     [StringLength(1990, ErrorMessage = "Giới thiệu không quá 1990 ký tự.")]

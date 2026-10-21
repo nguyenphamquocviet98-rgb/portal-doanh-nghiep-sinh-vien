@@ -36,6 +36,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         builder.Entity<Student>().HasOne(x => x.User).WithOne().HasForeignKey<Student>(x => x.UserId);
         builder.Entity<Student>().HasOne(x => x.Major).WithMany().HasForeignKey(x => x.MajorId);
         builder.Entity<Student>().Property(x => x.Gpa).HasPrecision(4, 2);
+        builder.Entity<Student>().ToTable(t => t.HasCheckConstraint("CK_Students_Gpa", "[Gpa] IS NULL OR ([Gpa] >= 0 AND [Gpa] <= 4.00)"));
         builder.Entity<Company>().HasOne(x => x.User).WithOne().HasForeignKey<Company>(x => x.UserId);
         builder.Entity<Company>().ToTable(t => t.HasCheckConstraint("CK_Companies_ApprovalStatus", "[ApprovalStatus] IN (0,1,2)"));
 

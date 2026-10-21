@@ -36,6 +36,7 @@
             <dt>Mã sinh viên</dt><dd>@Model.StudentCode</dd><dt>Email</dt><dd class="text-break">@Model.Email</dd>
             <dt>Điện thoại</dt><dd>@(Model.PhoneNumber ?? "Chưa cập nhật")</dd><dt>Lớp</dt><dd>@Model.ClassName</dd>
             <dt>Khoa / Ngành</dt><dd>@Model.FacultyName / @Model.MajorName</dd>
+            <dt>Điểm GPA (hệ 4)</dt><dd>@(Model.Gpa.HasValue ? Model.Gpa.Value.ToString("0.00") + " / 4.0" : "Chưa cập nhật")</dd>
             <dt>Kỹ năng</dt><dd class="text-break" style="white-space: pre-line">@(Model.Skills ?? "Chưa cập nhật")</dd>
             <dt>Giới thiệu</dt><dd class="text-break" style="white-space: pre-line">@(Model.Bio ?? "Chưa cập nhật")</dd>
             <dt>Lời giới thiệu trong đơn</dt><dd class="text-break" style="white-space: pre-line">@(Model.CoverLetter ?? "Không có")</dd>
