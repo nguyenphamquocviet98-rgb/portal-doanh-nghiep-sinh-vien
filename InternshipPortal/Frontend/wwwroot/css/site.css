@@ -628,6 +628,13 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    object-fit: contain;
+}
+
 .brand-crest {
     width: 44px;
     height: 44px;
@@ -655,17 +662,18 @@ h1, h2, h3, h4, h5, h6 {
 .brand-title {
     font-size: 17px;
     font-weight: 800;
-    color: var(--primary-900);
-    letter-spacing: -0.02em;
+    color: #006450;
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: 0.015em;
     line-height: 1.2;
 }
 
 .brand-subtitle {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--primary-600);
+    letter-spacing: 0.035em;
+    color: #008f73;
     line-height: 1.2;
     margin-top: 1px;
 }
@@ -4005,7 +4013,7 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-page {
     padding: 26px 0 44px;
-    color: #273444;
+    color: #263746;
 }
 
 .portal-period {
@@ -4014,34 +4022,41 @@ table tbody tr:hover, .table tbody tr:hover {
     justify-content: space-between;
     gap: 28px;
     padding: 26px 30px;
-    background: #fff;
-    border: 1px solid #d9e0e6;
-    border-left: 4px solid #0f5f54;
+    background: #16324f;
+    border: 1px solid #16324f;
+    border-left: 4px solid #d65745;
 }
 
 .portal-overline {
     margin: 0 0 7px;
-    color: #5b6876;
+    color: #b83f34;
     font-size: .82rem;
     font-weight: 700;
+}
+
+.portal-period .portal-overline {
+    color: #ffb0a5;
+    font-weight: 800;
+    letter-spacing: .01em;
 }
 
 .portal-period h1,
 .portal-search h2,
 .portal-panel h2 {
     margin: 0;
-    color: #17324d;
+    color: #18344a;
     font-weight: 700;
 }
 
 .portal-period h1 {
+    color: #fff;
     font-size: clamp(1.35rem, 2.1vw, 1.8rem);
     letter-spacing: -.015em;
 }
 
 .portal-period__time {
     margin: 7px 0 0;
-    color: #5b6876;
+    color: #d4e0ea;
     font-size: .94rem;
 }
 
@@ -4053,7 +4068,7 @@ table tbody tr:hover, .table tbody tr:hover {
 }
 
 .portal-status {
-    color: #087b52;
+    color: #fff;
     font-size: .88rem;
     font-weight: 700;
 }
@@ -4065,7 +4080,7 @@ table tbody tr:hover, .table tbody tr:hover {
     height: 8px;
     margin-right: 7px;
     border-radius: 50%;
-    background: #16a36c;
+    background: #d65745;
 }
 
 .portal-button,
@@ -4075,9 +4090,9 @@ table tbody tr:hover, .table tbody tr:hover {
     justify-content: center;
     min-height: 40px;
     padding: 0 17px;
-    border: 1px solid #0f5f54;
+    border: 1px solid #d65745;
     border-radius: 3px;
-    background: #0f5f54;
+    background: #d65745;
     color: #fff;
     font-size: .9rem;
     font-weight: 700;
@@ -4088,7 +4103,7 @@ table tbody tr:hover, .table tbody tr:hover {
 .portal-button:focus-visible,
 .portal-search button:hover,
 .portal-search button:focus-visible {
-    background: #0b4b42;
+    background: #b83f34;
     color: #fff;
 }
 
@@ -4096,7 +4111,7 @@ table tbody tr:hover, .table tbody tr:hover {
     margin-top: 18px;
     padding: 20px 24px 22px;
     background: #fff;
-    border: 1px solid #d9e0e6;
+    border: 1px solid #d6e0e8;
 }
 
 .portal-search h2 {
@@ -4115,17 +4130,17 @@ table tbody tr:hover, .table tbody tr:hover {
     width: 100%;
     min-height: 40px;
     padding: 0 11px;
-    border: 1px solid #bfcbd4;
+    border: 1px solid #bdcbd6;
     border-radius: 2px;
     background: #fff;
-    color: #273444;
+    color: #263746;
     font-size: .92rem;
 }
 
 .portal-search input:focus,
 .portal-search select:focus {
-    outline: 2px solid rgba(15, 95, 84, .22);
-    border-color: #0f5f54;
+    outline: 2px solid rgba(214, 87, 69, .18);
+    border-color: #d65745;
 }
 
 .portal-grid {
@@ -4137,7 +4152,7 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-panel {
     background: #fff;
-    border: 1px solid #d9e0e6;
+    border: 1px solid #d6e0e8;
 }
 
 .portal-panel__heading {
@@ -4146,7 +4161,7 @@ table tbody tr:hover, .table tbody tr:hover {
     justify-content: space-between;
     gap: 14px;
     padding: 18px 20px;
-    border-bottom: 1px solid #e5eaee;
+    border-bottom: 1px solid #e5edf2;
 }
 
 .portal-panel__heading h2 {
@@ -4155,13 +4170,13 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-panel__heading p {
     margin: 4px 0 0;
-    color: #667481;
+    color: #66788a;
     font-size: .86rem;
 }
 
 .portal-panel__heading > a,
 .portal-text-link {
-    color: #0f5f54;
+    color: #c2493c;
     font-size: .88rem;
     font-weight: 700;
     text-decoration: underline;
@@ -4181,8 +4196,8 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-table th {
     padding: 11px 20px;
-    background: #f4f7f8;
-    color: #52606d;
+    background: #eef3f7;
+    color: #52687a;
     font-size: .78rem;
     font-weight: 700;
     text-align: left;
@@ -4190,28 +4205,28 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-table td {
     padding: 15px 20px;
-    border-top: 1px solid #e5eaee;
+    border-top: 1px solid #e5edf2;
     vertical-align: middle;
 }
 
 .portal-table tbody tr:hover {
-    background: #f5faf8;
+    background: #f3f7fa;
 }
 
 .portal-position-title {
     display: block;
     max-width: 290px;
-    color: #17324d;
+    color: #18344a;
     font-weight: 700;
     text-decoration: none;
 }
 
-.portal-position-title:hover { color: #0f5f54; }
+.portal-position-title:hover { color: #c2493c; }
 
 .portal-subtext {
     display: block;
     margin-top: 4px;
-    color: #697783;
+    color: #718293;
     font-size: .81rem;
 }
 
@@ -4229,7 +4244,7 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-notices li {
     padding: 15px 20px;
-    border-top: 1px solid #e5eaee;
+    border-top: 1px solid #e5edf2;
 }
 
 .portal-notices strong,
@@ -4237,8 +4252,8 @@ table tbody tr:hover, .table tbody tr:hover {
     display: block;
 }
 
-.portal-notices strong { color: #17324d; font-size: .9rem; }
-.portal-notices span { margin-top: 4px; color: #667481; font-size: .84rem; line-height: 1.45; }
+.portal-notices strong { color: #18344a; font-size: .9rem; }
+.portal-notices span { margin-top: 4px; color: #66788a; font-size: .84rem; line-height: 1.45; }
 
 .portal-guide ol {
     margin: 0;
@@ -4247,7 +4262,7 @@ table tbody tr:hover, .table tbody tr:hover {
 
 .portal-guide li {
     padding: 10px 0 10px 3px;
-    border-bottom: 1px solid #e5eaee;
+    border-bottom: 1px solid #e5edf2;
     font-size: .88rem;
     line-height: 1.45;
 }
@@ -4267,18 +4282,18 @@ table tbody tr:hover, .table tbody tr:hover {
     align-items: center;
     min-width: 0;
     padding: 16px 20px;
-    border-right: 1px solid #e5eaee;
-    color: #273444;
+    border-right: 1px solid #e5edf2;
+    color: #263746;
     text-decoration: none;
 }
 
 .portal-company:last-child { border-right: 0; }
-.portal-company:hover { background: #f5faf8; color: #17324d; }
+.portal-company:hover { background: #f3f7fa; color: #18344a; }
 .portal-company img { width: 38px; height: 38px; flex: 0 0 auto; object-fit: contain; }
 .portal-company span { min-width: 0; }
 .portal-company strong, .portal-company small { display: block; }
 .portal-company strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .9rem; }
-.portal-company small { margin-top: 3px; overflow: hidden; color: #697783; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.portal-company small { margin-top: 3px; overflow: hidden; color: #718293; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
 
 @media (max-width: 991.98px) {
     .portal-grid { grid-template-columns: 1fr; }
@@ -5854,6 +5869,817 @@ a.badge.rounded-pill:hover {
 @media (max-width: 575.98px) {
     .admin-dashboard__placement-numbers { align-items: flex-start; flex-direction: column; gap: 5px; }
     .admin-dashboard__major-row { grid-template-columns: minmax(86px, 112px) minmax(70px, 1fr) 22px; gap: 8px; }
+}
+
+/* Student workspace: navy and vermilion accents. */
+.student-sidebar {
+    border-color: #cfdce6;
+}
+
+.student-sidebar__header {
+    border-bottom-color: #e2eaf0;
+}
+
+.student-sidebar__header span {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.student-sidebar__header strong,
+.student-sidebar nav a:hover {
+    color: #16324f;
+}
+
+.student-sidebar nav a:hover {
+    background: #f3f7fa;
+}
+
+.student-sidebar nav a.is-current {
+    border-left-color: #d65745;
+    background: #fff1ef;
+    color: #b83f34;
+}
+
+.student-sidebar__footer {
+    border-top-color: #e2eaf0;
+}
+
+.student-sidebar__footer a {
+    color: #b83f34;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home {
+    border: 1px solid #d6e0e8 !important;
+    border-left: 4px solid #16324f !important;
+    box-shadow: 0 8px 20px rgba(22, 50, 79, .08) !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home .badge {
+    border-color: #d6e0e8 !important;
+    background: #f3f7fa !important;
+    color: #52687a !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home .text-success {
+    color: #c2493c !important;
+}
+
+.student-sidebar + .portal-workspace__content .user-role-student {
+    border-color: #f0c6c0;
+    background: #fff1ef;
+    color: #b83f34;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .transition-card {
+    border: 1px solid #d6e0e8 !important;
+    border-radius: 10px !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .transition-card:hover {
+    border-color: #d65745 !important;
+    box-shadow: 0 14px 28px -10px rgba(22, 50, 79, .22) !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row h3 {
+    color: #16324f !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .text-primary {
+    color: #c2493c !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .portal-icon-badge {
+    background-color: #eaf0f5 !important;
+    color: #16324f !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .col-lg-3:nth-child(2) .portal-icon-badge {
+    background-color: #fff1ef !important;
+    color: #c2493c !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .col-lg-3:nth-child(3) .portal-icon-badge {
+    background-color: #fff4dc !important;
+    color: #a56812 !important;
+}
+
+.student-sidebar + .portal-workspace__content .portal-home + .row .col-lg-3:nth-child(4) .portal-icon-badge {
+    background-color: #e8f1f8 !important;
+    color: #2b6b9c !important;
+}
+
+.student-dashboard__opportunities {
+    border-color: #d6e0e8 !important;
+}
+
+.student-dashboard__opportunities h4 {
+    color: #16324f;
+}
+
+.student-dashboard__opportunities .action-link {
+    background: #16324f;
+    border-radius: 7px;
+    box-shadow: 0 5px 14px rgba(22, 50, 79, .22);
+}
+
+.student-dashboard__opportunities .action-link:hover {
+    background: #102635;
+    box-shadow: 0 7px 18px rgba(22, 50, 79, .28);
+}
+
+@media (max-width: 991.98px) {
+    .student-sidebar nav a.is-current {
+        border-bottom-color: #d65745;
+    }
+}
+
+/* Student application history: information-first, easy to scan. */
+.portal-workspace__content .applications-page {
+    padding: 0 0 44px;
+}
+
+.applications-page__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom-color: #d6e0e8;
+}
+
+.applications-page__heading .section-index {
+    color: #b83f34;
+}
+
+.applications-page__heading h1 {
+    color: #16324f;
+}
+
+.applications-page__heading .action-link {
+    flex: 0 0 auto;
+    border-radius: 7px;
+    background: #16324f;
+    box-shadow: 0 5px 14px rgba(22, 50, 79, .2);
+}
+
+.applications-page__heading .action-link:hover {
+    background: #102635;
+    box-shadow: 0 7px 18px rgba(22, 50, 79, .28);
+}
+
+.applications-page__filter {
+    display: grid;
+    grid-template-columns: minmax(220px, 360px) auto auto;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 0;
+    padding: 16px 18px;
+    border-color: #d6e0e8;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.applications-page__filter .field {
+    min-width: 0;
+}
+
+.applications-page__filter label {
+    color: #52687a;
+}
+
+.applications-page__filter select {
+    border-color: #bdcbd6;
+}
+
+.applications-page__filter .account-submit {
+    border-radius: 6px;
+    background: #c2493c;
+}
+
+.applications-page__filter .account-submit:hover {
+    background: #a93930;
+}
+
+.applications-page__filter a,
+.applications-page__filter a:hover {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.applications-page__results {
+    margin: 22px 0 12px;
+    padding: 0 0 12px;
+    border-bottom-color: #d6e0e8;
+}
+
+.applications-page__results strong {
+    color: #16324f;
+}
+
+.applications-page__results > span:last-child {
+    color: #718293;
+    font-size: .82rem;
+}
+
+.applications-page__list {
+    display: grid;
+    gap: 10px;
+    border: 0;
+}
+
+.applications-page__list .position-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    padding: 17px 20px;
+    border: 1px solid #d6e0e8;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.applications-page__list .position-row:hover {
+    border-color: #c9d7e2;
+    background: #f7fafc;
+}
+
+.applications-page__list .position-company {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.applications-page__list .position-row h2 {
+    margin: 2px 0 8px;
+}
+
+.applications-page__list .position-row h2 a {
+    color: #16324f;
+}
+
+.applications-page__list .position-row h2 a:hover {
+    color: #c2493c;
+}
+
+.applications-page__list .position-meta span {
+    background: #eef3f7;
+    color: #5c7182;
+}
+
+.applications-page__list .position-row-side {
+    min-width: 130px;
+    gap: 9px;
+    padding-left: 20px;
+    border-left-color: #e1e9ef;
+}
+
+.applications-page__list .position-detail-link {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.applications-page .catalog-pagination a {
+    border-radius: 6px;
+    color: #16324f;
+}
+
+@media (max-width: 767.98px) {
+    .applications-page__heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .applications-page__filter {
+        grid-template-columns: 1fr;
+    }
+
+    .applications-page__filter .account-submit,
+    .applications-page__filter a {
+        width: 100%;
+    }
+
+    .applications-page__filter a {
+        justify-content: center;
+    }
+
+    .applications-page__results {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .applications-page__list .position-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .applications-page__list .position-row-side {
+        width: 100%;
+        align-items: flex-start;
+        padding: 13px 0 0;
+        border-top: 1px solid #e1e9ef;
+        border-left: 0;
+    }
+}
+
+/* Student internship timeline: concise cards with clear progress states. */
+.portal-workspace__content .student-internships-page {
+    padding: 0 0 44px;
+}
+
+.student-internships-page__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom-color: #d6e0e8;
+}
+
+.student-internships-page__heading .section-index {
+    color: #b83f34;
+}
+
+.student-internships-page__heading h1 {
+    color: #16324f;
+}
+
+.student-internships-page__heading .action-link {
+    flex: 0 0 auto;
+    border-radius: 7px;
+    background: #16324f;
+    box-shadow: 0 5px 14px rgba(22, 50, 79, .2);
+}
+
+.student-internships-page__heading .action-link:hover {
+    background: #102635;
+    box-shadow: 0 7px 18px rgba(22, 50, 79, .28);
+}
+
+.student-internships-page__list {
+    display: grid;
+    gap: 10px;
+    border: 0;
+}
+
+.student-internships-page__list .position-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    padding: 17px 20px;
+    border: 1px solid #d6e0e8;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.student-internships-page__list .position-row:hover {
+    border-color: #c9d7e2;
+    background: #f7fafc;
+}
+
+.student-internships-page__list .position-company {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.student-internships-page__list .position-row h2 {
+    margin: 2px 0 8px;
+}
+
+.student-internships-page__list .position-row h2 a {
+    color: #16324f;
+}
+
+.student-internships-page__list .position-row h2 a:hover {
+    color: #c2493c;
+}
+
+.student-internships-page__list .position-meta span {
+    background: #eef3f7;
+    color: #5c7182;
+}
+
+.student-internships-page__list .position-row-side {
+    min-width: 142px;
+    gap: 9px;
+    padding-left: 20px;
+    border-left-color: #e1e9ef;
+}
+
+.student-internships-page__list .position-detail-link {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.student-internships-page .status-notstarted {
+    border: 1px solid #d6e0e8;
+    background: #f3f7fa;
+    color: #52687a;
+}
+
+@media (max-width: 767.98px) {
+    .student-internships-page__heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .student-internships-page__list .position-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .student-internships-page__list .position-row-side {
+        width: 100%;
+        align-items: flex-start;
+        padding: 13px 0 0;
+        border-top: 1px solid #e1e9ef;
+        border-left: 0;
+    }
+}
+
+/* Public internship catalog: focused search and scannable position cards. */
+.internship-catalog__heading {
+    margin-bottom: 20px;
+    border-bottom-color: #d6e0e8;
+}
+
+.internship-catalog__heading .section-index {
+    color: #b83f34;
+}
+
+.internship-catalog__heading h1 {
+    color: #16324f;
+}
+
+.internship-catalog__filter {
+    padding: 20px;
+    border-color: #d6e0e8;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(22, 50, 79, .06);
+}
+
+.internship-catalog__filter .catalog-search > label,
+.internship-catalog__filter .catalog-filter-options .field label {
+    color: #334e68;
+}
+
+.internship-catalog__filter .catalog-search input,
+.internship-catalog__filter .catalog-filter-options select {
+    border-color: #bdcbd6;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.internship-catalog__filter .catalog-search input:focus,
+.internship-catalog__filter .catalog-filter-options select:focus {
+    border-color: #c2493c;
+    box-shadow: 0 0 0 3px rgba(194, 73, 60, .14);
+}
+
+.internship-catalog__filter .catalog-search .action-link {
+    border-radius: 7px;
+    background: #16324f;
+    box-shadow: 0 5px 14px rgba(22, 50, 79, .2);
+}
+
+.internship-catalog__filter .catalog-search .action-link:hover {
+    background: #102635;
+}
+
+.internship-catalog__filter .catalog-filter-options {
+    gap: 12px;
+    padding-top: 16px;
+    border-top-color: #e1e9ef;
+}
+
+.internship-catalog__results {
+    margin: 22px 0 12px;
+    padding: 0 0 12px;
+    border-bottom-color: #d6e0e8;
+}
+
+.internship-catalog__results strong {
+    color: #16324f;
+}
+
+.internship-catalog__results > a {
+    color: #b83f34;
+}
+
+.internship-catalog .position-list {
+    display: grid;
+    gap: 10px;
+    border: 0;
+}
+
+.internship-catalog .position-row,
+.internship-catalog .position-row:has(.position-row-logo) {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border: 1px solid #d6e0e8;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.internship-catalog .position-row:hover {
+    border-color: #c9d7e2;
+    background: #f7fafc;
+}
+
+.internship-catalog .position-row-logo {
+    border-color: #d6e0e8;
+    border-radius: 6px;
+    background: #f7fafc;
+}
+
+.internship-catalog .position-company {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.internship-catalog .position-row h2 {
+    margin: 2px 0 8px;
+}
+
+.internship-catalog .position-row h2 a {
+    color: #16324f;
+}
+
+.internship-catalog .position-row h2 a:hover {
+    color: #c2493c;
+}
+
+.internship-catalog .position-meta span {
+    background: #eef3f7;
+    color: #5c7182;
+}
+
+.internship-catalog .position-row-side {
+    min-width: 146px;
+    gap: 8px;
+    padding-left: 18px;
+    border-left-color: #e1e9ef;
+}
+
+.internship-catalog .position-deadline {
+    color: #52687a;
+}
+
+.internship-catalog .position-places {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: .76rem;
+}
+
+.internship-catalog .position-places.status-approved {
+    border: 1px solid #b9e4ce;
+    background: #eaf8f0;
+    color: #147a52;
+}
+
+.internship-catalog .position-places.status-rejected {
+    border: 1px solid #f0c6c0;
+    background: #fff1ef;
+    color: #b83f34;
+}
+
+.internship-catalog .position-detail-link {
+    color: #b83f34;
+    font-weight: 700;
+}
+
+.internship-catalog .catalog-pagination a {
+    border-radius: 6px;
+    color: #16324f;
+}
+
+@media (max-width: 767.98px) {
+    .internship-catalog .position-row,
+    .internship-catalog .position-row:has(.position-row-logo) {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .internship-catalog .position-row-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .internship-catalog .position-row-side {
+        grid-column: 1 / -1;
+        width: 100%;
+        align-items: flex-start;
+        padding: 12px 0 0;
+        border-top: 1px solid #e1e9ef;
+        border-left: 0;
+    }
+}
+
+/* Public position details: highlight the decision information and application path. */
+.internship-detail__back {
+    margin-bottom: 14px;
+    color: #b83f34;
+}
+
+.internship-detail__heading {
+    margin-bottom: 22px;
+    padding: 24px;
+    border: 1px solid #d6e0e8;
+    border-left: 4px solid #16324f;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(22, 50, 79, .06);
+}
+
+.internship-detail__heading .position-reference {
+    color: #52687a;
+}
+
+.internship-detail__heading .position-capacity {
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: .78rem;
+}
+
+.internship-detail__heading .position-capacity.status-approved {
+    border: 1px solid #b9e4ce;
+    background: #eaf8f0;
+    color: #147a52;
+}
+
+.internship-detail__heading .position-capacity.status-rejected {
+    border: 1px solid #f0c6c0;
+    background: #fff1ef;
+    color: #b83f34;
+}
+
+.internship-detail__heading h1 {
+    margin: 15px 0 9px;
+    color: #16324f;
+    font-size: clamp(1.75rem, 3vw, 2.3rem);
+}
+
+.internship-detail__company {
+    color: #b83f34;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.internship-detail__company:hover {
+    color: #a93930;
+}
+
+.internship-detail__meta {
+    gap: 8px;
+}
+
+.internship-detail__meta span {
+    padding: 5px 9px;
+    border-radius: 5px;
+    background: #eef3f7;
+    color: #52687a;
+}
+
+.internship-detail .position-detail-columns {
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, .72fr);
+    gap: 20px;
+}
+
+.internship-detail__panel {
+    padding: 21px !important;
+    border: 1px solid #d6e0e8 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.internship-detail__panel h2 {
+    color: #16324f !important;
+    font-size: 1.06rem !important;
+}
+
+.internship-detail__panel .text-body {
+    color: #334e68 !important;
+    line-height: 1.75 !important;
+}
+
+.internship-detail__facts {
+    padding: 20px;
+    border-color: #d6e0e8 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 20px rgba(22, 50, 79, .06) !important;
+}
+
+.internship-detail__facts h2 {
+    color: #16324f !important;
+    border-bottom-color: #e1e9ef;
+}
+
+.internship-detail__facts dl > div {
+    border-bottom-color: #e1e9ef;
+}
+
+.internship-detail__facts dt {
+    color: #718293;
+}
+
+.internship-detail__facts dd {
+    color: #263746;
+}
+
+.internship-detail__facts dd.text-danger {
+    color: #b83f34 !important;
+}
+
+.internship-detail__apply {
+    border-radius: 7px !important;
+    background: #c2493c;
+    box-shadow: 0 5px 14px rgba(194, 73, 60, .2);
+}
+
+.internship-detail__apply:hover {
+    background: #a93930;
+    box-shadow: 0 7px 18px rgba(194, 73, 60, .26);
+}
+
+@media (max-width: 991.98px) {
+    .internship-detail .position-detail-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .internship-detail__facts {
+        position: static;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .internship-detail__heading {
+        padding: 18px;
+    }
+
+    .internship-detail__heading > div:first-child {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+}
+
+/* Keep all detail information in one continuous reading panel. */
+.internship-detail__content {
+    gap: 0 !important;
+    overflow: hidden;
+    border: 1px solid #d6e0e8;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(22, 50, 79, .06);
+}
+
+.internship-detail__content .position-description {
+    min-width: 0;
+}
+
+.internship-detail__content .internship-detail__panel {
+    margin: 0 !important;
+    padding: 22px 24px !important;
+    border: 0 !important;
+    border-bottom: 1px solid #e1e9ef !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+.internship-detail__content .internship-detail__panel:last-child {
+    border-bottom: 0 !important;
+}
+
+.internship-detail__content .internship-detail__facts {
+    align-self: stretch;
+    margin: 0;
+    padding: 22px;
+    border: 0 !important;
+    border-left: 1px solid #e1e9ef !important;
+    border-radius: 0 !important;
+    background: #fbfdff;
+    box-shadow: none !important;
+}
+
+@media (max-width: 991.98px) {
+    .internship-detail__content .internship-detail__facts {
+        border-top: 1px solid #e1e9ef !important;
+        border-left: 0 !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .internship-detail__content .internship-detail__panel,
+    .internship-detail__content .internship-detail__facts {
+        padding: 18px !important;
+    }
 }
 
 

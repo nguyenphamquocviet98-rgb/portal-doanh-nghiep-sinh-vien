@@ -74,7 +74,7 @@ public class DashboardController(UserManager<ApplicationUser> users, Application
         {
             FullName = user.FullName,
             RoleName = "Nhà trường",
-            Heading = "Bàn làm việc Quản trị",
+            Heading = "Bàn làm việc Quản trị,",
             Detail = "Giám sát số liệu, đợt thực tập và hoạt động kết nối doanh nghiệp.",
             
             TotalStudents = totalStudents,

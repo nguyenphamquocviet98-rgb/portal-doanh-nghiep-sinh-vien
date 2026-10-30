@@ -4,15 +4,16 @@
     ViewData["Title"] = "Vị trí thực tập"; 
 }
 
-<section class="catalog-page">
-    <header class="catalog-heading">
+<section class="catalog-page internship-catalog">
+    <header class="catalog-heading internship-catalog__heading">
         <div>
-            <h1>Danh sách vị trí thực tập</h1>
-            <p>Tra cứu các cơ hội thực tập do doanh nghiệp đối tác đăng tuyển.</p>
+            <span class="section-index">KHÁM PHÁ CƠ HỘI THỰC TẬP</span>
+            <h1>Vị trí thực tập</h1>
+            <p>Tìm vị trí phù hợp theo chuyên ngành, địa điểm và doanh nghiệp tiếp nhận.</p>
         </div>
     </header>
 
-    <form asp-action="Index" method="get" class="catalog-filter" role="search">
+    <form asp-action="Index" method="get" class="catalog-filter internship-catalog__filter" role="search">
         <div asp-validation-summary="All" class="validation-summary"></div>
         <div class="catalog-search">
             <label for="Keyword">Bạn muốn tìm kiếm vị trí thực tập nào?</label>
@@ -53,7 +54,7 @@
         </div>
     </form>
 
-    <div class="catalog-results-heading">
+    <div class="catalog-results-heading internship-catalog__results">
         <span data-total-count="@Model.TotalCount">
             Tìm thấy <strong>@Model.TotalCount</strong> vị trí tuyển dụng phù hợp
         </span>

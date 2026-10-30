@@ -8,8 +8,16 @@
 @section Styles { <link rel="stylesheet" href="~/css/cv-template.css" asp-append-version="true" /> }
 <section class="cv-builder">
     <div class="cv-toolbar">
-        <div><span class="section-index">HỒ SƠ / SOẠN CV</span><h1>Một bản CV.<br /><em>Đúng với bạn.</em></h1><p>Chỉnh nội dung, chọn ảnh, rồi lưu PDF và tải vào hồ sơ của bạn.</p></div>
-        <div class="cv-toolbar-actions"><a asp-action="Index">← Về hồ sơ</a><button type="button" id="cv-print" class="account-submit">In / Lưu PDF <span aria-hidden="true">↗</span></button></div>
+        <div>
+            <span class="section-index">HỒ SƠ / SOẠN CV</span>
+            <h1>Tạo CV trực tuyến</h1>
+            <p>Điền thông tin bên trái, xem trước bản CV theo thời gian thực và lưu bản PDF khi hoàn tất.</p>
+        </div>
+        <div class="cv-toolbar-actions">
+            <a class="cv-back-link" asp-action="Index">← Về hồ sơ</a>
+            <button type="button" id="cv-print" class="cv-print-button">In / Lưu PDF <span aria-hidden="true">↗</span></button>
+            <small>Nội dung đang soạn chỉ lưu trong trang này.</small>
+        </div>
     </div>
     <div class="cv-workspace">
         <aside class="cv-editor" aria-label="Chỉnh nội dung CV">

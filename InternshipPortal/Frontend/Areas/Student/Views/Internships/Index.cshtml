@@ -2,17 +2,37 @@
 @using InternshipPortal.Helpers
 @{ ViewData["Title"] = "Thực tập của tôi"; }
 <section class="student-internships-page">
-    <header class="catalog-heading"><div><span class="section-index">SINH VIÊN / HÀNH TRÌNH THỰC TẬP</span><h1>Từng tuần học hỏi.<br /><em>Từng bước trưởng thành.</em></h1></div></header>
+    <header class="catalog-heading student-internships-page__heading">
+        <div>
+            <span class="section-index">SINH VIÊN / QUÁ TRÌNH THỰC TẬP</span>
+            <h1>Quá trình thực tập</h1>
+            <p>Theo dõi mốc thời gian, nhật ký và kết quả của từng kỳ thực tập.</p>
+        </div>
+        <a asp-area="" asp-controller="Internships" asp-action="Index" class="action-link">Tìm vị trí mới ↗</a>
+    </header>
     @if (Model.Count == 0)
     {
         <div class="catalog-empty"><h2>Bạn chưa có hồ sơ thực tập.</h2><p>Hồ sơ sẽ được tạo khi doanh nghiệp tiếp nhận đơn ứng tuyển.</p><a asp-area="" asp-controller="Internships" asp-action="Index" class="account-inline-link">Tìm vị trí thực tập ↗</a></div>
     }
     else
     {
-        <div class="position-list">
+        <div class="position-list student-internships-page__list">
         @foreach (var internship in Model)
         {
-            <article class="position-row" data-internship-id="@internship.Id"><div class="position-row-main"><span class="position-company">@internship.CompanyName · @internship.PeriodName</span><h2><a asp-action="Details" asp-route-id="@internship.Id">@internship.PositionTitle</a></h2><div class="position-meta"><span>@internship.StartDate.VietnamDate() — @internship.EndDate.VietnamDate()</span><span>@internship.DiaryCount nhật ký</span></div></div><div class="position-row-side"><span class="application-status">@internship.Status.DisplayName()</span><a asp-action="Details" asp-route-id="@internship.Id" class="position-detail-link">Theo dõi thực tập ↗</a></div></article>
+            <article class="position-row" data-internship-id="@internship.Id">
+                <div class="position-row-main">
+                    <span class="position-company">@internship.CompanyName · @internship.PeriodName</span>
+                    <h2><a asp-action="Details" asp-route-id="@internship.Id">@internship.PositionTitle</a></h2>
+                    <div class="position-meta">
+                        <span>@internship.StartDate.VietnamDate() — @internship.EndDate.VietnamDate()</span>
+                        <span>@internship.DiaryCount nhật ký đã ghi</span>
+                    </div>
+                </div>
+                <div class="position-row-side">
+                    <span class="application-status status-@internship.Status.ToString().ToLowerInvariant()">@internship.Status.DisplayName()</span>
+                    <a asp-action="Details" asp-route-id="@internship.Id" class="position-detail-link">Xem tiến trình ↗</a>
+                </div>
+            </article>
         }
         </div>
     }

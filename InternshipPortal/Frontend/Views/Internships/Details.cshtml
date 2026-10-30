@@ -4,14 +4,14 @@
     ViewData["Title"] = Model.Title; 
 }
 
-<section class="position-details-page">
-    <a asp-action="Index" class="catalog-back">
+<section class="position-details-page internship-detail">
+    <a asp-action="Index" class="catalog-back internship-detail__back">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         <span>Quay lại danh sách vị trí</span>
     </a>
 
     <!-- Header Banner -->
-    <header class="position-detail-heading">
+    <header class="position-detail-heading internship-detail__heading">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <span class="position-reference">Mã vị trí: @Model.Code · Ngành: @Model.MajorName</span>
             <span class="position-capacity @(Model.AvailablePlaces > 0 ? "status-approved" : "status-rejected")">
@@ -22,14 +22,14 @@
         <h1>@Model.Title</h1>
         
         <div class="mb-3">
-            <a asp-controller="Companies" asp-action="Details" asp-route-id="@Model.CompanyId" class="d-inline-flex align-items-center gap-1 text-primary fw-bold fs-5">
+            <a asp-controller="Companies" asp-action="Details" asp-route-id="@Model.CompanyId" class="internship-detail__company d-inline-flex align-items-center gap-1">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line></svg>
                 <span>@Model.CompanyName</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </a>
         </div>
 
-        <div class="position-meta">
+        <div class="position-meta internship-detail__meta">
             <span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 @Model.Location
@@ -46,21 +46,21 @@
     </header>
 
     <!-- Two-column Detail Layout -->
-    <div class="position-detail-columns">
+    <div class="position-detail-columns internship-detail__content">
         <div class="position-description">
-            <section class="card border-0 shadow-sm p-4 rounded-4 bg-white mb-4">
+            <section class="card internship-detail__panel border-0 shadow-sm p-4 rounded-4 bg-white mb-4">
                 <h2 class="fs-5 fw-bold text-dark mb-3">Mô tả công việc</h2>
                 <div class="text-body lh-base" style="white-space: pre-line;">@Model.Description</div>
             </section>
             
-            <section class="card border-0 shadow-sm p-4 rounded-4 bg-white mb-4">
+            <section class="card internship-detail__panel border-0 shadow-sm p-4 rounded-4 bg-white mb-4">
                 <h2 class="fs-5 fw-bold text-dark mb-3">Yêu cầu ứng viên</h2>
                 <div class="text-body lh-base" style="white-space: pre-line;">@Model.Requirements</div>
             </section>
         </div>
 
         <!-- Right Side: Facts & Application CTA -->
-        <aside class="position-facts">
+        <aside class="position-facts internship-detail__facts">
             <h2>Thông tin tuyển dụng</h2>
             <dl>
                 <div>
@@ -88,7 +88,7 @@
             {
                 if (Model.AvailablePlaces > 0)
                 {
-                    <a asp-area="Student" asp-controller="Applications" asp-action="Create" asp-route-positionId="@Model.Id" class="action-link">
+                    <a asp-area="Student" asp-controller="Applications" asp-action="Create" asp-route-positionId="@Model.Id" class="action-link internship-detail__apply">
                         <span>Nộp đơn ứng tuyển ngay</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
@@ -107,7 +107,7 @@
             }
             else if (User.Identity?.IsAuthenticated != true)
             {
-                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Details", "Internships", new { id = Model.Id })" class="action-link">
+                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Details", "Internships", new { id = Model.Id })" class="action-link internship-detail__apply">
                     <span>Đăng nhập để ứng tuyển</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
                 </a>

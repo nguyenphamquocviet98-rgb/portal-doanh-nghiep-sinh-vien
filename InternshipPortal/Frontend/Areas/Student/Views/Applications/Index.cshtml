@@ -3,15 +3,33 @@
 @using InternshipPortal.Helpers
 @{ ViewData["Title"] = "Lịch sử ứng tuyển"; }
 <section class="applications-page">
-    <header class="catalog-heading"><div><span class="section-index">SINH VIÊN / ĐƠN CỦA TÔI</span><h1>Những cơ hội<br /><em>bạn đã chọn.</em></h1></div><a asp-area="" asp-controller="Internships" asp-action="Index" class="action-link">Tìm vị trí mới ↗</a></header>
+    <header class="catalog-heading applications-page__heading">
+        <div>
+            <span class="section-index">SINH VIÊN / ĐƠN ỨNG TUYỂN</span>
+            <h1>Đơn ứng tuyển</h1>
+            <p>Theo dõi trạng thái và xem lại thông tin từng đơn đã nộp.</p>
+        </div>
+        <a asp-area="" asp-controller="Internships" asp-action="Index" class="action-link">Tìm vị trí mới ↗</a>
+    </header>
     @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
     @if (TempData["ApplicationError"] is string error) { <div class="portal-notice" role="alert">@error</div> }
-    <form asp-action="Index" method="get" class="application-filter"><div asp-validation-summary="All" class="validation-summary"></div><div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"><option value="">Tất cả trạng thái</option></select></div><button class="account-submit" type="submit">Lọc đơn ↗</button><a asp-action="Index">Bỏ bộ lọc</a></form>
-    <div class="catalog-results-heading"><span data-application-count="@Model.TotalCount"><strong>@Model.TotalCount</strong> đơn ứng tuyển</span></div>
+    <form asp-action="Index" method="get" class="application-filter applications-page__filter">
+        <div asp-validation-summary="All" class="validation-summary"></div>
+        <div class="field">
+            <label asp-for="Status">Trạng thái đơn</label>
+            <select asp-for="Status" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"><option value="">Tất cả trạng thái</option></select>
+        </div>
+        <button class="account-submit" type="submit">Lọc đơn</button>
+        <a asp-action="Index">Xóa bộ lọc</a>
+    </form>
+    <div class="catalog-results-heading applications-page__results">
+        <span data-application-count="@Model.TotalCount"><strong>@Model.TotalCount</strong> đơn ứng tuyển</span>
+        <span>Chọn một đơn để xem chi tiết</span>
+    </div>
     @if (Model.Applications.Count == 0) { <div class="catalog-empty"><h2>Chưa có đơn trong danh sách này.</h2><p>Khám phá vị trí phù hợp và gửi CV để bắt đầu.</p></div> }
     else
     {
-        <div class="position-list">
+        <div class="position-list applications-page__list">
         @foreach (var application in Model.Applications)
         {
             <article class="position-row" data-application-id="@application.Id"><div class="position-row-main"><span class="position-company">@application.CompanyName</span><h2><a asp-action="Details" asp-route-id="@application.Id">@application.PositionTitle</a></h2><div class="position-meta"><span>Đơn #@application.Id</span><span>Gửi @application.CreatedAt.VietnamDateTime()</span></div></div><div class="position-row-side"><span class="application-status status-@application.Status.ToString().ToLowerInvariant()">@application.Status.DisplayName()</span><a asp-action="Details" asp-route-id="@application.Id" class="position-detail-link">Xem đơn ↗</a></div></article>
