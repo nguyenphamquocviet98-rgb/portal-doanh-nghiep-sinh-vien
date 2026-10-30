@@ -6,10 +6,10 @@
     <meta name="description" content="Cổng thông tin Thực tập và Kết nối Doanh nghiệp — Kết nối sinh viên, doanh nghiệp và nhà trường." />
     <title>@ViewData["Title"] - Cổng thông tin Thực tập</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    <!-- Roboto hỗ trợ tiếng Việt tốt, phù hợp giao diện cổng thông tin. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -23,7 +23,7 @@
         <nav class="navbar navbar-expand-lg page-width" aria-label="Điều hướng chính">
             <!-- Brand Logo with SVG -->
             <a class="brand" asp-area="" asp-controller="Home" asp-action="Index">
-                <img src="~/images/logo.svg" alt="Cổng thông tin Thực tập" height="40" style="max-height: 40px; width: auto;" />
+                <img src="~/images/logo.svg" asp-append-version="true" alt="Cổng thông tin Thực tập" height="40" style="max-height: 40px; width: auto;" />
             </a>
             
             <!-- Mobile Toggle -->
@@ -37,21 +37,19 @@
             
             <!-- Navigation Links & User Actions -->
             <div class="collapse navbar-collapse" id="main-menu">
-                <!-- Primary Navigation Links (Left, beside Logo) -->
-                <nav class="nav-links me-auto ms-lg-4" aria-label="Menu chính">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" && ViewContext.RouteData.Values["area"] == null ? "is-active" : "")">
-                        Trang chủ
-                    </a>
-                    <a asp-area="" asp-controller="Internships" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Internships" ? "is-active" : "")">
-                        Vị trí thực tập
-                    </a>
-                    <a href="@Url.Action("Index", "Home", new { area = "" })#doanh-nghiep" class="nav-link-item">
-                        Doanh nghiệp đối tác
-                    </a>
-                    <a href="@Url.Action("Index", "Home", new { area = "" })#quy-trinh" class="nav-link-item">
-                        Quy trình & Biểu mẫu
-                    </a>
-                </nav>
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Company"))
+                {
+                    <div class="workspace-header-label me-auto ms-lg-4">Cổng doanh nghiệp</div>
+                }
+                else
+                {
+                    <nav class="nav-links me-auto ms-lg-4" aria-label="Menu chính">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" && ViewContext.RouteData.Values["area"] == null ? "is-active" : "")">Trang chủ</a>
+                        <a asp-area="" asp-controller="Internships" asp-action="Index" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Internships" ? "is-active" : "")">Tìm vị trí thực tập</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Guide" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Guide" ? "is-active" : "")">Hướng dẫn thực tập</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Employer" class="nav-link-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" && ViewContext.RouteData.Values["action"]?.ToString() == "Employer" ? "is-active" : "")">Dành cho doanh nghiệp</a>
+                    </nav>
+                }
 
                 <!-- User Actions (Far Right) -->
                 <div class="nav-user-actions ms-auto">
@@ -71,8 +69,7 @@
                             else if (User.IsInRole("Student"))
                             {
                                 <span class="user-role-badge user-role-student">Sinh viên</span>
-                                <a asp-area="Student" asp-controller="Profile" asp-action="Index">Hồ sơ</a>
-                                <a asp-area="Student" asp-controller="Applications" asp-action="Index">Ứng tuyển</a>
+                                <a asp-area="Student" asp-controller="Dashboard" asp-action="Index">Không gian sinh viên</a>
                             }
 
                             <!-- Notification Bell -->
@@ -131,7 +128,7 @@
                                 Đăng ký
                             </a>
                             <span class="nav-action-divider d-none d-lg-inline-block"></span>
-                            <a class="nav-btn-employer d-none d-lg-inline-flex" asp-area="" asp-controller="Account" asp-action="RegisterCompany">
+                            <a class="nav-btn-employer d-none d-lg-inline-flex" asp-area="" asp-controller="Account" asp-action="Employer">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                                 <span>Nhà tuyển dụng</span>
                             </a>
@@ -144,20 +141,37 @@
 
     <!-- Main Content Area -->
     <main class="page-width site-main" id="main-content">
-        @if (ViewContext.RouteData.Values["area"]?.ToString() == "Company")
+        @if (ViewContext.RouteData.Values["area"]?.ToString() == "Student")
         {
-            <partial name="~/Frontend/Areas/Company/Views/Shared/_CompanyNavigation.cshtml" />
+            <div class="portal-workspace">
+                <partial name="~/Frontend/Views/Shared/_StudentNavigation.cshtml" />
+                <div class="portal-workspace__content">
+                    @RenderBody()
+                </div>
+            </div>
         }
-        else if (ViewContext.RouteData.Values["area"]?.ToString() == "Student")
+        else if (ViewContext.RouteData.Values["area"]?.ToString() == "Company")
         {
-            <partial name="~/Frontend/Views/Shared/_StudentNavigation.cshtml" />
+            <div class="portal-workspace company-workspace">
+                <partial name="~/Frontend/Areas/Company/Views/Shared/_CompanyNavigation.cshtml" />
+                <div class="portal-workspace__content">
+                    @RenderBody()
+                </div>
+            </div>
         }
         else if (ViewContext.RouteData.Values["area"]?.ToString() == "Admin")
         {
-            <partial name="~/Frontend/Views/Shared/_AdminNavigation.cshtml" />
+            <div class="portal-workspace admin-workspace">
+                <partial name="~/Frontend/Views/Shared/_AdminNavigation.cshtml" />
+                <div class="portal-workspace__content">
+                    @RenderBody()
+                </div>
+            </div>
         }
-
-        @RenderBody()
+        else
+        {
+            @RenderBody()
+        }
     </main>
 
     <!-- Footer -->
@@ -201,9 +215,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Global Floating Demo Bar (1-Click Role Switcher) -->
-    <partial name="_DemoQuickBar" />
 
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

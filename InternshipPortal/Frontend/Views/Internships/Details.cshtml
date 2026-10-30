@@ -13,8 +13,8 @@
     <!-- Header Banner -->
     <header class="position-detail-heading">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2 d-inline-block">MÃ VỊ TRÍ: @Model.Code · CHUYÊN NGÀNH: @Model.MajorName.ToUpperInvariant()</span>
-            <span class="art-badge @(Model.AvailablePlaces > 0 ? "status-approved" : "status-rejected")">
+            <span class="position-reference">Mã vị trí: @Model.Code · Ngành: @Model.MajorName</span>
+            <span class="position-capacity @(Model.AvailablePlaces > 0 ? "status-approved" : "status-rejected")">
                 @(Model.AvailablePlaces > 0 ? $"Còn {Model.AvailablePlaces}/{Model.Quantity} chỉ tiêu" : "Đã đủ chỉ tiêu")
             </span>
         </div>

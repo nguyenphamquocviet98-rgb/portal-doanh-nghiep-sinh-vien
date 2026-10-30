@@ -1,0 +1,56 @@
+@{ ViewData["Title"] = "Dành cho doanh nghiệp"; }
+
+<section class="employer-page employer-page--overview">
+    <header class="employer-page__header">
+        <div>
+            <p class="portal-overline">Hợp tác cùng nhà trường</p>
+            <h1>Tuyển thực tập cùng nhà trường</h1>
+            <p>Kết nối doanh nghiệp với sinh viên phù hợp và phối hợp quản lý thực tập trên một cổng thông tin thống nhất.</p>
+        </div>
+        <div class="employer-page__actions">
+            <a asp-action="RegisterCompany" class="portal-button">Đăng ký doanh nghiệp</a>
+            <a asp-action="Login" class="employer-page__login">Đăng nhập doanh nghiệp</a>
+        </div>
+    </header>
+
+    <section class="employer-panel employer-benefits">
+        <div class="employer-panel__heading">
+            <h2>Quyền lợi khi đồng hành</h2>
+            <p>Dành cho doanh nghiệp đã được nhà trường phê duyệt.</p>
+        </div>
+        <div class="employer-benefits__list">
+            <article>
+                <h3>Đúng nhóm sinh viên</h3>
+                <p>Đăng vị trí theo ngành đào tạo để tiếp cận ứng viên phù hợp.</p>
+            </article>
+            <article>
+                <h3>Quản lý tập trung</h3>
+                <p>Theo dõi hồ sơ và cập nhật kết quả tuyển chọn trên portal.</p>
+            </article>
+            <article>
+                <h3>Nhà trường phối hợp</h3>
+                <p>Có đầu mối hỗ trợ trong thời gian tiếp nhận và theo dõi sinh viên.</p>
+            </article>
+            <article>
+                <h3>Hiển thị đối tác</h3>
+                <p>Doanh nghiệp được duyệt có thể xuất hiện trong danh sách đối tác.</p>
+            </article>
+        </div>
+    </section>
+
+    <div class="employer-overview-bottom">
+        <section class="employer-panel employer-process">
+            <div class="employer-panel__heading"><h2>Quy trình hợp tác</h2></div>
+            <ol>
+                <li><strong>Đăng ký tài khoản</strong><span>Cung cấp thông tin doanh nghiệp và người đại diện.</span></li>
+                <li><strong>Nhà trường xét duyệt</strong><span>Thông tin được kiểm tra trước khi kích hoạt.</span></li>
+                <li><strong>Đăng vị trí thực tập</strong><span>Tiếp nhận và phản hồi hồ sơ ứng viên.</span></li>
+            </ol>
+        </section>
+
+        <aside class="employer-policy">
+            <h2>Chính sách thông tin</h2>
+            <p>Thông tin doanh nghiệp được xét duyệt trước khi hiển thị. Dữ liệu ứng viên chỉ sử dụng cho hoạt động tuyển dụng và thực tập.</p>
+        </aside>
+    </div>
+</section>

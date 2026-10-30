@@ -180,4 +180,14 @@ public class InternshipsController(CompanyInternshipService internships, UserMan
         }
         return RedirectToAction(nameof(Details), new { id });
     }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> RemindDiary(int id, CancellationToken ct)
+    {
+        var userId = users.GetUserId(User)!;
+        if (!await internships.CanAccessAsync(userId, ct)) return Forbid();
+        var result = await internships.SendDiaryReminderAsync(userId, id, ct);
+        TempData[result.Succeeded ? "Success" : "Error"] = result.Message;
+        return result.NotFound ? NotFound() : RedirectToAction(nameof(Details), new { id });
+    }
 }

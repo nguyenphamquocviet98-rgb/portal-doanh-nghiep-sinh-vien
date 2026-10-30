@@ -1,21 +1,110 @@
 @model InternshipPortal.ViewModels.CompanyInternships.CompanyInternshipViewModel
 @using InternshipPortal.Helpers
-@{ ViewData["Title"] = "Hồ sơ thực tập"; }
-<section class="student-diary-page">
+@using InternshipPortal.Models.Enums
+@{
+    ViewData["Title"] = "Hồ sơ thực tập";
+    var mentorAssigned = !string.IsNullOrWhiteSpace(Model.SupervisorName);
+}
+
+<section class="company-internship">
     @if (TempData["Success"] is string success) { <div class="notice-success" role="status">@success</div> }
-    <a asp-action="Index" class="catalog-back">← Sinh viên thực tập</a>
-    <header class="position-detail-heading"><span class="section-index">DOANH NGHIỆP / HỒ SƠ THỰC TẬP</span><h1>@Model.FullName<span class="profile-dot">.</span></h1><div class="position-meta"><span>@Model.StudentCode</span><span>@Model.Status.DisplayName()</span></div></header>
-    <div class="company-record-actions" aria-label="Thao tác hồ sơ thực tập">
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="action-link">Người hướng dẫn & trạng thái ↗</a>
-    <a href="#internship-diaries" class="company-secondary-action">Xem nhật ký ↓</a>
-    <a asp-action="Evaluation" asp-route-id="@Model.Id" class="company-secondary-action">Chấm điểm / xem đánh giá ↗</a>
-    </div>
-    <div class="position-description">
-        <section><h2>Thông tin thực tập</h2><p>@Model.PositionTitle · @Model.PeriodName</p><p>@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate()</p><a asp-controller="Applications" asp-action="Details" asp-route-id="@Model.ApplicationId">Xem hồ sơ ứng viên và CV ↗</a></section>
-        <section><h2>Người hướng dẫn</h2><p>@(Model.SupervisorName ?? "Chưa gán người hướng dẫn")</p>@if (!string.IsNullOrWhiteSpace(Model.SupervisorEmail)) { <p>@Model.SupervisorEmail</p> }@if (!string.IsNullOrWhiteSpace(Model.SupervisorPhone)) { <p>@Model.SupervisorPhone</p> }</section>
-        <section id="internship-diaries"><h2>Nhật ký đã nộp (@Model.Diaries.Count)</h2>
-        @if (Model.Diaries.Count == 0) { <p>Sinh viên chưa nộp nhật ký.</p> }
-        @foreach (var diary in Model.Diaries) { <p><a asp-action="Diary" asp-route-id="@diary.Id">Tuần @diary.WeekNumber · @diary.StartDate.VietnamDate() — @diary.EndDate.VietnamDate() ↗</a></p> }
+    @if (TempData["Error"] is string error) { <div class="company-internship__error" role="alert">@error</div> }
+
+    <a asp-action="Index" class="catalog-back">← Danh sách sinh viên thực tập</a>
+
+    <header class="company-internship__header">
+        <div>
+            <p class="portal-overline">Hồ sơ thực tập</p>
+            <h1>@Model.FullName</h1>
+            <p>@Model.StudentCode · @Model.PositionTitle</p>
+        </div>
+        <div class="company-internship__status">
+            <span>Trạng thái</span>
+            <strong>@Model.Status.DisplayName()</strong>
+        </div>
+    </header>
+
+    <section class="company-internship__next">
+        @if (Model.Status == InternshipStatus.NotStarted && !mentorAssigned)
+        {
+            <div><p class="portal-overline">Việc cần làm</p><h2>Gán người hướng dẫn</h2><p>Thiết lập đầu mối phụ trách trước khi sinh viên bắt đầu thực tập.</p></div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="company-internship__primary-action">Thiết lập người hướng dẫn</a>
+        }
+        else if (Model.Status == InternshipStatus.NotStarted)
+        {
+            <div><p class="portal-overline">Việc cần làm</p><h2>Xác nhận bắt đầu thực tập</h2><p>Người hướng dẫn đã được thiết lập.</p></div>
+            <form asp-action="ConfirmStart" asp-route-id="@Model.Id" method="post">
+                <button class="company-internship__primary-action" type="submit">Xác nhận bắt đầu</button>
+            </form>
+        }
+        else if (Model.Status == InternshipStatus.InProgress)
+        {
+            <div><p class="portal-overline">Việc cần làm</p><h2>Theo dõi nhật ký thực tập</h2><p>Sinh viên đang trong kỳ thực tập.</p></div>
+            <div class="company-internship__action-group">
+                @if (Model.Diaries.Count == 0)
+                {
+                    <form asp-action="RemindDiary" asp-route-id="@Model.Id" method="post">
+                        <button class="company-internship__secondary-action" type="submit">Nhắc nộp nhật ký</button>
+                    </form>
+                }
+                else
+                {
+                    <a href="#internship-diaries" class="company-internship__secondary-action">Xem nhật ký</a>
+                }
+                <form asp-action="ConfirmComplete" asp-route-id="@Model.Id" method="post">
+                    <button class="company-internship__primary-action" type="submit">Xác nhận hoàn thành</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div><p class="portal-overline">Việc cần làm</p><h2>Đánh giá kết quả thực tập</h2><p>Kỳ thực tập đã kết thúc.</p></div>
+            <a asp-action="Evaluation" asp-route-id="@Model.Id" class="company-internship__primary-action">Đánh giá thực tập</a>
+        }
+    </section>
+
+    <div class="company-internship__grid">
+        <section class="company-internship__panel">
+            <h2>Thông tin thực tập</h2>
+            <dl>
+                <div><dt>Vị trí</dt><dd>@Model.PositionTitle</dd></div>
+                <div><dt>Đợt thực tập</dt><dd>@Model.PeriodName</dd></div>
+                <div><dt>Thời gian</dt><dd>@Model.StartDate.VietnamDate() — @Model.EndDate.VietnamDate()</dd></div>
+            </dl>
+            <a asp-controller="Applications" asp-action="Details" asp-route-id="@Model.ApplicationId">Xem hồ sơ ứng viên và CV</a>
+        </section>
+
+        <section class="company-internship__panel">
+            <div class="company-internship__panel-heading"><h2>Người hướng dẫn</h2><a asp-action="Edit" asp-route-id="@Model.Id">Cập nhật</a></div>
+            @if (mentorAssigned)
+            {
+                <dl>
+                    <div><dt>Họ và tên</dt><dd>@Model.SupervisorName</dd></div>
+                    <div><dt>Email</dt><dd>@(Model.SupervisorEmail ?? "Chưa cập nhật")</dd></div>
+                    <div><dt>Số điện thoại</dt><dd>@(Model.SupervisorPhone ?? "Chưa cập nhật")</dd></div>
+                </dl>
+            }
+            else
+            {
+                <p class="company-internship__empty">Chưa gán người hướng dẫn. Hãy thiết lập trước khi xác nhận sinh viên bắt đầu thực tập.</p>
+            }
         </section>
     </div>
+
+    <section class="company-internship__panel company-internship__diaries" id="internship-diaries">
+        <div class="company-internship__panel-heading"><div><h2>Nhật ký thực tập</h2><p>@Model.Diaries.Count nhật ký sinh viên đã nộp.</p></div></div>
+        @if (Model.Diaries.Count == 0)
+        {
+            <p class="company-internship__empty">Sinh viên chưa nộp nhật ký. Nhật ký sẽ xuất hiện tại đây để doanh nghiệp theo dõi.</p>
+        }
+        else
+        {
+            <ul class="company-internship__diary-list">
+                @foreach (var diary in Model.Diaries)
+                {
+                    <li><span>Tuần @diary.WeekNumber</span><small>@diary.StartDate.VietnamDate() — @diary.EndDate.VietnamDate()</small><a asp-action="Diary" asp-route-id="@diary.Id">Xem nội dung</a></li>
+                }
+            </ul>
+        }
+    </section>
 </section>

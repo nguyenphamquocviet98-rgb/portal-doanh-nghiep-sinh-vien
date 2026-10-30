@@ -9,12 +9,13 @@
         ("Monitoring", "Positions", "Giám sát hệ thống")
     };
 }
-<nav class="portal-subnav" aria-label="Chức năng quản trị nhà trường">
-    <div class="portal-subnav-label">
+<aside class="admin-sidebar" aria-label="Chức năng quản trị nhà trường">
+    <div class="admin-sidebar__header">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>CỔNG QUẢN TRỊ NHÀ TRƯỜNG</span>
+        <span>NHÀ TRƯỜNG</span>
+        <strong>Cổng quản trị</strong>
     </div>
-    <div class="portal-subnav-links">
+    <nav>
         @foreach (var item in items)
         {
             var isCurrent = controller == item.Item1;
@@ -22,5 +23,5 @@
                 @item.Item3
             </a>
         }
-    </div>
-</nav>
+    </nav>
+</aside>

@@ -95,6 +95,11 @@ public class HomeController(ApplicationDbContext db) : Controller
         return View();
     }
 
+    public IActionResult Guide()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

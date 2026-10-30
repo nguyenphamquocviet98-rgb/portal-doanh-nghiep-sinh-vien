@@ -1,26 +1,31 @@
 @{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var action = ViewContext.RouteData.Values["action"]?.ToString();
-    var items = new[] {
-        ("Dashboard", "Index", "Bàn làm việc"),
+    var items = new[]
+    {
+        ("Dashboard", "Index", "Tổng quan"),
         ("Profile", "Index", "Hồ sơ của tôi"),
-        ("Profile", "Cv", "Mẫu CV trực tuyến"),
-        ("Applications", "Index", "Lịch sử ứng tuyển"),
-        ("Internships", "Index", "Quá trình thực tập")
+        ("Applications", "Index", "Đơn ứng tuyển"),
+        ("Internships", "Index", "Quá trình thực tập"),
+        ("Profile", "Cv", "Mẫu CV")
     };
 }
-<nav class="portal-subnav" aria-label="Chức năng sinh viên">
-    <div class="portal-subnav-label">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        <span>KHÔNG GIAN SINH VIÊN</span>
+
+<aside class="student-sidebar" aria-label="Điều hướng sinh viên">
+    <div class="student-sidebar__header">
+        <span>Sinh viên</span>
+        <strong>Không gian học tập</strong>
     </div>
-    <div class="portal-subnav-links">
+    <nav>
         @foreach (var item in items)
         {
-            var isCurrent = controller == item.Item1 && (item.Item2 == "Index" ? (action == "Index" || (item.Item1 == "Profile" && action == "Edit")) : action == item.Item2);
+            var isCurrent = controller == item.Item1 && (item.Item2 == "Index" ? action == "Index" || (item.Item1 == "Profile" && action == "Edit") : action == item.Item2);
             <a asp-area="Student" asp-controller="@item.Item1" asp-action="@item.Item2" class="@(isCurrent ? "is-current" : "")" aria-current="@(isCurrent ? "page" : null)">
                 @item.Item3
             </a>
         }
+    </nav>
+    <div class="student-sidebar__footer">
+        <a asp-area="" asp-controller="Internships" asp-action="Index">Tìm vị trí thực tập</a>
     </div>
-</nav>
+</aside>

@@ -25,6 +25,16 @@ public class DashboardController(UserManager<ApplicationUser> users, Application
         var openPositions = await db.InternshipPositions.CountAsync(x => x.Status == InternshipPositionStatus.Open, ct);
         var totalApplications = await db.Applications.CountAsync(ct);
         var totalInternships = await db.Internships.CountAsync(ct);
+        var applicationsInReview = await db.Applications.CountAsync(x => x.Status == ApplicationStatus.Pending
+            || x.Status == ApplicationStatus.Viewed || x.Status == ApplicationStatus.Interviewed, ct);
+        var activeInternships = await db.Internships.CountAsync(x => x.Status == InternshipStatus.InProgress, ct);
+        var internshipsWithoutDiary = await db.Internships.CountAsync(x => x.Status == InternshipStatus.InProgress
+            && !db.InternshipDiaries.Any(d => d.InternshipId == x.Id), ct);
+        var currentPeriod = await db.InternshipPeriods.AsNoTracking()
+            .Where(x => x.Status == InternshipPeriodStatus.Open)
+            .OrderByDescending(x => x.StartDate)
+            .Select(x => new { x.Name, x.StartDate, x.EndDate })
+            .FirstOrDefaultAsync(ct);
 
         // 2. Biểu đồ 1: Tỷ lệ sinh viên có nơi thực tập
         var placedCount = await db.Internships.Select(x => x.StudentId).Distinct().CountAsync(ct);
@@ -47,6 +57,18 @@ public class DashboardController(UserManager<ApplicationUser> users, Application
         var inProgress = await db.Internships.CountAsync(x => x.Status == InternshipStatus.InProgress, ct);
         var completed = await db.Internships.CountAsync(x => x.Status == InternshipStatus.Completed, ct);
         var failed = await db.Internships.CountAsync(x => x.Status == InternshipStatus.Failed, ct);
+        var recentApplications = await db.Applications.AsNoTracking()
+            .OrderByDescending(x => x.CreatedAt).ThenByDescending(x => x.Id).Take(5)
+            .Select(x => new AdminRecentApplicationViewModel
+            {
+                Id = x.Id,
+                StudentName = x.Student.User.FullName,
+                StudentCode = x.Student.StudentCode,
+                PositionTitle = x.InternshipPosition.Title,
+                CompanyName = x.InternshipPosition.Company.Name,
+                CreatedAt = x.CreatedAt,
+                Status = x.Status
+            }).ToListAsync(ct);
 
         var model = new AdminDashboardViewModel
         {
@@ -62,6 +84,13 @@ public class DashboardController(UserManager<ApplicationUser> users, Application
             OpenPositions = openPositions,
             TotalApplications = totalApplications,
             TotalInternships = totalInternships,
+            ApplicationsInReview = applicationsInReview,
+            ActiveInternships = activeInternships,
+            InternshipsWithoutDiary = internshipsWithoutDiary,
+            CurrentPeriodName = currentPeriod?.Name,
+            CurrentPeriodStartDate = currentPeriod?.StartDate,
+            CurrentPeriodEndDate = currentPeriod?.EndDate,
+            RecentApplications = recentApplications,
 
             PlacedStudentsCount = placedCount,
             UnplacedStudentsCount = unplacedCount,

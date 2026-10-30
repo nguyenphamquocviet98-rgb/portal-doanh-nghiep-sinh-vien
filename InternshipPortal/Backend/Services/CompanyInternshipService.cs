@@ -81,6 +81,33 @@ public class CompanyInternshipService(ApplicationDbContext db)
         }
     }
 
+    public async Task<CompanyInternshipUpdateResult> SendDiaryReminderAsync(string userId, int id, CancellationToken ct)
+    {
+        var internship = await Owned(userId).Include(x => x.Student).ThenInclude(x => x.User)
+            .SingleOrDefaultAsync(x => x.Id == id, ct);
+        if (internship is null) return new(false, "Không tìm thấy hồ sơ thực tập thuộc doanh nghiệp.", true);
+        if (internship.Status != InternshipStatus.InProgress)
+            return new(false, "Chỉ có thể nhắc nhật ký khi sinh viên đang thực tập.");
+        if (await db.InternshipDiaries.AnyAsync(x => x.InternshipId == id, ct))
+            return new(false, "Sinh viên đã nộp nhật ký, không cần gửi nhắc.");
+
+        var key = $"diary-reminder:{id}:{DateTime.UtcNow:yyyyMMdd}";
+        if (await db.Notifications.AnyAsync(x => x.DeduplicationKey == key, ct))
+            return new(false, "Đã gửi nhắc nhật ký hôm nay.");
+
+        db.Notifications.Add(new Notification
+        {
+            UserId = internship.Student.UserId,
+            Type = NotificationType.Manual,
+            Title = "Nhắc nộp nhật ký thực tập",
+            Message = "Doanh nghiệp đề nghị bạn cập nhật và nộp nhật ký thực tập để theo dõi tiến độ.",
+            TargetUrl = $"/Student/Internships/Diary/{id}",
+            DeduplicationKey = key
+        });
+        await db.SaveChangesAsync(ct);
+        return new(true, "Đã gửi nhắc nộp nhật ký cho sinh viên.");
+    }
+
     private static string Version(Internship internship) =>
         (internship.UpdatedAt ?? internship.CreatedAt).Ticks.ToString(CultureInfo.InvariantCulture);
 

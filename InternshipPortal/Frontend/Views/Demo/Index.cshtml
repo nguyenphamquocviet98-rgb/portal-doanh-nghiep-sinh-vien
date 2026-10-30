@@ -1,0 +1,54 @@
+@model InternshipPortal.ViewModels.Demo.QuanLyThucTapDemoViewModel
+@{
+    ViewData["Title"] = "Demo dữ liệu QuanLyThucTap";
+}
+
+<section class="py-4 py-lg-5">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+        <div>
+            <p class="text-success fw-semibold mb-1">SQL SERVER · DATABASE QUANLYTHUCTAP</p>
+            <h1 class="h2 fw-bold mb-1">Demo dữ liệu thực tập</h1>
+            <p class="text-muted mb-0">Dữ liệu đang được đọc trực tiếp từ 13 bảng trong SQL Server.</p>
+        </div>
+        <a class="btn btn-outline-success rounded-pill px-4" href="/demo">Tải lại dữ liệu</a>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.LoiKetNoi))
+    {
+        <div class="alert alert-danger">@Model.LoiKetNoi</div>
+    }
+    else
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3"><div class="card border-0 shadow-sm rounded-4 p-3 h-100"><div class="text-muted small">Sinh viên</div><div class="display-6 fw-bold text-success">@Model.SoSinhVien</div></div></div>
+            <div class="col-6 col-lg-3"><div class="card border-0 shadow-sm rounded-4 p-3 h-100"><div class="text-muted small">Doanh nghiệp</div><div class="display-6 fw-bold text-success">@Model.SoDoanhNghiep</div></div></div>
+            <div class="col-6 col-lg-3"><div class="card border-0 shadow-sm rounded-4 p-3 h-100"><div class="text-muted small">Vị trí thực tập</div><div class="display-6 fw-bold text-success">@Model.SoViTri</div></div></div>
+            <div class="col-6 col-lg-3"><div class="card border-0 shadow-sm rounded-4 p-3 h-100"><div class="text-muted small">Đơn ứng tuyển</div><div class="display-6 fw-bold text-success">@Model.SoDonUngTuyen</div></div></div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+            <div class="card-header bg-white p-3 border-bottom"><h2 class="h5 fw-bold mb-0">Sinh viên mẫu</h2></div>
+            <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>MSSV</th><th>Họ tên</th><th>Ngành</th><th>Lớp</th><th>GPA</th></tr></thead><tbody>
+                @foreach (var sinhVien in Model.SinhViens)
+                {
+                    <tr><td class="fw-semibold">@sinhVien.MaSinhVien</td><td>@sinhVien.HoTen</td><td>@sinhVien.Nganh</td><td>@sinhVien.Lop</td><td>@(sinhVien.Gpa?.ToString("0.00") ?? "—")</td></tr>
+                }
+            </tbody></table></div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7"><div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden"><div class="card-header bg-white p-3 border-bottom"><h2 class="h5 fw-bold mb-0">Vị trí thực tập đang có</h2></div><div class="list-group list-group-flush">
+                @foreach (var viTri in Model.ViTris)
+                {
+                    <div class="list-group-item p-3"><div class="fw-semibold">@viTri.TieuDe</div><div class="small text-muted">@viTri.DoanhNghiep · @viTri.Nganh · Hạn nộp @viTri.HanNop.ToString("dd/MM/yyyy")</div></div>
+                }
+            </div></div></div>
+            <div class="col-lg-5"><div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden"><div class="card-header bg-white p-3 border-bottom"><h2 class="h5 fw-bold mb-0">Đơn ứng tuyển</h2></div><div class="list-group list-group-flush">
+                @foreach (var don in Model.DonUngTuyens)
+                {
+                    <div class="list-group-item p-3"><div class="fw-semibold">@don.SinhVien</div><div class="small text-muted">@don.ViTri</div><span class="badge rounded-pill text-bg-success mt-2">@don.TrangThai</span></div>
+                }
+            </div></div></div>
+        </div>
+    }
+</section>

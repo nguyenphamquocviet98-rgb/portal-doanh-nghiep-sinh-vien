@@ -14,6 +14,7 @@ public class CompanyDashboardViewModel : PortalViewModel
 
     // 3. Chỉ số Thực tập
     public int ActiveInternships { get; set; }
+    public int NotStartedInternships { get; set; }
     public int TotalInternships { get; set; }
 
     // 4. Chỉ số Nhật ký & Đánh giá

@@ -1,25 +1,30 @@
 @{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var items = new[] { 
-        ("Dashboard", "Tổng quan"), 
-        ("Profile", "Hồ sơ doanh nghiệp"), 
-        ("Positions", "Vị trí tuyển dụng"), 
-        ("Applications", "Ứng viên"), 
-        ("Internships", "Thực tập & đánh giá") 
+    var items = new[]
+    {
+        ("Dashboard", "Tổng quan"),
+        ("Positions", "Vị trí thực tập"),
+        ("Applications", "Ứng viên"),
+        ("Internships", "Thực tập & đánh giá"),
+        ("Profile", "Hồ sơ doanh nghiệp")
     };
 }
-<nav class="portal-subnav" aria-label="Chức năng doanh nghiệp">
-    <div class="portal-subnav-label">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        <span>KHÔNG GIAN DOANH NGHIỆP</span>
+
+<aside class="company-sidebar" aria-label="Điều hướng doanh nghiệp">
+    <div class="company-sidebar__header">
+        <span>Doanh nghiệp</span>
+        <strong>Không gian làm việc</strong>
     </div>
-    <div class="portal-subnav-links">
-        @foreach (var item in items) 
-        { 
+    <nav>
+        @foreach (var item in items)
+        {
             var isCurrent = controller == item.Item1;
             <a asp-area="Company" asp-controller="@item.Item1" asp-action="Index" class="@(isCurrent ? "is-current" : "")" aria-current="@(isCurrent ? "page" : null)">
                 @item.Item2
-            </a> 
+            </a>
         }
+    </nav>
+    <div class="company-sidebar__footer">
+        <a asp-area="" asp-controller="Home" asp-action="Index">Về cổng thông tin</a>
     </div>
-</nav>
+</aside>

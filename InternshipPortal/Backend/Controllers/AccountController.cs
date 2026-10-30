@@ -90,6 +90,9 @@ public class AccountController(UserManager<ApplicationUser> users, SignInManager
     public IActionResult Register() => User.Identity?.IsAuthenticated == true ? RedirectToAction(nameof(Portal)) : View();
 
     [AllowAnonymous, HttpGet]
+    public IActionResult Employer() => View();
+
+    [AllowAnonymous, HttpGet]
     public async Task<IActionResult> RegisterStudent(CancellationToken cancellationToken)
     {
         if (User.Identity?.IsAuthenticated == true) return RedirectToAction(nameof(Portal));

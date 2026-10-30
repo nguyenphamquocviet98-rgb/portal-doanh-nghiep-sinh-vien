@@ -67,6 +67,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
+// Áp dụng migration theo lệnh tường minh: dotnet run -- --migrate-db.
+if (args.Contains("--migrate-db"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync();
+    return;
+}
+
 // Seed chỉ chạy khi được gọi rõ ràng, không tự thay đổi database mỗi lần mở web.
 if (args.Contains("--seed-demo"))
 {

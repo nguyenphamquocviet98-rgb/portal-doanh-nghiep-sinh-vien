@@ -15,13 +15,13 @@ GO
 SET QUOTED_IDENTIFIER ON;
 GO
 
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'CSDL_QuanLyThucTap')
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'QuanLyThucTap')
 BEGIN
-    CREATE DATABASE [CSDL_QuanLyThucTap];
+    CREATE DATABASE [QuanLyThucTap];
 END
 GO
 
-USE [CSDL_QuanLyThucTap];
+USE [QuanLyThucTap];
 GO
 
 SET ANSI_NULLS ON;

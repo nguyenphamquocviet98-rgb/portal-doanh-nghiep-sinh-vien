@@ -1,21 +1,63 @@
 @model InternshipPortal.ViewModels.Account.RegisterCompanyViewModel
 @{ ViewData["Title"] = "Đăng ký doanh nghiệp"; }
-<section class="account-page registration-page">
-    <div class="account-intro">
-        <span class="badge bg-light text-muted border rounded-pill px-3 py-1 fw-semibold small mb-2">ĐĂNG KÝ DOANH NGHIỆP</span>
-        <h1 class="fs-2 fw-bold text-dark mb-2">Đăng ký đối tác tiếp nhận thực tập</h1>
-        <p class="text-muted small mb-3">Đăng ký thông tin đơn vị để kết nối tuyển dụng thực tập sinh. Sau khi Ban Quản lý Nhà trường phê duyệt hồ sơ, quý doanh nghiệp có thể đăng tuyển và tiếp nhận ứng viên.</p>
-        <a asp-action="Login" class="account-inline-link">Đã có tài khoản? Đăng nhập ngay →</a>
+
+<section class="company-register-page company-register-page--form-only">
+    <header class="company-register-header">
+        <div>
+            <p class="portal-overline">Dành cho doanh nghiệp</p>
+            <h1>Đăng ký tài khoản doanh nghiệp</h1>
+            <p>Điền thông tin liên hệ và thông tin đơn vị để nhà trường xét duyệt trước khi kích hoạt tài khoản.</p>
+        </div>
+        <a asp-action="Login" class="company-register-login">Đã có tài khoản? Đăng nhập</a>
+    </header>
+
+    <div class="company-register-reference">
+        <span>Muốn tìm hiểu trước?</span>
+        <a asp-action="Employer">Xem quyền lợi và quy trình hợp tác dành cho doanh nghiệp</a>
     </div>
-    <div class="account-panel"><h2>Đăng ký doanh nghiệp</h2>
+
+    <div class="company-register-panel company-register-form">
+        <div class="company-register-panel__heading">
+            <h2>Thông tin đăng ký</h2>
+            <p>Các trường có dấu * là bắt buộc. Nhà trường sẽ liên hệ để xác minh khi cần.</p>
+        </div>
         <form asp-action="RegisterCompany" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary" role="alert"></div>
-            <div class="field"><label asp-for="CompanyName"></label><input asp-for="CompanyName" autocomplete="organization" /><span asp-validation-for="CompanyName"></span></div>
-            <div class="field"><label asp-for="Address"></label><input asp-for="Address" autocomplete="street-address" /><span asp-validation-for="Address"></span></div>
-            <div class="field-pair"><div class="field"><label asp-for="TaxCode"></label><input asp-for="TaxCode" /><span asp-validation-for="TaxCode"></span></div><div class="field"><label asp-for="Website"></label><input asp-for="Website" type="url" placeholder="https://" /><span asp-validation-for="Website"></span></div></div>
-            <partial name="_RegisterFields" model="Model" />
-            <button class="account-submit" type="submit">Gửi đăng ký doanh nghiệp <span aria-hidden="true">↗</span></button>
+
+            <fieldset>
+                <legend>Thông tin doanh nghiệp</legend>
+                <div class="field">
+                    <label asp-for="CompanyName"></label>
+                    <input asp-for="CompanyName" autocomplete="organization" />
+                    <span asp-validation-for="CompanyName"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Address"></label>
+                    <input asp-for="Address" autocomplete="street-address" />
+                    <span asp-validation-for="Address"></span>
+                </div>
+                <div class="field-pair">
+                    <div class="field">
+                        <label asp-for="TaxCode"></label>
+                        <input asp-for="TaxCode" />
+                        <span asp-validation-for="TaxCode"></span>
+                    </div>
+                    <div class="field">
+                        <label asp-for="Website"></label>
+                        <input asp-for="Website" type="url" placeholder="https://" />
+                        <span asp-validation-for="Website"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Người đại diện và tài khoản</legend>
+                <partial name="_RegisterFields" model="Model" />
+            </fieldset>
+
+            <button class="company-register-submit" type="submit">Gửi đăng ký doanh nghiệp</button>
         </form>
     </div>
 </section>
+
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

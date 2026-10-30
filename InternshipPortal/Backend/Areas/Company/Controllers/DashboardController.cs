@@ -36,6 +36,7 @@ public class DashboardController(ApplicationDbContext db, UserManager<Applicatio
         // 3. Thống kê Thực tập
         var internshipsQuery = db.Internships.AsNoTracking().Where(i => i.Application.InternshipPosition.CompanyId == company.Id);
         var totalInternships = await internshipsQuery.CountAsync(cancellationToken);
+        var notStartedInternships = await internshipsQuery.CountAsync(i => i.Status == InternshipStatus.NotStarted, cancellationToken);
         var activeInternships = await internshipsQuery.CountAsync(i => i.Status == InternshipStatus.InProgress, cancellationToken);
 
         // 4. Thống kê Nhật ký & Đánh giá
@@ -93,6 +94,7 @@ public class DashboardController(ApplicationDbContext db, UserManager<Applicatio
             TotalPositions = totalPositions,
             PendingApplications = pendingApplications,
             TotalApplications = totalApplications,
+            NotStartedInternships = notStartedInternships,
             ActiveInternships = activeInternships,
             TotalInternships = totalInternships,
             TotalDiaries = totalDiaries,

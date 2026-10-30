@@ -1,241 +1,160 @@
 @model InternshipPortal.ViewModels.CompanyDashboard.CompanyDashboardViewModel
-@using InternshipPortal.Models.Enums
 @using InternshipPortal.Helpers
-@{ 
-    ViewData["Title"] = "Không gian Doanh nghiệp"; 
+@{
+    ViewData["Title"] = "Tổng quan doanh nghiệp";
 }
 
-<section class="company-overview">
-    <!-- Header Welcome Card -->
-    <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 bg-white mb-4">
-        <span class="section-index mb-2">KHÔNG GIAN LÀM VIỆC DOANH NGHIỆP</span>
-        <h1 class="fs-2 my-1">
-            Chào mừng đối tác, <span class="hero-gradient-text">@Model.FullName</span>
-        </h1>
-        <p class="text-muted fs-6 m-0">@Model.Detail</p>
-
-        @if (Model.Notice is not null)
-        {
-            <div class="portal-notice mt-3 mb-0" role="status">
-                <strong>Thông tin xét duyệt từ Nhà trường:</strong>
-                <p class="m-0 mt-1">@Model.Notice</p>
-                <a asp-controller="Profile" asp-action="Index" class="account-inline-link mt-2">Xem chi tiết hồ sơ doanh nghiệp →</a>
-            </div>
-        }
-    </div>
-
-    <!-- 1. Real-time Metric Cards Row -->
-    <div class="row g-3 mb-4">
-        <!-- Metric 1: Vị trí tuyển dụng -->
-        <div class="col-sm-6 col-lg-3">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white d-flex flex-row align-items-center gap-3">
-                <div class="portal-icon-badge flex-shrink-0" style="width: 48px; height: 48px; background-color: #ecfdf5; color: #059669;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                </div>
-                <div>
-                    <span class="text-muted small d-block">Vị trí mở tuyển</span>
-                    <strong class="fs-4 text-dark">@Model.OpenPositions <small class="text-muted fs-6 fw-normal">/ @Model.TotalPositions</small></strong>
-                </div>
-            </div>
+<section class="company-dashboard">
+    <header class="company-dashboard__header">
+        <div>
+            <p class="portal-overline">Không gian doanh nghiệp</p>
+            <h1>@Model.FullName</h1>
+            <p>@Model.Detail</p>
         </div>
-
-        <!-- Metric 2: Ứng viên chờ duyệt -->
-        <div class="col-sm-6 col-lg-3">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white d-flex flex-row align-items-center gap-3">
-                <div class="portal-icon-badge flex-shrink-0" style="width: 48px; height: 48px; background-color: #f0fdf4; color: #16a34a;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-                <div>
-                    <span class="text-muted small d-block">Ứng viên chờ duyệt</span>
-                    <strong class="fs-4 text-dark">@Model.PendingApplications</strong>
-                    @if (Model.PendingApplications > 0)
-                    {
-                        <span class="badge bg-warning text-dark small ms-1">Cần xem xét</span>
-                    }
-                </div>
-            </div>
+        <div class="company-dashboard__actions">
+            @if (Model.CanManage)
+            {
+                <a asp-controller="Positions" asp-action="Create" class="company-dashboard__primary-action">Đăng vị trí thực tập</a>
+                <a asp-controller="Applications" asp-action="Index" class="company-dashboard__secondary-action">Xem ứng viên (@Model.PendingApplications)</a>
+            }
+            else
+            {
+                <a asp-controller="Profile" asp-action="Index" class="company-dashboard__secondary-action">Xem hồ sơ doanh nghiệp</a>
+            }
         </div>
+    </header>
 
-        <!-- Metric 3: Sinh viên đang thực tập -->
-        <div class="col-sm-6 col-lg-3">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white d-flex flex-row align-items-center gap-3">
-                <div class="portal-icon-badge flex-shrink-0" style="width: 48px; height: 48px; background-color: #e0f2fe; color: #0284c7;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </div>
-                <div>
-                    <span class="text-muted small d-block">Đang thực tập</span>
-                    <strong class="fs-4 text-dark">@Model.ActiveInternships <small class="text-muted fs-6 fw-normal">/ @Model.TotalInternships</small></strong>
-                </div>
+    @if (Model.Notice is not null)
+    {
+        <section class="company-dashboard__notice" role="status">
+            <div>
+                <strong>Thông tin xét duyệt từ nhà trường</strong>
+                <p>@Model.Notice</p>
             </div>
-        </div>
+            <a asp-controller="Profile" asp-action="Index">Xem hồ sơ</a>
+        </section>
+    }
 
-        <!-- Metric 4: Nhật ký & Đánh giá -->
-        <div class="col-sm-6 col-lg-3">
-            <div class="card border-0 shadow-sm p-3 rounded-4 bg-white d-flex flex-row align-items-center gap-3">
-                <div class="portal-icon-badge flex-shrink-0" style="width: 48px; height: 48px; background-color: #fef3c7; color: #d97706;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                </div>
+    @if (Model.CanManage)
+    {
+        <section class="company-dashboard__next">
+            @if (Model.TotalPositions == 0)
+            {
+                <div><p class="portal-overline">Việc cần làm</p><h2>Đăng vị trí thực tập đầu tiên</h2><p>Doanh nghiệp chưa có vị trí tuyển thực tập đang quản lý.</p></div>
+                <a asp-controller="Positions" asp-action="Create" class="company-dashboard__primary-action">Đăng vị trí</a>
+            }
+            else if (Model.PendingApplications > 0)
+            {
+                <div><p class="portal-overline">Việc cần làm</p><h2>Xử lý @Model.PendingApplications hồ sơ ứng tuyển</h2><p>Các hồ sơ chờ xử lý cần được xem xét trước khi tiếp nhận sinh viên.</p></div>
+                <a asp-controller="Applications" asp-action="Index" class="company-dashboard__primary-action">Xem ứng viên</a>
+            }
+            else if (Model.NotStartedInternships > 0)
+            {
+                <div><p class="portal-overline">Việc cần làm</p><h2>Xác nhận tiếp nhận @Model.NotStartedInternships sinh viên</h2><p>Gán người hướng dẫn và xác nhận bắt đầu thực tập cho các hồ sơ mới.</p></div>
+                <a asp-controller="Internships" asp-action="Index" asp-route-status="0" class="company-dashboard__primary-action">Mở hồ sơ thực tập</a>
+            }
+            else if (Model.PendingEvaluations > 0)
+            {
+                <div><p class="portal-overline">Việc cần làm</p><h2>Hoàn tất @Model.PendingEvaluations đánh giá thực tập</h2><p>Các hồ sơ đã kết thúc đang chờ nhận xét và chấm điểm.</p></div>
+                <a asp-controller="Internships" asp-action="Index" class="company-dashboard__primary-action">Mở danh sách thực tập</a>
+            }
+        </section>
+    }
+
+    <dl class="company-dashboard__stats">
+        <div>
+            <dt>Vị trí đang mở</dt>
+            <dd>@Model.OpenPositions <span>/ @Model.TotalPositions</span></dd>
+            <a asp-controller="Positions" asp-action="Index">Quản lý vị trí</a>
+        </div>
+        <div>
+            <dt>Ứng viên cần xử lý</dt>
+            <dd>@Model.PendingApplications <span>/ @Model.TotalApplications</span></dd>
+            <a asp-controller="Applications" asp-action="Index">Xem hồ sơ ứng tuyển</a>
+        </div>
+        <div>
+            <dt>Sinh viên đang thực tập</dt>
+            <dd>@Model.ActiveInternships <span>/ @Model.TotalInternships</span></dd>
+            <a asp-controller="Internships" asp-action="Index">Theo dõi thực tập</a>
+        </div>
+        <div>
+            <dt>Đánh giá cần hoàn tất</dt>
+            <dd>@Model.PendingEvaluations <span>hồ sơ</span></dd>
+            <a asp-controller="Internships" asp-action="Index">Mở danh sách thực tập</a>
+        </div>
+    </dl>
+
+    <div class="company-dashboard__grid">
+        <section class="company-dashboard__panel">
+            <header class="company-dashboard__panel-heading">
                 <div>
-                    <span class="text-muted small d-block">Nhật ký đã nộp</span>
-                    <strong class="fs-4 text-dark">@Model.TotalDiaries</strong>
-                    @if (Model.PendingEvaluations > 0)
-                    {
-                        <span class="badge bg-danger small ms-1">@Model.PendingEvaluations chưa chấm</span>
-                    }
+                    <h2>Ứng viên mới</h2>
+                    <p>Hồ sơ ứng tuyển nhận gần đây.</p>
                 </div>
-            </div>
-        </div>
-    </div>
+                <a asp-controller="Applications" asp-action="Index">Tất cả ứng viên</a>
+            </header>
 
-    <!-- 2. Quick Activity Overview Tables (Ứng viên mới & Thực tập sinh) -->
-    <div class="row g-4 mb-4">
-        <!-- Box 1: Ứng viên mới nộp hồ sơ -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 d-flex flex-column">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div>
-                        <span class="section-index m-0">TUYỂN DỤNG GẦN ĐÂY</span>
-                        <h3 class="fs-5 fw-bold m-0 text-dark">Ứng viên mới nộp đơn</h3>
-                    </div>
-                    <a asp-controller="Applications" asp-action="Index" class="action-link-outline py-1 px-3 small">Tất cả ứng viên →</a>
-                </div>
-
-                @if (Model.RecentApplicants.Count == 0)
-                {
-                    <div class="text-center py-4 my-auto text-muted">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mb-2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-                        <p class="small m-0">Chưa có ứng viên mới nào nộp đơn ứng tuyển.</p>
-                    </div>
-                }
-                else
-                {
-                    <div class="d-flex flex-column gap-2 flex-grow-1">
-                        @foreach (var app in Model.RecentApplicants)
+            @if (Model.RecentApplicants.Count == 0)
+            {
+                <p class="company-dashboard__empty">Chưa có hồ sơ ứng tuyển mới.</p>
+            }
+            else
+            {
+                <div class="company-dashboard__table-wrap">
+                    <table class="company-dashboard__table">
+                        <thead>
+                            <tr><th>Ứng viên</th><th>Vị trí</th><th>Trạng thái</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var application in Model.RecentApplicants)
                         {
-                            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light border border-subtle">
-                                <div class="min-w-0 me-2">
-                                    <div class="fw-semibold text-dark text-truncate">@app.FullName <small class="text-muted fw-normal">(@app.StudentCode)</small></div>
-                                    <div class="small text-muted text-truncate">@app.PositionTitle · <span class="text-muted">@app.CreatedAt.VietnamDateTime()</span></div>
-                                </div>
-                                <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                                    <span class="application-status status-@app.Status.ToString().ToLowerInvariant()" style="font-size: 11px; padding: 2px 8px;">
-                                        @app.Status.DisplayName()
-                                    </span>
-                                    <a asp-controller="Applications" asp-action="Details" asp-route-id="@app.Id" class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size: 12px;">Xem →</a>
-                                </div>
-                            </div>
+                            <tr>
+                                <td><strong>@application.FullName</strong><small>@application.StudentCode · @application.CreatedAt.VietnamDateTime()</small></td>
+                                <td>@application.PositionTitle</td>
+                                <td><span class="company-dashboard__status">@application.Status.DisplayName()</span></td>
+                                <td><a asp-controller="Applications" asp-action="Details" asp-route-id="@application.Id">Xem</a></td>
+                            </tr>
                         }
-                    </div>
-                }
-            </div>
-        </div>
-
-        <!-- Box 2: Sinh viên đang thực tập -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white h-100 d-flex flex-column">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <div>
-                        <span class="section-index m-0">TIẾN ĐỘ THỰC TẬP</span>
-                        <h3 class="fs-5 fw-bold m-0 text-dark">Sinh viên đang đồng hành</h3>
-                    </div>
-                    <a asp-controller="Internships" asp-action="Index" class="action-link-outline py-1 px-3 small">Tất cả thực tập →</a>
+                        </tbody>
+                    </table>
                 </div>
+            }
+        </section>
 
-                @if (Model.RecentInterns.Count == 0)
-                {
-                    <div class="text-center py-4 my-auto text-muted">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mb-2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <p class="small m-0">Chưa có sinh viên nào trong danh sách thực tập chính thức.</p>
-                    </div>
-                }
-                else
-                {
-                    <div class="d-flex flex-column gap-2 flex-grow-1">
+        <section class="company-dashboard__panel">
+            <header class="company-dashboard__panel-heading">
+                <div>
+                    <h2>Thực tập đang theo dõi</h2>
+                    <p>Sinh viên đã được tiếp nhận.</p>
+                </div>
+                <a asp-controller="Internships" asp-action="Index">Tất cả thực tập</a>
+            </header>
+
+            @if (Model.RecentInterns.Count == 0)
+            {
+                <p class="company-dashboard__empty">Chưa có sinh viên thực tập chính thức.</p>
+            }
+            else
+            {
+                <div class="company-dashboard__table-wrap">
+                    <table class="company-dashboard__table">
+                        <thead>
+                            <tr><th>Sinh viên</th><th>Vị trí</th><th>Nhật ký</th><th></th></tr>
+                        </thead>
+                        <tbody>
                         @foreach (var intern in Model.RecentInterns)
                         {
-                            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light border border-subtle">
-                                <div class="min-w-0 me-2">
-                                    <div class="fw-semibold text-dark text-truncate">@intern.FullName <small class="text-muted fw-normal">(@intern.StudentCode)</small></div>
-                                    <div class="small text-muted text-truncate">@intern.PositionTitle · <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 10px;">@intern.DiaryCount nhật ký</span></div>
-                                </div>
-                                <div class="d-flex align-items-center gap-2 flex-shrink-0">
-                                    @if (intern.HasEvaluation)
-                                    {
-                                        <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 11px;">Đã chấm điểm</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle" style="font-size: 11px;">Chưa chấm</span>
-                                    }
-                                    <a asp-controller="Internships" asp-action="Details" asp-route-id="@intern.Id" class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size: 12px;">Chi tiết →</a>
-                                </div>
-                            </div>
+                            <tr>
+                                <td><strong>@intern.FullName</strong><small>@intern.StudentCode · @intern.Status.DisplayName()</small></td>
+                                <td>@intern.PositionTitle</td>
+                                <td>@intern.DiaryCount nhật ký</td>
+                                <td><a asp-controller="Internships" asp-action="Details" asp-route-id="@intern.Id">Xem</a></td>
+                            </tr>
                         }
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. Central Function Modules -->
-    <div class="d-flex align-items-center justify-content-between mb-3 mt-4">
-        <h2 class="fs-4 m-0">Trung tâm quản lý tuyển dụng & thực tập</h2>
-    </div>
-
-    <div class="company-function-grid">
-        <a asp-controller="Positions" asp-action="Index" class="company-function-card">
-            <div class="portal-icon-badge mb-3" style="background-color: #ecfdf5; color: #059669;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-            </div>
-            <span class="section-index">01 / VỊ TRÍ ĐĂNG TUYỂN</span>
-            <h3>Vị trí tuyển dụng</h3>
-            <p>Tạo vị trí thực tập mới, điều chỉnh số lượng chỉ tiêu, cập nhật yêu cầu và đóng tuyển dụng.</p>
-            <strong>Quản lý vị trí tuyển dụng →</strong>
-        </a>
-
-        <a asp-controller="Applications" asp-action="Index" class="company-function-card">
-            <div class="portal-icon-badge mb-3" style="background-color: #f0fdf4; color: #16a34a;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            </div>
-            <span class="section-index">02 / XỬ LÝ ỨNG VIÊN</span>
-            <h3>Ứng viên & Hồ sơ</h3>
-            <p>Sàng lọc hồ sơ ứng tuyển, xem CV, cập nhật trạng thái phỏng vấn và phê duyệt sinh viên.</p>
-            <strong>Xem danh sách ứng viên →</strong>
-        </a>
-
-        <a asp-controller="Internships" asp-action="Index" class="company-function-card">
-            <div class="portal-icon-badge mb-3" style="background-color: #fef3c7; color: #d97706;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            </div>
-            <span class="section-index">03 / ĐỒNG HÀNH & ĐÁNH GIÁ</span>
-            <h3>Thực tập & Đánh giá</h3>
-            <p>Phân công người hướng dẫn chuyên môn, theo dõi nhật ký tuần và chấm điểm theo 6 tiêu chí.</p>
-            <strong>Quản lý quá trình thực tập →</strong>
-        </a>
-
-        <a asp-controller="Profile" asp-action="Index" class="company-function-card">
-            <div class="portal-icon-badge mb-3" style="background-color: #faf5ff; color: #9333ea;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-            </div>
-            <span class="section-index">04 / HỒ SƠ DOANH NGHIỆP</span>
-            <h3>Hồ sơ & Giới thiệu</h3>
-            <p>Cập nhật thông tin liên hệ, địa chỉ, website và thông tin giới thiệu công ty đến sinh viên.</p>
-            <strong>Cập nhật hồ sơ công ty →</strong>
-        </a>
-    </div>
-
-    <!-- 4. Standard Workflow -->
-    <div class="company-workflow bg-white shadow-sm border rounded-4 p-4 mt-4">
-        <h2 class="fs-5 mb-2">Quy trình làm việc chuẩn cho Doanh nghiệp:</h2>
-        <div class="d-flex flex-wrap gap-3 align-items-center my-3 text-muted small">
-            <span class="badge bg-light text-primary border p-2">1. Đăng vị trí tuyển dụng</span>
-            <span>→</span>
-            <span class="badge bg-light text-primary border p-2">2. Sàng lọc & Phỏng vấn</span>
-            <span>→</span>
-            <span class="badge bg-light text-primary border p-2">3. Tiếp nhận sinh viên</span>
-            <span>→</span>
-            <span class="badge bg-light text-primary border p-2">4. Theo dõi & Đánh giá 6 tiêu chí</span>
-        </div>
-        <p class="text-muted small m-0">Sau khi duyệt sinh viên, hệ thống sẽ tự động chuyển trạng thái và tạo hồ sơ thực tập tương ứng.</p>
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
     </div>
 </section>

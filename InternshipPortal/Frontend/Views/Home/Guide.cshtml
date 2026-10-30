@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Hướng dẫn thực tập";
+}
+
+<section class="guide-page">
+    <header class="guide-page__header">
+        <p class="portal-overline">Hướng dẫn dành cho sinh viên</p>
+        <h1>Thực hiện kỳ thực tập</h1>
+        <p>Hoàn thiện từng bước để hồ sơ được tiếp nhận và quá trình thực tập được ghi nhận đầy đủ.</p>
+    </header>
+
+    <div class="guide-layout">
+        <section class="guide-panel" aria-labelledby="guide-steps-title">
+            <div class="guide-panel__heading"><h2 id="guide-steps-title">Các bước thực hiện</h2></div>
+            <ol class="guide-steps">
+                <li><strong>Hoàn thiện hồ sơ</strong><span>Cập nhật thông tin cá nhân, kỹ năng và tải CV PDF.</span></li>
+                <li><strong>Tìm vị trí phù hợp</strong><span>Lọc theo ngành, địa điểm và xem yêu cầu của doanh nghiệp.</span></li>
+                <li><strong>Nộp đơn ứng tuyển</strong><span>Chọn CV, kiểm tra thông tin rồi gửi đơn trực tuyến.</span></li>
+                <li><strong>Theo dõi phản hồi</strong><span>Xem trạng thái đơn và thông báo từ doanh nghiệp.</span></li>
+                <li><strong>Ghi nhận quá trình thực tập</strong><span>Nộp nhật ký, tài liệu và xem đánh giá khi hoàn thành.</span></li>
+            </ol>
+        </section>
+
+        <aside class="guide-panel guide-actions" aria-label="Liên kết nhanh">
+            <div class="guide-panel__heading"><h2>Liên kết nhanh</h2></div>
+            <a asp-area="Student" asp-controller="Profile" asp-action="Index">Cập nhật hồ sơ sinh viên</a>
+            <a asp-controller="Internships" asp-action="Index">Tìm vị trí thực tập</a>
+            <a asp-area="Student" asp-controller="Applications" asp-action="Index">Theo dõi đơn ứng tuyển</a>
+            <a asp-controller="Account" asp-action="RegisterCompany">Đăng ký doanh nghiệp</a>
+        </aside>
+    </div>
+</section>
